@@ -34,6 +34,8 @@ namespace ft
 		typedef typename	A::value_type				value_type;
 typedef __gnu_cxx::__normal_iterator<pointer, vector>		iterator;
 typedef __gnu_cxx::__normal_iterator<const_pointer, vector>	const_iterator;
+        // typedef random_acsees_iterator<value_type, difference_type, pointer, reference, pointer, reference>        iterator;
+        // typedef random_acsees_iterator<value_type, difference_type, const_pointer, const_reference, pointer, reference> const_iterator;
 typedef std::reverse_iterator<iterator>						reverse_iterator;
 typedef std::reverse_iterator<const_iterator>				const_reverse_iterator;
 
@@ -41,7 +43,39 @@ typedef std::reverse_iterator<const_iterator>				const_reverse_iterator;
 		pointer m_first;
 		pointer m_last;
 		pointer m_end;
-		
+
+//////////////////////////////////////////////////////////////////////////////////////////
+// to algorithm
+	private:
+	template <class InIt, class OutIt>
+	inline OutIt	copy(InIt F, InIt L, OutIt X)
+	{
+		for (; F != L; ++X, ++F)
+		{
+			*X = *F;
+		}
+		return (X);
+	}
+
+	template <class BidIt1, class BidIt2>
+	inline BidIt2	copy_backward(BidIt1 F, BidIt1 L, BidIt2 X)
+	{
+		while (F != L)
+		{
+			*--X = *--L;
+		}
+		return (X);
+	}
+
+	template <class FwdIt, class T1>
+	inline void fill(FwdIt F, FwdIt L, const T1& X)
+	{
+		for (; F != L ; ++F)
+		{
+			*F = X;
+		}
+	}
+//////////////////////////////////////////////////////////////////////////////////////////
 	private:
 		bool	_buy(size_type N)
 		{
@@ -112,7 +146,7 @@ void	_construct (It F, It L, std::__true_type)
 			size_type N = (size_type)F;
 			if(_buy(N))
 			{
-				m_last = _fill(F, N, (T)L);
+				m_last = _ufill(m_first, N, (T)L);
 			}
 		}
 
@@ -227,14 +261,14 @@ typedef typename std::__is_integer<It>::__type _Integral;
 			}
 			else if (X.size() <= size())
 			{
-				pointer Q = std::copy(X.begin(), X.end(), m_first);
+				pointer Q = copy(X.begin(), X.end(), m_first);
 				_destroy(Q, m_last);
 				m_last = m_first + X.size();
 			}
 			else if (X.size() <= capacity())
 			{
 				const_iterator S = X.begin() + size();
-				std::copy(X.begin(), S, m_first);
+				copy(X.begin(), S, m_first);
 				m_last = _ucopy(S, X.end(), m_last);
 			}
 			else
@@ -381,11 +415,20 @@ typedef typename std::__is_integer<It>::__type _Integral;
 			}
 			else if (N < size() + M)
 			{
-				N = max_size() - N / 2 < N ? 0 : N + N / 2;
+
+				// N = max_size() - N / 2 < N ? 0 : N + N / 2; 
+				N = max_size() - N < N ? 0 : N * 2;
 				if (N < size() + M)
-				{
 					N = size() + M;
-				}
+				// N = max_size() - N / 2 < N ? 0 : N + N / 2;
+				// if (N * 1,5 < size() + M)
+				// {
+				// 	N = size() + M;
+				// }
+				// else
+				// {
+				// 	N = max_size() - N < N ? 0 : N * 2;
+				// }
 				pointer S = this->m_alloc.allocate(N, (void *)0);
 				pointer Q;
 				try
@@ -421,14 +464,14 @@ typedef typename std::__is_integer<It>::__type _Integral;
 					throw;
 				}
 				m_last += M;
-				std::fill(P, end() - M, Tx);
+				fill(P, end() - M, Tx);
 			}
 			else
 			{
 				iterator Oend = end();
 				m_last = _ucopy(Oend - M, Oend, m_last);
-				std::copy_backward(P, Oend - M, Oend);
-				std::fill(P, P + M, Tx);
+				copy_backward(P, Oend - M, Oend);
+				fill(P, P + M, Tx);
 			}
 		}
 
@@ -455,9 +498,7 @@ typedef typename std::__is_integer<It>::__type _Integral;
 		void	Insert2(iterator P, It F, It L, std::input_iterator_tag)
 		{
 			for (; F != L; ++F, ++P)
-			{
 				P = insert (P, *F);
-			}
 		}
 		template<class It>
 		void	Insert2(iterator P, It F, It L, std::forward_iterator_tag)
@@ -474,7 +515,8 @@ typedef typename std::__is_integer<It>::__type _Integral;
 			}
 			else if(N < size() + M)
 			{
-				N = max_size() - N / 2 < N ? 0 : N + N / 2;
+				// N = max_size() - N / 2 < N ? 0 : N + N / 2;
+				N = max_size() - N < N ? 0 : N * 2;
 				if (N < size() + M)
 					N = size() + M;
 				pointer S = this->m_alloc.allocate(N, (void *)0);
@@ -515,37 +557,39 @@ typedef typename std::__is_integer<It>::__type _Integral;
 					throw;
 				}
 				m_last += M;
-				std::copy(F, Mid, P);
+				copy(F, Mid, P);
 			}
 			else if (0 < M)
 			{
 				iterator Oend = end();
 				m_last = _ucopy(Oend - M, Oend, m_last);
-				std::copy_backward(P, Oend - M, Oend);
-				std::copy(F, L, P);
+				copy_backward(P, Oend - M, Oend);
+				copy(F, L, P);
 			}
 		}
 
 		iterator	erase(iterator P)
 		{
-			std::copy(P + 1, end(), P);
+			copy(P + 1, end(), P);
 			_destroy(m_last - 1, m_last);
 			--m_last;
 			return P;
 		}
+
 		iterator	erase(iterator F, iterator L)
 		{
 			if (F != L)
 			{
-				pointer S = std::copy(L, end(), F.base());
+				pointer S = copy(L, end(), F.base());
 				_destroy(S, m_last);
 				m_last = S;
 			}
 			return F;
 		}
+
 		void	clear()
 		{
-			_clear();
+			erase(begin(), end());
 		}
 
 bool	Eq(const vector& X) const {
