@@ -29,17 +29,12 @@ const std::string	YELLOW = "\x1B[1;33m";
 const std::string	WHITE = "\x1B[1;39m";
 const std::string	RESET = "\033[0m";
 
-const std::vector<std::string> _vector = 
-	{
-		"./test/vector/01_constructor.cpp",
-		"./test/vector/02_constructor(std iterators).cpp"
-	};
-
-// const std::vector<std::string> _list = 
-// 	{
-// 	};
-
 const std::vector<std::pair<std::string, std::vector<std::string> > > _containers = 
 	{
-		{"vector", _vector}
+		{"vector", 
+			{
+				"./test/vector/01_constructor.cpp",
+				"./test/vector/02_constructor(std iterators).cpp"
+			},
+		}
 	};

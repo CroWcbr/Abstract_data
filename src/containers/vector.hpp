@@ -1,7 +1,8 @@
 #pragma once
 
 #include <memory>
-#include "exception.hpp"
+#include "../utils/exception.hpp"
+#include "../iterators/xutility.hpp"
 
 namespace ft
 {
@@ -34,10 +35,12 @@ namespace ft
 		typedef typename	A::value_type				value_type;
 typedef __gnu_cxx::__normal_iterator<pointer, vector>		iterator;
 typedef __gnu_cxx::__normal_iterator<const_pointer, vector>	const_iterator;
+// typedef std::reverse_iterator<iterator>						reverse_iterator;
+// typedef std::reverse_iterator<const_iterator>				const_reverse_iterator;
         // typedef random_acsees_iterator<value_type, difference_type, pointer, reference, pointer, reference>        iterator;
         // typedef random_acsees_iterator<value_type, difference_type, const_pointer, const_reference, pointer, reference> const_iterator;
-typedef std::reverse_iterator<iterator>						reverse_iterator;
-typedef std::reverse_iterator<const_iterator>				const_reverse_iterator;
+typedef ft::reverse_iterator<iterator>						reverse_iterator;
+typedef ft::reverse_iterator<const_iterator>				const_reverse_iterator;
 
 	private:
 		pointer m_first;
@@ -75,6 +78,102 @@ typedef std::reverse_iterator<const_iterator>				const_reverse_iterator;
 			*F = X;
 		}
 	}
+
+	template <class InIt, class D> inline
+	void _distance(InIt F, InIt L, D& N, input_iterator_tag)
+	{
+		for (; F != L; ++F)
+		{
+			++N;
+		}
+	}
+
+	template <class InIt, class D> inline
+	void _distance(InIt F, InIt L, D& N, forward_iterator_tag)
+	{
+		for (; F != L; ++F)
+		{
+			++N;
+		}
+	}
+
+	template <class InIt, class D> inline
+	void _distance(InIt F, InIt L, D& N, bidirectional_iterator_tag)
+	{
+		for (; F != L; ++F)
+		{
+			++N;
+		}
+	}
+
+	template <class InIt, class D> inline
+	void _distance(InIt F, InIt L, D& N, random_access_iterator_tag)
+	{
+		N += L - F;
+		// N = 0;
+		// InIt it = F;
+		// while (it != L)
+		// {
+		// 	++it;
+		// 	++N;
+		// }
+	}
+
+	template <class InIt, class D> inline
+	void distance(InIt F, InIt L, D& N) {
+		_distance(F, L, N, Iter_cat(F));
+	}
+
+	template <class InIt> inline
+	typename iterator_traits<InIt>::difference_type distance(InIt F, InIt L)
+	{
+		typename iterator_traits<InIt>::difference_type N = 0;
+		_distance(F, L, N, Iter_cat(F));
+		return (N);
+	}
+
+	// template <class InIt, class D> 
+	// inline void	_advance(InIt &I, D N, input_iterator_tag)
+	// {
+	// for (; 0 < N; --N)
+	// 	++I;
+	// }
+
+	// template <class FwdIt, class D>
+	// inline void	_advance(FwdIt &I, D N, forward_iterator_tag)
+	// {
+	// 	for (; 0 < N; --N)
+	// 		++I;
+	// }
+
+	// template <class BidIt, class D>
+	// inline void	_advance (BidIt &I, D N, bidirectional_iterator_tag)
+	// {
+	// 	for (; 0 < N; --N)
+	// 		++I;
+	// 	for (; N < 0; ++N)
+	// 		--I;
+	// }
+
+	template <class RanIt, class D>
+	inline void _advance (RanIt &I, D N, random_access_iterator_tag)
+	{
+		// I += N;
+		if (N >= 0)
+		{
+			while (N > 0)
+			{
+				++I;
+				--N;
+			}
+		}
+	}
+
+	// template <class InIt, class D>
+	// inline void advance (InIt& I, D N)
+	// {
+	// 	_advance(I, N, Iter_cat(I));
+	// }
 //////////////////////////////////////////////////////////////////////////////////////////
 	private:
 		bool	_buy(size_type N)
@@ -495,15 +594,16 @@ typedef typename std::__is_integer<It>::__type _Integral;
 		}
 
 		template<class It>
-		void	Insert2(iterator P, It F, It L, std::input_iterator_tag)
+		void	Insert2(iterator P, It F, It L, input_iterator_tag)
 		{
 			for (; F != L; ++F, ++P)
 				P = insert (P, *F);
 		}
 		template<class It>
-		void	Insert2(iterator P, It F, It L, std::forward_iterator_tag)
+		void	Insert2(iterator P, It F, It L, forward_iterator_tag)
 		{
-			size_type	M = std::distance(F, L);
+			// size_type	M = std::distance(F, L);
+			size_type	M = distance(F, L);
 			size_type	N = capacity();
 			if (M == 0)
 			{
@@ -546,7 +646,8 @@ typedef typename std::__is_integer<It>::__type _Integral;
 			{
 				_ucopy(P, end(), P.base() + M);
 				It Mid = F;
-				std::advance(Mid, end() - P);
+				// std::advance(Mid, end() - P);
+				advance(Mid, end() - P);
 				try
 				{
 					_ucopy(Mid, L, m_last);
