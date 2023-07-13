@@ -47,8 +47,8 @@ void forward_iterator(T)
 
 	(void)*a;
 	static_assert(std::is_same<decltype(*a), T&>::value, "wrong return type for operator*()");
-//	a.operator->();
-//	static_assert(std::is_same<decltype(a.operator->()), T*>::value, "wrong return type for operator->()");
+	a.operator->();
+	static_assert(std::is_same<decltype(a.operator->()), T*>::value, "wrong return type for operator->()");
 
 	++a;
 	static_assert(std::is_same<decltype(++a), X&>::value, "wrong return type for operator++()");

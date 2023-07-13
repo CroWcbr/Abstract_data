@@ -19,11 +19,7 @@ namespace sequence
 
 		std::cout << "a = C(range) with range: " << std::endl;
 		monkey::print_range(v.begin(), v.end());
-
-		std::cout << std::endl << "!!!!!!!!!!  " << v.size() << std::endl;
-
 		a = C(input_iterator<typename std::vector<typename C::value_type>::iterator>(v.begin()), input_iterator<typename std::vector<typename C::value_type>::iterator>(v.end()));
-		std::cout << "!!!!!!!!!!!!!" << std::endl;
 	}
 
 	template <class C>

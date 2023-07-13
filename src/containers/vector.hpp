@@ -3,10 +3,10 @@
 #include <memory>
 #include "../utils/exception.hpp"
 #include "../iterators/xutility.hpp"
+#include "../iterators/algorithm.hpp"
 
 namespace ft
 {
-
 	template<class T, class Allocator>
 	class vector_base
 	{
@@ -33,148 +33,17 @@ namespace ft
 		typedef typename	A::reference				reference;
 		typedef typename	A::const_reference			const_reference;
 		typedef typename	A::value_type				value_type;
-typedef __gnu_cxx::__normal_iterator<pointer, vector>		iterator;
-typedef __gnu_cxx::__normal_iterator<const_pointer, vector>	const_iterator;
-// typedef std::reverse_iterator<iterator>						reverse_iterator;
-// typedef std::reverse_iterator<const_iterator>				const_reverse_iterator;
-        // typedef random_acsees_iterator<value_type, difference_type, pointer, reference, pointer, reference>        iterator;
-        // typedef random_acsees_iterator<value_type, difference_type, const_pointer, const_reference, pointer, reference> const_iterator;
-typedef ft::reverse_iterator<iterator>						reverse_iterator;
-typedef ft::reverse_iterator<const_iterator>				const_reverse_iterator;
+
+		typedef	random_acsees_iterator<value_type, difference_type, pointer, reference, pointer, reference>					iterator;
+		typedef	random_acsees_iterator<value_type, difference_type, const_pointer, const_reference, pointer, reference>		const_iterator;
+		typedef	ft::reverse_iterator<iterator>			reverse_iterator;
+		typedef	ft::reverse_iterator<const_iterator>	const_reverse_iterator;
 
 	private:
 		pointer m_first;
 		pointer m_last;
 		pointer m_end;
 
-//////////////////////////////////////////////////////////////////////////////////////////
-// to algorithm
-	private:
-	template <class InIt, class OutIt>
-	inline OutIt	copy(InIt F, InIt L, OutIt X)
-	{
-		for (; F != L; ++X, ++F)
-		{
-			*X = *F;
-		}
-		return (X);
-	}
-
-	template <class BidIt1, class BidIt2>
-	inline BidIt2	copy_backward(BidIt1 F, BidIt1 L, BidIt2 X)
-	{
-		while (F != L)
-		{
-			*--X = *--L;
-		}
-		return (X);
-	}
-
-	template <class FwdIt, class T1>
-	inline void fill(FwdIt F, FwdIt L, const T1& X)
-	{
-		for (; F != L ; ++F)
-		{
-			*F = X;
-		}
-	}
-
-	template <class InIt, class D> inline
-	void _distance(InIt F, InIt L, D& N, input_iterator_tag)
-	{
-		for (; F != L; ++F)
-		{
-			++N;
-		}
-	}
-
-	template <class InIt, class D> inline
-	void _distance(InIt F, InIt L, D& N, forward_iterator_tag)
-	{
-		for (; F != L; ++F)
-		{
-			++N;
-		}
-	}
-
-	template <class InIt, class D> inline
-	void _distance(InIt F, InIt L, D& N, bidirectional_iterator_tag)
-	{
-		for (; F != L; ++F)
-		{
-			++N;
-		}
-	}
-
-	template <class InIt, class D> inline
-	void _distance(InIt F, InIt L, D& N, random_access_iterator_tag)
-	{
-		N += L - F;
-		// N = 0;
-		// InIt it = F;
-		// while (it != L)
-		// {
-		// 	++it;
-		// 	++N;
-		// }
-	}
-
-	template <class InIt, class D> inline
-	void distance(InIt F, InIt L, D& N) {
-		_distance(F, L, N, Iter_cat(F));
-	}
-
-	template <class InIt> inline
-	typename iterator_traits<InIt>::difference_type distance(InIt F, InIt L)
-	{
-		typename iterator_traits<InIt>::difference_type N = 0;
-		_distance(F, L, N, Iter_cat(F));
-		return (N);
-	}
-
-	// template <class InIt, class D> 
-	// inline void	_advance(InIt &I, D N, input_iterator_tag)
-	// {
-	// for (; 0 < N; --N)
-	// 	++I;
-	// }
-
-	// template <class FwdIt, class D>
-	// inline void	_advance(FwdIt &I, D N, forward_iterator_tag)
-	// {
-	// 	for (; 0 < N; --N)
-	// 		++I;
-	// }
-
-	// template <class BidIt, class D>
-	// inline void	_advance (BidIt &I, D N, bidirectional_iterator_tag)
-	// {
-	// 	for (; 0 < N; --N)
-	// 		++I;
-	// 	for (; N < 0; ++N)
-	// 		--I;
-	// }
-
-	template <class RanIt, class D>
-	inline void _advance (RanIt &I, D N, random_access_iterator_tag)
-	{
-		// I += N;
-		if (N >= 0)
-		{
-			while (N > 0)
-			{
-				++I;
-				--N;
-			}
-		}
-	}
-
-	// template <class InIt, class D>
-	// inline void advance (InIt& I, D N)
-	// {
-	// 	_advance(I, N, Iter_cat(I));
-	// }
-//////////////////////////////////////////////////////////////////////////////////////////
 	private:
 		bool	_buy(size_type N)
 		{
@@ -240,7 +109,7 @@ typedef ft::reverse_iterator<const_iterator>				const_reverse_iterator;
 		}
 
 		template<class It>
-void	_construct (It F, It L, std::__true_type) 
+		void	_construct (It F, It L, ft::true_type) 
 		{
 			size_type N = (size_type)F;
 			if(_buy(N))
@@ -250,7 +119,7 @@ void	_construct (It F, It L, std::__true_type)
 		}
 
 		template<class It>
-void	_construct(It F, It L, std::__false_type)
+		void	_construct(It F, It L, ft::false_type)
 		{
 			_buy(0);
 			insert(begin(), F, L);
@@ -276,6 +145,109 @@ void	_construct(It F, It L, std::__false_type)
 		void _xran() const
 		{
 			throw ft::exception("Out of range access");
+		}
+
+
+		template<class It>
+		void	_assign(It F, It L, ft::true_type)
+		{
+			assign((size_type)F, (T)L);
+		}
+
+		template<class It>
+		void	_assign(It F, It L, ft::false_type)
+		{
+			erase (begin(), end());
+			insert (begin(), F, L);
+		}
+
+		template<class It>
+		void	_insert(iterator P, It F, It L, ft::true_type)
+		{
+			insert(P, (size_type)F, (T)L);
+		}
+		
+		template<class It>
+		void	_insert(iterator P, It F, It L, ft::false_type)
+		{
+			typedef typename iterator_traits<It>::iterator_category category;
+			_insert_iter_type(P, F, L, category());
+		}
+
+
+		template<class It>
+		void	_insert_iter_type(iterator P, It F, It L, input_iterator_tag)
+		{
+			for (; F != L; ++F, ++P)
+				P = insert (P, *F);
+		}
+
+		template<class It>
+		void	_insert_iter_type(iterator P, It F, It L, forward_iterator_tag)
+		{
+			size_type M = 0;
+			ft::distance(F, L, M);
+			size_type N = capacity();
+			if (M == 0)
+			{
+				;
+			}
+			else if (max_size() - size() < M)
+			{
+				_xlen();
+			}
+			else if(N < size() + M)
+			{
+				N = max_size() - N < N ? 0 : N * 2;
+				if (N < size() + M)
+					N = size() + M;
+				pointer S = this->m_alloc.allocate(N, (void *)0);
+				pointer Q;
+				try
+				{
+					Q = _ucopy(begin(), P, S);
+					Q = _ucopy(F, L, Q);
+					_ucopy(P, end(), Q);
+				}
+				catch (...)
+				{
+					_destroy(S, Q);
+					this->m_alloc.deallocate(S, N);
+					throw;
+				}
+				if (m_first != 0)
+				{
+					_destroy(m_first, m_last);
+					this->m_alloc.deallocate(m_first, m_end - m_first);
+				}
+				m_end = S + N;
+				m_last = S + size() + M;
+				m_first = S;
+			}
+			else if ((size_type)(end() - P) < M)
+			{
+				_ucopy(P, end(), P.base() + M);
+				It Mid = F;
+				ft::advance(Mid, end() - P);
+				try
+				{
+					_ucopy(Mid, L, m_last);
+				}
+				catch (...)
+				{
+					_destroy (P.base() + M, m_last + M);
+					throw;
+				}
+				m_last += M;
+				ft::copy(F, Mid, P);
+			}
+			else if (0 < M)
+			{
+				iterator Oend = end();
+				m_last = _ucopy(Oend - M, Oend, m_last);
+				ft::copy_backward(P, Oend - M, Oend);
+				ft::copy(F, L, P);
+			}
 		}
 
 	public:
@@ -331,16 +303,14 @@ void	_construct(It F, It L, std::__false_type)
 		vector(It F, It L)
 		: Base()
 		{
-typedef typename std::__is_integer<It>::__type _Integral;
-			_construct(F, L, _Integral());
+			_construct(F, L, ft::is_primitive_type<It>());
 		}
 
 		template<class It>
 		vector(It F, It L, const A& Alloc)
 		: Base(Alloc)
 		{
-typedef typename std::__is_integer<It>::__type _Integral;
-			_construct(F, L, _Integral());
+			_construct(F, L, ft::is_primitive_type<It>());
 		}
 
 		~vector()
@@ -360,14 +330,14 @@ typedef typename std::__is_integer<It>::__type _Integral;
 			}
 			else if (X.size() <= size())
 			{
-				pointer Q = copy(X.begin(), X.end(), m_first);
+				pointer Q = _ucopy(X.begin(), X.end(), m_first);
 				_destroy(Q, m_last);
 				m_last = m_first + X.size();
 			}
 			else if (X.size() <= capacity())
 			{
 				const_iterator S = X.begin() + size();
-				copy(X.begin(), S, m_first);
+				ft::copy(X.begin(), S, m_first);
 				m_last = _ucopy(S, X.end(), m_last);
 			}
 			else
@@ -426,11 +396,11 @@ typedef typename std::__is_integer<It>::__type _Integral;
 		{
 			if (size() < N)
 			{
-				insert (end(), N - size(), X);
+				insert(end(), N - size(), X);
 			}
 			else if (N < size())
 			{
-				erase (begin() + N, end());
+				erase(begin() + N, end());
 			}
 		}
 	
@@ -469,21 +439,7 @@ typedef typename std::__is_integer<It>::__type _Integral;
 		template<class It>
 		void	assign(It F, It L)
 		{
-typedef typename std::__is_integer<It>::__type _Integral;
-			Assign(F, L, _Integral());
-		}
-
-		template<class It>
-		void	Assign(It F, It L, std::__true_type)
-		{
-			assign((size_type)F, (T)L);
-		}
-
-		template<class It>
-		void	Assign(It F, It L, std::__false_type)
-		{
-			erase (begin(), end());
-			insert (begin(), F, L);
+			_assign(F, L, ft::is_primitive_type<It>());
 		}
 
 		void	assign(size_type N, const T& X)
@@ -514,20 +470,9 @@ typedef typename std::__is_integer<It>::__type _Integral;
 			}
 			else if (N < size() + M)
 			{
-
-				// N = max_size() - N / 2 < N ? 0 : N + N / 2; 
 				N = max_size() - N < N ? 0 : N * 2;
 				if (N < size() + M)
 					N = size() + M;
-				// N = max_size() - N / 2 < N ? 0 : N + N / 2;
-				// if (N * 1,5 < size() + M)
-				// {
-				// 	N = size() + M;
-				// }
-				// else
-				// {
-				// 	N = max_size() - N < N ? 0 : N * 2;
-				// }
 				pointer S = this->m_alloc.allocate(N, (void *)0);
 				pointer Q;
 				try
@@ -563,115 +508,26 @@ typedef typename std::__is_integer<It>::__type _Integral;
 					throw;
 				}
 				m_last += M;
-				fill(P, end() - M, Tx);
+				ft::fill(P, end() - M, Tx);
 			}
 			else
 			{
 				iterator Oend = end();
 				m_last = _ucopy(Oend - M, Oend, m_last);
-				copy_backward(P, Oend - M, Oend);
-				fill(P, P + M, Tx);
+				ft::copy_backward(P, Oend - M, Oend);
+				ft::fill(P, P + M, Tx);
 			}
 		}
 
 		template<class It>
 		void	insert(iterator P, It F, It L)
 		{
-			typedef typename std::__is_integer<It>::__type _Integral;
-			Insert(P, F, L, _Integral());
-		}
-
-		template<class It>
-		void	Insert(iterator P, It F, It L, std::__true_type)
-		{
-			insert(P, (size_type)F, (T)L);
-		}
-
-		template<class It>
-		void	Insert(iterator P, It F, It L, std::__false_type)
-		{
-			Insert2(P, F, L, std::__iterator_category(F));
-		}
-
-		template<class It>
-		void	Insert2(iterator P, It F, It L, input_iterator_tag)
-		{
-			for (; F != L; ++F, ++P)
-				P = insert (P, *F);
-		}
-		template<class It>
-		void	Insert2(iterator P, It F, It L, forward_iterator_tag)
-		{
-			// size_type	M = std::distance(F, L);
-			size_type	M = distance(F, L);
-			size_type	N = capacity();
-			if (M == 0)
-			{
-				;
-			}
-			else if (max_size() - size() < M)
-			{
-				_xlen();
-			}
-			else if(N < size() + M)
-			{
-				// N = max_size() - N / 2 < N ? 0 : N + N / 2;
-				N = max_size() - N < N ? 0 : N * 2;
-				if (N < size() + M)
-					N = size() + M;
-				pointer S = this->m_alloc.allocate(N, (void *)0);
-				pointer Q;
-				try
-				{
-					Q = _ucopy(begin(), P, S);
-					Q = _ucopy(F, L, Q);
-					_ucopy(P, end(), Q);
-				}
-				catch (...)
-				{
-					_destroy(S, Q);
-					this->m_alloc.deallocate(S, N);
-					throw;
-				}
-				if (m_first != 0)
-				{
-					_destroy(m_first, m_last);
-					this->m_alloc.deallocate(m_first, m_end - m_first);
-				}
-				m_end = S + N;
-				m_last = S + size() + M;
-				m_first = S;
-			}
-			else if ((size_type)(end() - P) < M)
-			{
-				_ucopy(P, end(), P.base() + M);
-				It Mid = F;
-				// std::advance(Mid, end() - P);
-				advance(Mid, end() - P);
-				try
-				{
-					_ucopy(Mid, L, m_last);
-				}
-				catch (...)
-				{
-					_destroy (P.base() + M, m_last + M);
-					throw;
-				}
-				m_last += M;
-				copy(F, Mid, P);
-			}
-			else if (0 < M)
-			{
-				iterator Oend = end();
-				m_last = _ucopy(Oend - M, Oend, m_last);
-				copy_backward(P, Oend - M, Oend);
-				copy(F, L, P);
-			}
+			_insert(P, F, L, ft::is_primitive_type<It>());
 		}
 
 		iterator	erase(iterator P)
 		{
-			copy(P + 1, end(), P);
+			ft::copy(P + 1, end(), P);
 			_destroy(m_last - 1, m_last);
 			--m_last;
 			return P;
@@ -681,7 +537,7 @@ typedef typename std::__is_integer<It>::__type _Integral;
 		{
 			if (F != L)
 			{
-				pointer S = copy(L, end(), F.base());
+				pointer S = ft::copy(L, end(), F.base());
 				_destroy(S, m_last);
 				m_last = S;
 			}
@@ -693,21 +549,13 @@ typedef typename std::__is_integer<It>::__type _Integral;
 			erase(begin(), end());
 		}
 
-bool	Eq(const vector& X) const {
-	return (size() == X.size() && std::equal(begin(), end(), X.begin()));
-}
-
-bool	Lt(const vector& X) const {
-	return (std::lexicographical_compare(begin(), end(), X.begin(), X.end()));
-}
-
 		void	swap(vector& X)
 		{
 			if (this->m_alloc == X.m_alloc)
 			{
-				std::swap(m_first, X.m_first);
-				std::swap(m_last, X.m_last);
-				std::swap(m_end, X.m_end);
+				ft::swap(m_first, X.m_first);
+				ft::swap(m_last, X.m_last);
+				ft::swap(m_end, X.m_end);
 			}
 			else 
 			{
@@ -720,45 +568,24 @@ bool	Lt(const vector& X) const {
 	};
 
 	template<class T, class A> inline
-	bool	operator==(const vector<T, A>& X, const vector<T, A>& Y)
-	{
-		return (X.Eq(Y));
-	}
+	bool	operator==(const vector<T, A>& X, const vector<T, A>& Y) { return (X.size() == Y.size() && ft::equal(X.begin(), X.end(), Y.begin())); }
 
 	template<class T, class A> inline
-	bool	operator!=(const vector<T, A>& X, const vector<T, A>& Y)
-	{
-		return (!(X == Y));
-	}
+	bool	operator!=(const vector<T, A>& X, const vector<T, A>& Y) { return (!(X == Y)); }
 
 	template<class T, class A> inline
-	bool	operator<(const vector<T, A>& X, const vector<T, A>& Y)
-	{
-		return (X.Lt(Y));
-	}
+	bool	operator<(const vector<T, A>& X, const vector<T, A>& Y) { return (ft::lexicographical_compare(X.begin(), X.end(), Y.begin(), Y.end())); }
 	
 	template<class T, class A> inline
-	bool	operator>(const vector<T, A>& X, const vector<T, A>& Y)
-	{
-		return (Y < X);
-	}
+	bool	operator>(const vector<T, A>& X, const vector<T, A>& Y) { return (Y < X); }
 
 	template<class T, class A> inline
-	bool	operator<=(const vector<T, A>& X, const vector<T, A>& Y)
-	{
-		return (!(Y < X));
-	}
+	bool	operator<=(const vector<T, A>& X, const vector<T, A>& Y) { return (!(Y < X)); }
 	
 	template<class T, class A> inline
-	bool	operator>=(const vector<T, A>& X, const vector<T, A>& Y)
-	{
-		return (!(X < Y));
-	}
+	bool	operator>=(const vector<T, A>& X, const vector<T, A>& Y) { return (!(X < Y)); }
 	
 	template<class T, class A> inline
-	void	swap(vector<T, A>& X, vector<T, A>& Y)
-	{
-		X.swap(Y);
-	}
+	void	swap(vector<T, A>& X, vector<T, A>& Y) { X.swap(Y); }
 
 }

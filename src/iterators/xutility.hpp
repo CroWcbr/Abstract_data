@@ -2,21 +2,12 @@
 
 namespace ft
 {
-	//becouse of tester 42 - static & monkey
-	typedef std::input_iterator_tag input_iterator_tag;
-	typedef std::output_iterator_tag output_iterator_tag;
-	typedef std::forward_iterator_tag forward_iterator_tag;
-	typedef std::bidirectional_iterator_tag bidirectional_iterator_tag;
-	typedef std::random_access_iterator_tag random_access_iterator_tag;
-
-	// struct input_iterator_tag {};
-	// struct output_iterator_tag {};
-	// struct forward_iterator_tag : public input_iterator_tag {};
-	// struct bidirectional_iterator_tag : public forward_iterator_tag {};
-	// struct random_access_iterator_tag : public bidirectional_iterator_tag {};
-	struct Int_iterator_tag {};
-
-	typedef long int ptrdiff_t;
+	typedef	long int						ptrdiff_t;
+	typedef	std::input_iterator_tag			input_iterator_tag;
+	typedef	std::output_iterator_tag		output_iterator_tag;
+	typedef	std::forward_iterator_tag		forward_iterator_tag;
+	typedef	std::bidirectional_iterator_tag	bidirectional_iterator_tag;
+	typedef	std::random_access_iterator_tag	random_access_iterator_tag;
 
 	template <class C, class T, class D = ptrdiff_t, class Pt = T*, class Rt = T&>
 	struct	iterator
@@ -42,206 +33,120 @@ namespace ft
 	struct	iterator_traits<T*>
 	{
 		typedef	random_access_iterator_tag	iterator_category;
-		typedef	T 							value_type;
-		typedef	ptrdiff_t 					difference_type;
-		typedef	T 							*pointer;
-		typedef	T& 							reference;
+		typedef	T							value_type;
+		typedef	ptrdiff_t					difference_type;
+		typedef	T*							pointer;
+		typedef	T&							reference;
 	};
 
 	template<class T>
 	struct	iterator_traits<const T*>
 	{
 		typedef	random_access_iterator_tag	iterator_category;
-		typedef	T 							value_type;
-		typedef	ptrdiff_t 					difference_type;
-		typedef	T 							*pointer;
-		typedef	T& 							reference;
+		typedef	T							value_type;
+		typedef	ptrdiff_t					difference_type;
+		typedef	T*							pointer;
+		typedef	T&							reference;
 	};
 
-	template<class C, class T, class D, class Pt, class Rt>
-	inline C	Iter_cat(const iterator<C, T, D, Pt, Rt>&)
+	template <class T, class D, class Pt, class Rt, class Pt2, class Rt2>
+	class random_acsees_iterator : public iterator<random_access_iterator_tag, T, D, Pt, Rt>
 	{
-		C X;
-		return (X);
-	}
+	protected:
+		Pt current;
 
-	template<class T>
-	inline random_access_iterator_tag	Iter_cat(const T*)
-	{
-		random_access_iterator_tag X;
-		return (X);
-	}
+	public:
+		random_acsees_iterator()
+		{}
 
-	inline Int_iterator_tag	Iter_cat(bool)
-	{
-		Int_iterator_tag X;
-		return (X);
-	}
+		explicit random_acsees_iterator(Pt P)
+		: current(P)
+		{}
 
-	inline Int_iterator_tag	Iter_cat(char)
-	{
-		Int_iterator_tag X;
-		return (X);
-	}
+		random_acsees_iterator(const random_acsees_iterator<T, D, Pt2, Rt2, Pt2, Rt2>& X)
+		: current(X.base())
+		{}
 
-	inline Int_iterator_tag	Iter_cat(signed char)
-	{
-		Int_iterator_tag X;
-		return (X);
-	}
+		template <class _T, class _D, class _Pt, class _Rt, class _Pt2, class _Rt2>
+		random_acsees_iterator(const random_acsees_iterator<_T, _D, _Pt, _Rt, _Pt2, _Rt2>& X)
+		: current(X.base())
+		{}
 
-	inline Int_iterator_tag Iter_cat(unsigned char)
-	{
-		Int_iterator_tag X;
-		return (X);
-	}
+		random_acsees_iterator&	operator=(const random_acsees_iterator &obj)
+		{
+			if (this != &obj)
+			{
+				this->current = obj.current;
+			}
+			return (*this);
+		}
 
-	inline Int_iterator_tag Iter_cat(wchar_t)
-	{
-		Int_iterator_tag X;
-		return (X);
-	}
+		Pt	base() const { return (current); }
+		Rt	operator*() const { return (*current); }
+		Pt	operator->() const { return (&**this); }
 
-	inline Int_iterator_tag Iter_cat(short)
-	{
-		Int_iterator_tag X;
-		return (X);
-	}
+		random_acsees_iterator&	operator++()
+		{
+			++current;
+			return (*this);
+		}
 
-	inline Int_iterator_tag Iter_cat(unsigned short)
-	{
-		Int_iterator_tag X;
-		return (X);
-	}
-
-	inline Int_iterator_tag Iter_cat(int)
-	{
-		Int_iterator_tag X;
-		return (X);
-	}
-
-	inline Int_iterator_tag Iter_cat(unsigned int)
-	{
-		Int_iterator_tag X;
-		return (X);
-	}
-
-	inline Int_iterator_tag Iter_cat(long)
-	{
-		Int_iterator_tag X;
-		return (X);
-	}
-
-	inline Int_iterator_tag Iter_cat(unsigned long)
-	{
-		Int_iterator_tag X;
-		return (X);
-	}
-
-	// template <class T, class D, class Pt, class Rt, class Pt2, class Rt2>
-	// class random_acsees_iterator : public iterator<random_access_iterator_tag, T, D, Pt, Rt>
-	// {
-	// protected:
-	// 	Pt current;
-
-	// public:
-	// 	random_acsees_iterator()
-	// 	{}
-
-	// 	explicit random_acsees_iterator(Pt P)
-	// 	: current(P)
-	// 	{}
-
-	// 	random_acsees_iterator(const random_acsees_iterator<T, D, Pt2, Rt2, Pt2, Rt2>& X)
-	// 	: current(X.base())
-	// 	{}
-
-	// 	random_acsees_iterator&	operator=(const random_acsees_iterator &obj)
-	// 	{
-	// 		if (this != &obj)
-	// 		{
-	// 			this->current = obj.current;
-	// 		}
-	// 		return (*this);
-	// 	}
-
-	// 	Pt	base() const { return (current); }
-	// 	Rt	operator*() const { return (*current); }
-	// 	Pt	operator->() const { return (&**this); }
-
-	// 	random_acsees_iterator&	operator++()
-	// 	{
-	// 		++current;
-	// 		return (*this);
-	// 	}
-
-	// 	random_acsees_iterator	operator++(int)
-	// 	{
-	// 		random_acsees_iterator tmp = *this;
-	// 		++current;
-	// 		return (tmp);
-	// 	}
+		random_acsees_iterator	operator++(int)
+		{
+			random_acsees_iterator tmp = *this;
+			++current;
+			return (tmp);
+		}
 		
-	// 	random_acsees_iterator&	operator--()
-	// 	{
-	// 		--current;
-	// 		return (*this);
-	// 	}
+		random_acsees_iterator&	operator--()
+		{
+			--current;
+			return (*this);
+		}
 
-	// 	random_acsees_iterator	operator--(int)
-	// 	{
-	// 		random_acsees_iterator tmp = *this;
-	// 		--current;
-	// 		return (tmp);
-	// 	}
+		random_acsees_iterator	operator--(int)
+		{
+			random_acsees_iterator tmp = *this;
+			--current;
+			return (tmp);
+		}
 
-	// 	bool	operator==(int Y) const { return (current == (Pt)Y); }
-	// 	bool	operator==(const random_acsees_iterator& Y) const { return (current == Y.current); }
-	// 	bool	operator!=(const random_acsees_iterator& Y) const { return (!(*this == Y)); }
+		bool	operator==(int Y) const { return (current == (Pt)Y); }
+		bool	operator==(const random_acsees_iterator& Y) const { return (current == Y.current); }
+		bool	operator!=(const random_acsees_iterator& Y) const { return (!(*this == Y)); }
 
-	// 	random_acsees_iterator&	operator+=(D N)
-	// 	{
-	// 		current += N;
-	// 		return (*this);
-	// 	}
-	// 	random_acsees_iterator	operator+(D N) const {return (random_acsees_iterator(current + N)); }
-	// 	random_acsees_iterator&	operator-=(D N)
-	// 	{
-	// 		current -= N;
-	// 		return (*this);
-	// 	}
-	// 	random_acsees_iterator	operator-(D N) const { return (random_acsees_iterator(current - N)); }
-	// 	D						operator-(const random_acsees_iterator& Y) const { return (current - Y.current); }
+		random_acsees_iterator&	operator+=(D N)
+		{
+			current += N;
+			return (*this);
+		}
+		random_acsees_iterator	operator+(D N) const {return (random_acsees_iterator(current + N)); }
+		random_acsees_iterator&	operator-=(D N)
+		{
+			current -= N;
+			return (*this);
+		}
+		random_acsees_iterator	operator-(D N) const { return (random_acsees_iterator(current - N)); }
+		D						operator-(const random_acsees_iterator& Y) const { return (current - Y.current); }
 
-	// 	Rt		operator[](D N) const { return (*(*this + N)); }
-	// 	bool	operator<(const random_acsees_iterator& Y) const { return (current < Y.current); }
-	// 	bool	operator>(const random_acsees_iterator& Y) const { return (Y < *this); }
-	// 	bool	operator<=(const random_acsees_iterator& Y) const { return (!(Y < *this)); }
-	// 	bool	operator>=(const random_acsees_iterator& Y) const { return (!(*this < Y)); }
-	// };
+		Rt		operator[](D N) const { return (*(*this + N)); }
+		bool	operator<(const random_acsees_iterator& Y) const { return (current < Y.current); }
+		bool	operator>(const random_acsees_iterator& Y) const { return (Y < *this); }
+		bool	operator<=(const random_acsees_iterator& Y) const { return (!(Y < *this)); }
+		bool	operator>=(const random_acsees_iterator& Y) const { return (!(*this < Y)); }
+	};
 
-	// template <class T, class D, class Pt, class Rt, class Pt2, class Rt2> 
-	// inline random_acsees_iterator<T, D, Pt, Rt, Pt2, Rt2>	operator+(D N, const random_acsees_iterator<T, D, Pt, Rt, Pt2, Rt2>& Y) 
-	// {
-	// 	return (Y + static_cast<D>(N));
-	// }
+	template <class T, class D, class Pt, class Rt, class Pt2, class Rt2> 
+	inline random_acsees_iterator<T, D, Pt, Rt, Pt2, Rt2>	operator+(D N, const random_acsees_iterator<T, D, Pt, Rt, Pt2, Rt2>& Y) 
+	{
+		return (Y + static_cast<D>(N));
+	}
 
-	// template <class T, class D, class Pt, class Rt, class Pt2, class Rt2, class D0>
-	// inline random_acsees_iterator<T, D, Pt, Rt, Pt2, Rt2>	operator+(D0 N, const random_acsees_iterator<T, D, Pt, Rt, Pt2, Rt2>& Y)
-	// {
-	// 	return (Y + static_cast<D>(N));
-	// }
-
-// template  <class T, class D, class Pt, class Rt>
-// struct Bidit: public iterator<bidirectional_iterator_tag, T, D, Pt, Rt> {
-// };
-
-// struct Outit: public iterator<output_iterator_tag, void ,void ,void ,void>{
-// };
-
-	template  <class T, class D, class Pt, class Rt>
-	struct Ranit: public iterator<random_access_iterator_tag, T, D, Pt, Rt>
-	{};
+	template <class T, class D, class Pt, class Rt, class Pt2, class Rt2, class D0>
+	inline random_acsees_iterator<T, D, Pt, Rt, Pt2, Rt2>	operator+(D0 N, const random_acsees_iterator<T, D, Pt, Rt, Pt2, Rt2>& Y)
+	{
+		return (Y + static_cast<D>(N));
+	}
 
 	template<class RanIt>
 	class reverse_iterator : public iterator<
@@ -343,4 +248,106 @@ namespace ft
 
 	template<class RanIt> inline
 	bool operator>=(const reverse_iterator<RanIt>& X, const reverse_iterator<RanIt>& Y) { return (!(X < Y)); }
+
+	template <class InIt, class D> inline
+	void _distance(InIt F, InIt L, D& N, input_iterator_tag)
+	{
+		for (; F != L; ++F)
+		{
+			++N;
+		}
+	}
+
+	template <class InIt, class D> inline
+	void _distance(InIt F, InIt L, D& N, forward_iterator_tag)
+	{
+		for (; F != L; ++F)
+		{
+			++N;
+		}
+	}
+
+	template <class InIt, class D> inline
+	void _distance(InIt F, InIt L, D& N, bidirectional_iterator_tag)
+	{
+		for (; F != L; ++F)
+		{
+			++N;
+		}
+	}
+
+	template <class InIt, class D> inline
+	void _distance(InIt F, InIt L, D& N, random_access_iterator_tag)
+	{
+		N += L - F;
+		// N = 0;
+		// InIt it = F;
+		// while (it != L)
+		// {
+		// 	++it;
+		// 	++N;
+		// }
+	}
+
+	template <class InIt, class D> inline
+	void distance(InIt F, InIt L, D& N)
+	{
+		typedef typename iterator_traits<InIt>::iterator_category category;
+		_distance(F, L, N, category());
+	}
+
+	template <class InIt> inline
+	typename iterator_traits<InIt>::difference_type distance(InIt F, InIt L)
+	{
+		typename iterator_traits<InIt>::difference_type N = 0;
+		_distance(F, L, N, Iter_cat(F));
+		return (N);
+	}
+
+	template <class InIt, class D> 
+	inline void	_advance(InIt &I, D N, input_iterator_tag)
+	{
+	for (; 0 < N; --N)
+		++I;
+	}
+
+	template <class FwdIt, class D>
+	inline void	_advance(FwdIt &I, D N, forward_iterator_tag)
+	{
+		for (; 0 < N; --N)
+			++I;
+	}
+
+	template <class BidIt, class D>
+	inline void	_advance (BidIt &I, D N, bidirectional_iterator_tag)
+	{
+		for (; 0 < N; --N)
+			++I;
+		for (; N < 0; ++N)
+			--I;
+	}
+
+	template <class RanIt, class D>
+	inline void _advance (RanIt &I, D N, random_access_iterator_tag)
+	{
+		// I += N;
+		if (N >= 0)
+		{
+			while (N > 0)
+			{
+				++I;
+				--N;
+			}
+		}
+	}
+
+	template <class InIt, class D>
+	inline void advance (InIt& I, D N)
+	{
+		typedef typename iterator_traits<InIt>::iterator_category category;
+		_advance(I, N, category());
+	}
+
+
+
 }
