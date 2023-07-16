@@ -44,212 +44,6 @@ namespace ft
 		pointer m_last;
 		pointer m_end;
 
-	private:
-		bool	_buy(size_type N)
-		{
-			if (N == 0)
-			{
-				m_first = 0;
-				m_last = 0;
-				m_end = 0;
-				return false;
-			}
-			else
-			{
-				m_first = this->m_alloc.allocate(N, (void*)0);
-				m_last = m_first;
-				m_end = m_first + N;
-				return true;
-			}
-		}
-
-		pointer	_ufill(pointer Q, size_type N, const T &X)
-		{
-			pointer Qs = Q;
-			try
-			{
-				for(; 0 < N; --N, ++Q)
-				{
-					Base::m_alloc.construct(Q, X);
-				}
-			}
-			catch(...)
-			{
-				_destroy(Qs, Q);
-				throw;
-			}
-			return Q;
-		}
-
-		void	_destroy(pointer F, pointer L)
-		{
-			for(; F != L; ++F)
-			{
-				this->m_alloc.destroy(F);
-			}
-		}
-
-		template<class It>
-		pointer	_ucopy(It F, It L, pointer Q)
-		{
-			pointer Qs = Q;
-			try
-			{
-				for(; F != L; ++Q, ++F)
-				{
-					this->m_alloc.construct(Q, *F);
-				}
-			}
-			catch(...)
-			{
-				_destroy(Qs, Q);
-				throw;
-			}
-			return Q;
-		}
-
-		template<class It>
-		void	_construct (It F, It L, ft::true_type) 
-		{
-			size_type N = (size_type)F;
-			if(_buy(N))
-			{
-				m_last = _ufill(m_first, N, (T)L);
-			}
-		}
-
-		template<class It>
-		void	_construct(It F, It L, ft::false_type)
-		{
-			_buy(0);
-			insert(begin(), F, L);
-		}
-
-		void _clear()
-		{
-			if (m_first != 0)
-			{
-				_destroy(m_first, m_last);
-				this->m_alloc.deallocate(m_first, m_end - m_first);
-			}
-			m_first = 0;
-			m_last = 0;
-			m_end = 0;
-		}
-
-		void _xlen() const
-		{
-			throw ft::exception("Out of length access");
-		}
-
-		void _xran() const
-		{
-			throw ft::exception("Out of range access");
-		}
-
-
-		template<class It>
-		void	_assign(It F, It L, ft::true_type)
-		{
-			assign((size_type)F, (T)L);
-		}
-
-		template<class It>
-		void	_assign(It F, It L, ft::false_type)
-		{
-			erase (begin(), end());
-			insert (begin(), F, L);
-		}
-
-		template<class It>
-		void	_insert(iterator P, It F, It L, ft::true_type)
-		{
-			insert(P, (size_type)F, (T)L);
-		}
-		
-		template<class It>
-		void	_insert(iterator P, It F, It L, ft::false_type)
-		{
-			typedef typename iterator_traits<It>::iterator_category category;
-			_insert_iter_type(P, F, L, category());
-		}
-
-
-		template<class It>
-		void	_insert_iter_type(iterator P, It F, It L, input_iterator_tag)
-		{
-			for (; F != L; ++F, ++P)
-				P = insert (P, *F);
-		}
-
-		template<class It>
-		void	_insert_iter_type(iterator P, It F, It L, forward_iterator_tag)
-		{
-			size_type M = 0;
-			ft::distance(F, L, M);
-			size_type N = capacity();
-			if (M == 0)
-			{
-				;
-			}
-			else if (max_size() - size() < M)
-			{
-				_xlen();
-			}
-			else if(N < size() + M)
-			{
-				N = max_size() - N < N ? 0 : N * 2;
-				if (N < size() + M)
-					N = size() + M;
-				pointer S = this->m_alloc.allocate(N, (void *)0);
-				pointer Q;
-				try
-				{
-					Q = _ucopy(begin(), P, S);
-					Q = _ucopy(F, L, Q);
-					_ucopy(P, end(), Q);
-				}
-				catch (...)
-				{
-					_destroy(S, Q);
-					this->m_alloc.deallocate(S, N);
-					throw;
-				}
-				if (m_first != 0)
-				{
-					_destroy(m_first, m_last);
-					this->m_alloc.deallocate(m_first, m_end - m_first);
-				}
-				m_end = S + N;
-				m_last = S + size() + M;
-				m_first = S;
-			}
-			else if ((size_type)(end() - P) < M)
-			{
-				_ucopy(P, end(), P.base() + M);
-				It Mid = F;
-				ft::advance(Mid, end() - P);
-				try
-				{
-					_ucopy(Mid, L, m_last);
-				}
-				catch (...)
-				{
-					_destroy (P.base() + M, m_last + M);
-					throw;
-				}
-				m_last += M;
-				ft::copy(F, Mid, P);
-			}
-			else if (0 < M)
-			{
-				iterator Oend = end();
-				m_last = _ucopy(Oend - M, Oend, m_last);
-				ft::copy_backward(P, Oend - M, Oend);
-				ft::copy(F, L, P);
-			}
-		}
-
 	public:
 		vector()
 		: Base()
@@ -562,6 +356,214 @@ namespace ft
 				vector Ts = *this;
 				*this = X;
 				X = Ts;
+			}
+		}
+
+	private:
+		bool	_buy(size_type N)
+		{
+			if (N == 0)
+			{
+				m_first = 0;
+				m_last = 0;
+				m_end = 0;
+				return false;
+			}
+			else
+			{
+				m_first = this->m_alloc.allocate(N, (void*)0);
+				m_last = m_first;
+				m_end = m_first + N;
+				return true;
+			}
+		}
+
+		pointer	_ufill(pointer Q, size_type N, const T &X)
+		{
+			pointer Qs = Q;
+			try
+			{
+				for(; 0 < N; --N, ++Q)
+				{
+					Base::m_alloc.construct(Q, X);
+				}
+			}
+			catch(...)
+			{
+				_destroy(Qs, Q);
+				throw;
+			}
+			return Q;
+		}
+
+		void	_destroy(pointer F, pointer L)
+		{
+			for(; F != L; ++F)
+			{
+				this->m_alloc.destroy(F);
+			}
+		}
+
+		template<class It>
+		pointer	_ucopy(It F, It L, pointer Q)
+		{
+			pointer Qs = Q;
+			try
+			{
+				for(; F != L; ++Q, ++F)
+				{
+					this->m_alloc.construct(Q, *F);
+				}
+			}
+			catch(...)
+			{
+				_destroy(Qs, Q);
+				throw;
+			}
+			return Q;
+		}
+
+		template<class It>
+		void	_construct (It F, It L, ft::true_type) 
+		{
+			size_type N = (size_type)F;
+			if(_buy(N))
+			{
+				m_last = _ufill(m_first, N, (T)L);
+			}
+		}
+
+		template<class It>
+		void	_construct(It F, It L, ft::false_type)
+		{
+			_buy(0);
+			insert(begin(), F, L);
+		}
+
+		void _clear()
+		{
+			if (m_first != 0)
+			{
+				_destroy(m_first, m_last);
+				this->m_alloc.deallocate(m_first, m_end - m_first);
+			}
+			m_first = 0;
+			m_last = 0;
+			m_end = 0;
+		}
+
+		void _xlen() const
+		{
+			throw ft::exception("Out of length access");
+		}
+
+		void _xran() const
+		{
+			throw ft::exception("Out of range access");
+		}
+
+
+		template<class It>
+		void	_assign(It F, It L, ft::true_type)
+		{
+			assign((size_type)F, (T)L);
+		}
+
+		template<class It>
+		void	_assign(It F, It L, ft::false_type)
+		{
+			erase (begin(), end());
+			insert (begin(), F, L);
+		}
+
+		template<class It>
+		void	_insert(iterator P, It F, It L, ft::true_type)
+		{
+			insert(P, (size_type)F, (T)L);
+		}
+		
+		template<class It>
+		void	_insert(iterator P, It F, It L, ft::false_type)
+		{
+			typedef typename iterator_traits<It>::iterator_category category;
+			_insert_iter_type(P, F, L, category());
+		}
+
+
+		template<class It>
+		void	_insert_iter_type(iterator P, It F, It L, input_iterator_tag)
+		{
+			for (; F != L; ++F, ++P)
+				P = insert (P, *F);
+		}
+
+		template<class It>
+		void	_insert_iter_type(iterator P, It F, It L, forward_iterator_tag)
+		{
+			size_type M = 0;
+			ft::distance(F, L, M);
+			size_type N = capacity();
+			if (M == 0)
+			{
+				;
+			}
+			else if (max_size() - size() < M)
+			{
+				_xlen();
+			}
+			else if(N < size() + M)
+			{
+				N = max_size() - N < N ? 0 : N * 2;
+				if (N < size() + M)
+				{
+					N = size() + M;
+				}
+				pointer S = this->m_alloc.allocate(N, (void *)0);
+				pointer Q;
+				try
+				{
+					Q = _ucopy(begin(), P, S);
+					Q = _ucopy(F, L, Q);
+					_ucopy(P, end(), Q);
+				}
+				catch (...)
+				{
+					_destroy(S, Q);
+					this->m_alloc.deallocate(S, N);
+					throw;
+				}
+				if (m_first != 0)
+				{
+					_destroy(m_first, m_last);
+					this->m_alloc.deallocate(m_first, m_end - m_first);
+				}
+				m_end = S + N;
+				m_last = S + size() + M;
+				m_first = S;
+			}
+			else if ((size_type)(end() - P) < M)
+			{
+				_ucopy(P, end(), P.base() + M);
+				It Mid = F;
+				ft::advance(Mid, end() - P);
+				try
+				{
+					_ucopy(Mid, L, m_last);
+				}
+				catch (...)
+				{
+					_destroy (P.base() + M, m_last + M);
+					throw;
+				}
+				m_last += M;
+				ft::copy(F, Mid, P);
+			}
+			else if (0 < M)
+			{
+				iterator Oend = end();
+				m_last = _ucopy(Oend - M, Oend, m_last);
+				ft::copy_backward(P, Oend - M, Oend);
+				ft::copy(F, L, P);
 			}
 		}
 
