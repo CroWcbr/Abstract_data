@@ -1,5 +1,7 @@
 #pragma once
 
+#include <bits/stl_iterator_base_types.h>
+
 namespace ft
 {
 	typedef	long int						ptrdiff_t;
@@ -63,14 +65,20 @@ namespace ft
 		: current(P)
 		{}
 
-		random_acsees_iterator(const random_acsees_iterator<T, D, Pt2, Rt2, Pt2, Rt2>& X)
+		random_acsees_iterator(const random_acsees_iterator& X)
 		: current(X.base())
 		{}
+
+		// random_acsees_iterator(const random_acsees_iterator<T, D, Pt2, Rt2, Pt2, Rt2>& X)
+		// : current(X.base())
+		// {}
 
 		template <class _T, class _D, class _Pt, class _Rt, class _Pt2, class _Rt2>
 		random_acsees_iterator(const random_acsees_iterator<_T, _D, _Pt, _Rt, _Pt2, _Rt2>& X)
 		: current(X.base())
 		{}
+
+		
 
 		random_acsees_iterator&	operator=(const random_acsees_iterator &obj)
 		{
@@ -347,7 +355,5 @@ namespace ft
 		typedef typename iterator_traits<InIt>::iterator_category category;
 		_advance(I, N, category());
 	}
-
-
 
 }

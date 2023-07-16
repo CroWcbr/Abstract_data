@@ -1,4 +1,5 @@
-#pragma once
+#ifndef TESTER_HPP
+#define TESTER_HPP
 
 #include <vector>
 #include <string>
@@ -10,6 +11,7 @@
 #include <algorithm>
 #include <cctype>
 #include <fstream>
+#include <stdio.h>
 
 #define _CXX				"/usr/bin/g++"
 #define _CXX_FLAGS			"-Wall -Wextra -Werror"
@@ -22,6 +24,7 @@
 
 #define _LOGS_COMPILE		"./logs_compile.txt"
 #define _LOGS_LEAKS			"./logs_leaks.txt"
+#define _LOGS_LEAKS_TMP		"./logs_leaks_tmp.txt"
 
 const std::string	GREEN = "\x1B[1;32m";
 const std::string	RED = "\x1B[1;31m";
@@ -29,12 +32,19 @@ const std::string	YELLOW = "\x1B[1;33m";
 const std::string	WHITE = "\x1B[1;39m";
 const std::string	RESET = "\033[0m";
 
+std::string	MOD;
+int			COUNT;
+int			SIZE;
+
 const std::vector<std::pair<std::string, std::vector<std::string> > > _containers = 
 	{
 		{"vector", 
 			{
 				"./test/vector/01_constructor.cpp",
-				"./test/vector/02_constructor(std iterators).cpp"
+				"./test/vector/02_operator=.cpp",
+				"./test/vector/02_operator=.cpp"
 			},
 		}
 	};
+
+#endif

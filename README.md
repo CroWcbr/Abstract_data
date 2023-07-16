@@ -2,7 +2,21 @@
 C++ containers, hard mode
 
 ## tester
-- draft version
+- minitest in src
+```
+USAGE: g++ test -D TYPE=1/2
+1 - std
+2 - ft
+```
+- my test
+```
+description
+```
+- escole42
+```
+static_tester
+monkey_tester
+```
 
 ## Sequence containers
 - list
@@ -19,3 +33,9 @@ C++ containers, hard mode
 - stack
 - queue
 - priority_queue
+
+## Bonus
+- unorder_map
+- unorder_set
+- unordered_multimap
+- unordered_multiset

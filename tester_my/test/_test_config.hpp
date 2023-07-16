@@ -6,6 +6,11 @@
 #include <string>
 #include <cstring>
 #include <cstdio>
+#include <cstdlib>
+#include <ctime>
+
+const int				T_COUNT = 100;
+const int				T_SIZE = 10000;
 
 static bool				g_leaks = false;
 static std::string		g_result;

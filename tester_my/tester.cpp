@@ -48,7 +48,7 @@ static void testCompile(int *status, std::string func_filename, char **env)
 	close(fd_log);
 }
 
-static void testExecution(int *status, std::string output, char **env)
+static void testExecution(int *status, char **env)
 {
 	pid_t	pid;
 
@@ -92,7 +92,7 @@ static void testExecution(int *status, std::string output, char **env)
 
 static void	testLeak(int *status, std::string func_filename, char **env)
 {
-	int		fd_log = open(_LOGS_LEAKS, O_WRONLY | O_CREAT | O_TRUNC, 0777);
+	int		fd_log = open(_LOGS_LEAKS_TMP, O_WRONLY | O_CREAT | O_TRUNC, 0777);
 	pid_t	pid;
 
 	pid = fork();
@@ -122,8 +122,8 @@ static void	testLeak(int *status, std::string func_filename, char **env)
 	waitpid(pid, status, WUNTRACED | WCONTINUED);
 	close(fd_log);
 
-	std::ifstream file(_LOGS_LEAKS);
-	if (!file.is_open())
+	std::ifstream source_file(_LOGS_LEAKS_TMP);
+	if (!source_file.is_open())
 	{
 		printElement("FAILED OPEN LOG");
 	}
@@ -131,7 +131,7 @@ static void	testLeak(int *status, std::string func_filename, char **env)
 	{
 		std::string line;
 		int	test = 0;
-		while (std::getline(file, line))
+		while (std::getline(source_file, line))
 		{
 			if (line.find("in use at exit: 0 bytes in 0 blocks") != std::string::npos)
 			{
@@ -146,7 +146,21 @@ static void	testLeak(int *status, std::string func_filename, char **env)
 			printElement("OK");
 		else
 			printElement("FAILED");
-		file.close();
+
+		source_file.clear();
+		source_file.seekg(0, std::ios::beg);
+		std::ofstream destination_file(_LOGS_LEAKS, std::ios::app);
+		if (!destination_file)
+		{
+			std::cerr << "Failed to open: " << _LOGS_LEAKS << std::endl;
+		}
+		else
+		{
+			destination_file << std::endl;
+			destination_file << source_file.rdbuf();
+		}
+		destination_file.close();
+		source_file.close();
 	}
 
 }
@@ -163,7 +177,7 @@ static void	test(std::vector<std::string> test, char **env)
 		fflush(stdout);
 
 		testCompile(&status, t, env);
-		testExecution(&status, output, env);
+		testExecution(&status, env);
 		if (!status)
 			testLeak(&status, t, env);
 
@@ -174,8 +188,19 @@ static void	test(std::vector<std::string> test, char **env)
 
 int main(int argc, char **argv, char **env)
 {
-	int fd_log = open(_LOGS_COMPILE, O_WRONLY | O_CREAT | O_TRUNC, 0777);
-	close(fd_log);
+	if (argc > 1)
+		MOD = argv[1];
+	if (argc > 2)
+		COUNT = std::stoi(argv[2]);
+	if (argc > 3)
+		SIZE = std::stoi(argv[3]);
+
+	FILE* file;
+	file = fopen(_LOGS_COMPILE, "w");
+	fclose(file);
+	file = fopen(_LOGS_LEAKS, "w");
+	fclose(file);
+
 	for(const auto& c : _containers)
 	{
 		std::cout << "--------------------------------------------------------------------------------------------" << std::endl;
@@ -189,7 +214,7 @@ int main(int argc, char **argv, char **env)
 		std::cout << std::endl;
 		test(c.second, env);
 	}
-	unlink(_LOGS_LEAKS);
+	unlink(_LOGS_LEAKS_TMP);
 	unlink(_EXEC_NAME);
 	return 0;
 }
