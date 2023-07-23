@@ -21,17 +21,17 @@ int main()
 	typedef	std::allocator<char>	Myal;
 	typedef TEST_CONTAINER<char, Myal>	Mycont; 
 	
-	// char ch;
-	char carr[] = "abc";
-	// Mycont::allocator_type*		p_alloc = (Myal *)0;
-	// Mycont::pointer				p_ptr = (char *)0;
-	// Mycont::const_pointer		p_cptr = (const char *)0;
-	// Mycont::reference			p_ref = ch;
-	// Mycont::const_reference		p_cref = (const char&)ch;
-	// Mycont::value_type*			p_val = (char *)0;
-	// Mycont::size_type*			p_size = (size_t *)0;
-	// Mycont::difference_type*		p_diff = (ptrdiff_t *)0;
+	char ch;
+	Mycont::allocator_type*		p_alloc = (Myal *)0;
+	Mycont::pointer				p_ptr = (char *)0;
+	Mycont::const_pointer		p_cptr = (const char *)0;
+	Mycont::reference			p_ref = ch;
+	Mycont::const_reference		p_cref = (const char&)ch;
+	Mycont::value_type*			p_val = (char *)0;
+	Mycont::size_type*			p_size = (size_t *)0;
+	Mycont::difference_type*		p_diff = (ptrdiff_t *)0;
 
+	char carr[] = "abc";
 	Mycont v0;
 	Myal al = v0.get_allocator();
 	Mycont v0a(al);

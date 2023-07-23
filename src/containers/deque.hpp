@@ -60,7 +60,7 @@ namespace ft
 
 		typedef typename	A::template rebind<pointer>::other::pointer	Map_ptr;
 
-	private:
+	protected:
 		Map_ptr		m_map;
 		size_type	m_mapsize;
 		size_type	m_offset;

@@ -83,7 +83,7 @@ namespace ft
 // }
 
 	template<class Inltl, class Inlt2> 
-	inline bool equal (Inltl F, Inltl L, Inlt2 X)
+	inline bool equal(Inltl F, Inltl L, Inlt2 X)
 	{
 		for (; F != L && *F == *X; ++F, ++X)
 			;

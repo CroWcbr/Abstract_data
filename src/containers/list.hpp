@@ -80,7 +80,7 @@ namespace ft
 		typedef typename	A::const_reference	const_reference;
 		typedef typename	A::value_type		value_type;
 
-	private:
+	protected:
 		Node_ptr	m_head_ptr;
 		size_type	m_size;
 

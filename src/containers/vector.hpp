@@ -39,7 +39,7 @@ namespace ft
 		typedef	ft::reverse_iterator<iterator>			reverse_iterator;
 		typedef	ft::reverse_iterator<const_iterator>	const_reverse_iterator;
 
-	private:
+	protected:
 		pointer m_first;
 		pointer m_last;
 		pointer m_end;
