@@ -3,10 +3,12 @@
 PROGRAMS	=	vector_std \
 				vector_ft \
 				list_std \
-				list_ft
+				list_ft \
+				deque_std \
+				deque_ft
 
 CC			=	g++
-# CFLAGS		=	-Wall -Wextra -Werror
+CFLAGS		=	-Wall -Wextra -Werror
 
 STD			=	-D TYPE=1
 FT			=	-D TYPE=2
@@ -26,6 +28,12 @@ list_std	:	list_test.cpp
 				$(CC) $(STD) $(CFLAGS) -o $@ $< 
 
 list_ft	:		list_test.cpp
+				$(CC) $(FT) $(CFLAGS) -o $@ $< 
+
+deque_std	:	deque_test.cpp
+				$(CC) $(STD) $(CFLAGS) -o $@ $< 
+
+deque_ft	:		deque_test.cpp
 				$(CC) $(FT) $(CFLAGS) -o $@ $< 
 
 clean:

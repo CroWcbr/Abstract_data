@@ -204,7 +204,7 @@ namespace ft
 		typedef ft::reverse_iterator<iterator>			reverse_iterator;
 
 	public:
-		list ()
+		list()
 		: Base()
 		, m_head_ptr(_buynode())
 		, m_size(0)
@@ -297,7 +297,7 @@ namespace ft
 		{
 			if (size() < N)
 			{
-				insert(end(), N - size(), X) ;
+				insert(end(), N - size(), X);
 			}
 			else
 			{
@@ -345,12 +345,12 @@ namespace ft
 			size_type N = M;
 			try
 			{
-				for (; 0 < M; --M)
+				for(; 0 < M; --M)
 				_insert (P, X);
 			}
-			catch (...)
+			catch(...)
 			{
-				for (; M < N; ++M)
+				for(; M < N; ++M)
 				{
 					iterator Pm = P;
 					erase(--Pm);
@@ -424,21 +424,21 @@ namespace ft
 			if (F != L && P != L)
 			{
 				size_type	N = 0;
-				for (iterator Fs = F; Fs != L; ++Fs, ++N)
+				for(iterator Fs = F; Fs != L; ++Fs, ++N)
 				{
 					if (Fs == P)
 					{
 						return;
 					}
 				}
-				_splice(P, X, F, L, N) ;
+				_splice(P, X, F, L, N);
 			}
 		}
 				
 		void	remove(const T& V)
 		{
 			iterator L = end();
-			for (iterator F = begin(); F != L;)
+			for(iterator F = begin(); F != L;)
 			{
 				if (*F == V)
 				{
@@ -455,7 +455,7 @@ namespace ft
 		void	remove_if(Pr1 Pr)
 		{
 			iterator L = end();
-			for (iterator F = begin(); F != L;)
+			for(iterator F = begin(); F != L;)
 			{
 				if (Pr(*F))
 				{
@@ -473,7 +473,7 @@ namespace ft
 			iterator F = begin(), L = end();
 			if (F != L)
 			{
-				for (iterator M = F; ++M != L; M = F)
+				for(iterator M = F; ++M != L; M = F)
 				{
 					if (*F == *M)
 					{
@@ -493,7 +493,7 @@ namespace ft
 			iterator F = begin(), L = end();
 			if (F != L)
 			{
-				for (iterator M = F; ++M != L; M = F)
+				for(iterator M = F; ++M != L; M = F)
 				{
 					if (Pr(*F, *M))
 					{
@@ -539,7 +539,7 @@ namespace ft
 		{
 			if (&X != this)
 			{
-				iterator F1 = begin (), L1 = end();
+				iterator F1 = begin(), L1 = end();
 				iterator F2 = X.begin(), L2 = X.end();
 				while (F1 != L1 && F2 != L2)
 				{
@@ -573,7 +573,7 @@ namespace ft
 				{
 					X.splice(X.begin(), *this, begin());
 					_size_t I;
-					for (I = 0; I < N && !Arr[I].empty(); ++I)
+					for(I = 0; I < N && !Arr[I].empty(); ++I)
 					{
 						Arr[I].merge(X);
 						Arr[I].swap(X);
@@ -591,7 +591,7 @@ namespace ft
 						}
 					}
 				}
-				for (_size_t I = 1; I < N; ++I)
+				for(_size_t I = 1; I < N; ++I)
 				{
 					Arr[I].merge(Arr[I - 1]);
 				}
@@ -611,7 +611,7 @@ namespace ft
 				{
 					X.splice (X.begin(), *this, begin());
 					_size_t I;
-					for (I = 0; I < N && !Arr[I].empty(); ++I)
+					for(I = 0; I < N && !Arr[I].empty(); ++I)
 					{
 						Arr[I].merge(X, Pr);
 						Arr[I].swap(X);
@@ -629,7 +629,7 @@ namespace ft
 						}
 					}
 				}
-				for (_size_t I = 1; I < N; ++I)
+				for(_size_t I = 1; I < N; ++I)
 				{
 					Arr[I].merge(Arr[I - 1], Pr);
 				}
@@ -639,10 +639,10 @@ namespace ft
 
 		void reverse()
 		{
-			if (2 <= size ())
+			if (2 <= size())
 			{
 				iterator L = end();
-				for (iterator F = ++begin(); F != L;)
+				for(iterator F = ++begin(); F != L;)
 				{
 					iterator M = F;
 					_splice(begin(), *this, M, ++F, 1);
@@ -700,7 +700,7 @@ namespace ft
 			{
 				this->m_alloc.construct(&_Value(Snew), X);
 			}
-			catch (...)
+			catch(...)
 			{
 				--m_size;
 				_freenode(Snew);
@@ -729,14 +729,14 @@ namespace ft
 			size_type	N = 0;
 			try
 			{
-				for (; F != L; ++F, ++N)
+				for(; F != L; ++F, ++N)
 				{
-					_insert(P, *F) ;
+					_insert(P, *F);
 				}
 			}
-			catch (...)
+			catch(...)
 			{
-				for (; 0 < N; --N)
+				for(; 0 < N; --N)
 				{
 					iterator Pm = P;
 					erase(--Pm);
@@ -751,14 +751,14 @@ namespace ft
 			It	Fs = F;
 			try
 			{
-				for (; F != L; ++F)
+				for(; F != L; ++F)
 				{
-					_insert(P, *F) ;
+					_insert(P, *F);
 				}
 			}
-			catch (...)
+			catch(...)
 			{
-				for (; Fs != F; ++Fs)
+				for(; Fs != F; ++Fs)
 				{
 					iterator Pm = P;
 					erase(--Pm);
@@ -786,7 +786,7 @@ namespace ft
 			}
 			else
 			{
-				insert (P, F, L) ;
+				insert (P, F, L);
 				X.erase(F, L);
 			}
 		}

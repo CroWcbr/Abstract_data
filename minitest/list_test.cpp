@@ -2,16 +2,12 @@
 #include <iostream>
 #include <functional>
 
-//for test
-#define	TEST_CONTAINER	ft::list
-#include "../containers/list.hpp"
-
 #ifndef TEST_CONTAINER
 	#if TYPE == 1
 		#include <list>
 		#define	TEST_CONTAINER	std::list
 	#elif TYPE == 2
-		#include "../containers/list.hpp"
+		#include "../src/containers/list.hpp"
 		#define	TEST_CONTAINER	ft::list
 	#endif
 #endif
@@ -25,15 +21,16 @@ int main()
 	typedef	std::allocator<char>	Myal;
 	typedef TEST_CONTAINER<char, Myal>	Mycont; 
 	
-	char ch, carr[] = "abc";
-	Mycont::allocator_type*		p_alloc = (Myal *)0;
-	Mycont::pointer				p_ptr = (char *)0;
-	Mycont::const_pointer		p_cptr = (const char *)0;
-	Mycont::reference			p_ref = ch;
-	Mycont::const_reference		p_cref = (const char&)ch;
-	Mycont::value_type*			p_val = (char *)0;
-	Mycont::size_type*			p_size = (size_t *)0;
-	Mycont::difference_type*	p_diff = (ptrdiff_t *)0;
+	// char ch;
+	char carr[] = "abc";
+	// Mycont::allocator_type*		p_alloc = (Myal *)0;
+	// Mycont::pointer				p_ptr = (char *)0;
+	// Mycont::const_pointer		p_cptr = (const char *)0;
+	// Mycont::reference			p_ref = ch;
+	// Mycont::const_reference		p_cref = (const char&)ch;
+	// Mycont::value_type*			p_val = (char *)0;
+	// Mycont::size_type*			p_size = (size_t *)0;
+	// Mycont::difference_type*	p_diff = (ptrdiff_t *)0;
 
 	Mycont v0;
 	Myal al = v0.get_allocator();
@@ -121,7 +118,7 @@ int main()
 	v0.splice (v0.begin(), v1, v1.begin(), v1.end());
 	assert(v0.front () == 'b' && v1.empty());
 	v0.remove('b');
-	assert(v0.front() = 'c');
+	assert(v0.front() == 'c');
 	// v0.remove_if(std::binder2nd<std::not_equal_to<char> >(std::not_equal_to<char>(), 'c'));
 	v0.remove_if([](char c) { return c != 'c'; });
 	assert(v0.front() == 'c' && v0.size() == 1);
@@ -130,7 +127,7 @@ int main()
 	assert(v0.front() == 'c' && v0.size() == 1);
 	v0.insert(v0.begin(), carr, carr + 3);
 	v0.unique();
-	assert(v0.back() = 'c' && v0.size() == 3);
+	assert(v0.back() == 'c' && v0.size() == 3);
 	v0.unique(std::not_equal_to<char>());
 	assert(v0.front () == 'a' && v0.size() == 1);
 	v1.insert(v1.begin(), carr, carr + 3);

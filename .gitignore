@@ -1,0 +1,16 @@
+/tester_other
+
+/tester_42/monkey_tester/.objs
+/tester_42/monkey_tester/std_*
+/tester_42/monkey_tester/ft_*
+
+/tester_my/*.out
+/tester_my/*.txt
+/tester_my/test_container
+/tester_my/a.out
+
+/minitest/*_std
+/minitest/*_ft
+
+a.out
+test.cpp

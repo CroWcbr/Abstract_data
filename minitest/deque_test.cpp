@@ -1,13 +1,14 @@
 #include <cassert>
 #include <iostream>
+#include <functional>
 
 #ifndef TEST_CONTAINER
 	#if TYPE == 1
-		#include <vector>
-		#define	TEST_CONTAINER	std::vector
+		#include <deque>
+		#define	TEST_CONTAINER	std::deque
 	#elif TYPE == 2
-		#include "../containers/vector.hpp"
-		#define	TEST_CONTAINER	ft::vector
+		#include "../src/containers/deque.hpp"
+		#define	TEST_CONTAINER	ft::deque
 	#endif
 #endif
 
@@ -20,8 +21,8 @@ int main()
 	typedef	std::allocator<char>	Myal;
 	typedef TEST_CONTAINER<char, Myal>	Mycont; 
 	
-	// char	ch;
-	char	carr[] = "abc";
+	// char ch;
+	char carr[] = "abc";
 	// Mycont::allocator_type*		p_alloc = (Myal *)0;
 	// Mycont::pointer				p_ptr = (char *)0;
 	// Mycont::const_pointer		p_cptr = (const char *)0;
@@ -29,7 +30,7 @@ int main()
 	// Mycont::const_reference		p_cref = (const char&)ch;
 	// Mycont::value_type*			p_val = (char *)0;
 	// Mycont::size_type*			p_size = (size_t *)0;
-	// Mycont::difference_type*	p_diff = (ptrdiff_t *)0;
+	// Mycont::difference_type*		p_diff = (ptrdiff_t *)0;
 
 	Mycont v0;
 	Myal al = v0.get_allocator();
@@ -54,8 +55,8 @@ int main()
 	assert(v0.size() == 6 && v0.front());
 	assert(v0[0] == 'x' && v0.at(5) == 'x');
 
-	v0.reserve(12);
-	assert(12 <= v0.capacity());
+	// v0.reserve(12);
+	// assert(12 <= v0.capacity());
 	v0.resize(8);
 	assert(v0.size() == 8 && v0.back() == '\0');
 	v0.resize(10, 'z');
@@ -70,12 +71,12 @@ int main()
 	assert(*p_cit == 'x' && *--(p_cit = v4.end()) == 'x');
 	assert(*p_rit == 'z'&& *--(p_rit = v0.rend()) == 'x');
 	assert(*p_crit == 'x' && *--(p_crit = v4.rend()) == 'x');
-	assert(v0.front() == 'x' && v4.front() == 'x');
 
-	// v0.push_front('a');
-	// assert(v0.front() == 'a');
-	// v0.pop_front();
-	// assert(v0.front() == 'x' && v4.front() == 'x');
+	assert(v0.front() == 'x' && v4.front() == 'x');
+	v0.push_front('a');
+	assert(v0.front() == 'a');
+	v0.pop_front();
+	assert(v0.front() == 'x' && v4.front() == 'x');
 
 	v0.push_back('a');
 	assert(v0.back() == 'a');
@@ -92,13 +93,13 @@ int main()
 	assert(v0.front() == 'b' && *++v0.begin() == 'b' && *++ ++v0.begin() == 'a');
 	v0.insert(v0.end(), v4.begin(), v4.end());
 	assert(v0.back() == v4.back());
-
 	v0.insert(v0.end(), carr, carr + 3);
 	assert(v0.back() == 'c');
 	v0.erase(v0.begin());
 	assert(v0.front() == 'b' && *++v0.begin() == 'a');
 	v0.erase(v0.begin(), ++v0.begin());
 	assert(v0.front() == 'a');
+
 	v0.clear();
 	assert(v0.empty());
 	v0.swap(v1);

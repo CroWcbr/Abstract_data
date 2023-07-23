@@ -159,7 +159,7 @@ namespace ft
 				{
 					_ucopy(begin(), end(), Q);
 				}
-				catch (...) 
+				catch(...) 
 				{
 					this->m_alloc.deallocate(Q, N);
 					throw;
@@ -275,7 +275,7 @@ namespace ft
 					Q = _ufill(Q, M, Tx);
 					_ucopy(P, end(), Q);
 				}
-				catch (...)
+				catch(...)
 				{
 					_destroy(S, Q);
 					this->m_alloc.deallocate(S, N);
@@ -493,7 +493,7 @@ namespace ft
 		template<class It>
 		void	_insert_iter_type(iterator P, It F, It L, input_iterator_tag)
 		{
-			for (; F != L; ++F, ++P)
+			for(; F != L; ++F, ++P)
 				P = insert (P, *F);
 		}
 
@@ -526,7 +526,7 @@ namespace ft
 					Q = _ucopy(F, L, Q);
 					_ucopy(P, end(), Q);
 				}
-				catch (...)
+				catch(...)
 				{
 					_destroy(S, Q);
 					this->m_alloc.deallocate(S, N);
@@ -550,7 +550,7 @@ namespace ft
 				{
 					_ucopy(Mid, L, m_last);
 				}
-				catch (...)
+				catch(...)
 				{
 					_destroy (P.base() + M, m_last + M);
 					throw;
