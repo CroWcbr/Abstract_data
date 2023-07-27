@@ -5,7 +5,7 @@
 namespace ft
 {
 
-	template<class T, class C = ft::vector<T> >
+	template<class T, class C = ft::vector<T> >	// may be vector/list/deque
 	class stack
 	{
 	public:
@@ -14,7 +14,7 @@ namespace ft
 		typedef typename	C::size_type	size_type;
 	
 	protected:
-		C	c;
+		C	c;	// not as usual 'm_c' - error im tester 42
 	
 	public:
 		explicit stack(const C& Cont)
