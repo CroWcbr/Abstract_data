@@ -107,6 +107,23 @@ namespace ft
 		Y = Tmp;
 	}
 
+	template<class Al, class A2, class R>
+	struct binary_function
+	{
+		typedef	Al	first_argument_type;
+		typedef	A2	second_argument_type;
+		typedef	R	result_type;
+	};
+
+	template<class T>
+	struct less : binary_function<T, T, bool>
+	{
+		bool operator()(const T& X, const T& Y) const
+		{
+			return (X < Y);
+		}
+	};
+
 struct false_type {};
 struct true_type {};
 

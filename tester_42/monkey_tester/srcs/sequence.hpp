@@ -3,7 +3,7 @@
 # include "common.hpp"
 # include "utils/input_iterator.hpp"
 #ifdef TEST_FT
-// # include "exception.hpp"
+# include "exception.hpp"
 #else
 # include <exception>
 #endif
@@ -14,18 +14,13 @@ namespace sequence
 	template <class C>
 	void	range_constructor(C &a, C &)
 	{
-// std::cerr << "\tERROR?!!! range_constructor" << std::endl;
 		FNAME
 		std::vector<typename C::value_type> v = monkey::get_random_vector<typename C::value_type>();
 
 		std::cout << "a = C(range) with range: " << std::endl;
-		std::cout << a.size() << std::endl;
 		monkey::print_range(v.begin(), v.end());
-		std::cout << "print_range done" << std::endl;
-std::cout << "start range_constructor" << std::endl;
+
 		a = C(input_iterator<typename std::vector<typename C::value_type>::iterator>(v.begin()), input_iterator<typename std::vector<typename C::value_type>::iterator>(v.end()));
-std::cout << "end range_constructor" << std::endl;
-// std::cerr << "\tNO ERROR?!!! range_constructor" << std::endl;
 	}
 
 	template <class C>

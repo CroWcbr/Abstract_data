@@ -1,9 +1,9 @@
 #pragma once
 
 #include <memory>
-#include "../utils/exception.hpp"
-#include "../iterators/xutility.hpp"
-#include "../iterators/algorithm.hpp"
+#include "../utility/exception.hpp"
+#include "../utility/xutility.hpp"
+#include "../utility/algorithm.hpp"
 
 namespace ft
 {

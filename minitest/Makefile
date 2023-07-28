@@ -6,8 +6,12 @@ PROGRAMS	=	vector_std \
 				list_ft \
 				deque_std \
 				deque_ft \
+				stack_std \
 				stack_ft \
-				stack_std
+				set_std \
+				set_ft \
+				multiset_std \
+				multiset_ft
 
 CC			=	g++
 # CFLAGS		=	-Wall -Wextra -Werror
@@ -42,6 +46,18 @@ stack_std	:	stack_test.cpp
 				$(CC) $(STD) $(CFLAGS) -o $@ $< 
 
 stack_ft	:	stack_test.cpp
+				$(CC) $(FT) $(CFLAGS) -o $@ $< 
+
+set_std		:	set_test.cpp
+				$(CC) $(STD) $(CFLAGS) -o $@ $< 
+
+set_ft		:	set_test.cpp
+				$(CC) $(FT) $(CFLAGS) -o $@ $< 
+
+multiset_std	:	multiset_test.cpp
+					$(CC) $(STD) $(CFLAGS) -o $@ $< 
+
+multiset_ft	:	multiset_test.cpp
 				$(CC) $(FT) $(CFLAGS) -o $@ $< 
 
 clean:

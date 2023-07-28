@@ -3,9 +3,9 @@
 #include <memory>
 #include "list.hpp"
 #include "vector.hpp"
-#include "../utils/exception.hpp"
-#include "../iterators/xutility.hpp"
-#include "../iterators/algorithm.hpp"
+#include "../utility/exception.hpp"
+#include "../utility/xutility.hpp"
+#include "../utility/algorithm.hpp"
 
 //delete this!!!!!! for heap
 #include <algorithm>

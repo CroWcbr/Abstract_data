@@ -2,9 +2,11 @@
 C++ containers, hard mode
 
 ## tester
-- minitest in src
+- minitest
 ```
-USAGE: g++ test -D TYPE=1/2
+make
+or
+USAGE: g++ test_name -D TYPE=1/2
 1 - std
 2 - ft
 ```
@@ -39,3 +41,4 @@ monkey_tester
 - unorder_set
 - unordered_multimap
 - unordered_multiset
+- my_container

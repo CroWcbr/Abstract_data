@@ -72,11 +72,6 @@ int main()
 	assert(*p_crit == 'x' && *--(p_crit = v4.rend()) == 'x');
 	assert(v0.front() == 'x' && v4.front() == 'x');
 
-	// v0.push_front('a');
-	// assert(v0.front() == 'a');
-	// v0.pop_front();
-	// assert(v0.front() == 'x' && v4.front() == 'x');
-
 	v0.push_back('a');
 	assert(v0.back() == 'a');
 	v0.pop_back();

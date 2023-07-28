@@ -1,4 +1,5 @@
-INCLUDE_PATH := ../../src/containers # Path to your headers
+
+INCLUDE_PATH := ../include # Path to your headers
 
 CXXFLAGS := -Wall -Werror -Wextra -Wno-deprecated-copy
 

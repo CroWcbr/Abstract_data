@@ -4,13 +4,18 @@
 #ifndef TEST_CONTAINER
 	#if TYPE == 1
 		#include <stack>
+		#include <vector>
+		#include <list>
+		#include <deque>
 		#define	TEST_CONTAINER	std::stack
+		#define	NAMESPACE		std
 	#elif TYPE == 2
 		#include "../src/containers/stack.hpp"
 		#include "../src/containers/vector.hpp"
 		#include "../src/containers/list.hpp"
 		#include "../src/containers/deque.hpp"
 		#define	TEST_CONTAINER	ft::stack
+		#define	NAMESPACE		ft
 	#endif
 #endif
 
@@ -21,12 +26,12 @@
 int main()
 {
 	typedef		std::allocator<char>	Myal;
-	typedef		ft::deque<char, Myal>		Myimpl;
-	typedef		ft::stack<char, Myimpl>		Mycont;
-	typedef		ft::list<char, Myal>		Myimpl2;
-	typedef		ft::stack<char, Myimpl2>	Mycont2;
-	typedef		ft::vector<char, Myal>		Myimpl3;
-	typedef		ft::stack<char, Myimpl3>	Mycont3;
+	typedef		NAMESPACE::deque<char, Myal>		Myimpl;
+	typedef		TEST_CONTAINER<char, Myimpl>		Mycont;
+	typedef		NAMESPACE::list<char, Myal>		Myimpl2;
+	typedef		TEST_CONTAINER<char, Myimpl2>	Mycont2;
+	typedef		NAMESPACE::vector<char, Myal>		Myimpl3;
+	typedef		TEST_CONTAINER<char, Myimpl3>	Mycont3;
 	{
 		Mycont::container_type	*p_cont = (Myimpl *)0;
 		Mycont::value_type		*p_val = (char *)0;

@@ -218,31 +218,6 @@ namespace monkey {
 		}
 	};
 
-	template<class C>
-	void print_cerr(const C &c) {
-	std::cerr << "\tprint" <<std::endl;
-		std::cerr << "size: " << c.size() << std::endl;
-		std::cerr << "content:" << std::endl;
-		for (typename C::const_iterator it = c.begin(); it != c.end(); it++)
-			std::cerr << "-> [" << *it << "]" << std::endl;
-	std::cerr << "\tend print" <<std::endl;
-	}
-
-	void print_title_cerr(std::string name) {
-		int total_length = 80;
-		int name_length = name.length();
-		int lpad = ((total_length - name_length) / 2) - 1;
-		int rpad = ((total_length - name_length) / 2) + ((total_length - name_length) % 2) - 1;
-		std::transform(name.begin(), name.end(), name.begin(), ::toupper);
-		std::replace(name.begin(), name.end(), '_', ' ');
-		for (int i = 0; i < lpad; i++)
-			std::cerr << '=';
-		std::cerr << " " << name << " ";
-		for (int i = 0; i < rpad; i++)
-			std::cerr << '=';
-		std::cerr << std::endl;
-	}
-
 	// the core function, it tests all the function in the vector tests on two containers and do count tests
 	template <class C>
 	void	test_container(std::vector<void (*)(C &, C &)> tests, size_t count)
@@ -253,37 +228,19 @@ namespace monkey {
 		C *b = &c2;
 		for (int i = 0; !count || i < count; i++)
 		{
-// std::cerr << "1cerr a: " << std::endl;
-// monkey::print_cerr(*a);
-// std::cerr << "1cerr b: " << std::endl;
-// monkey::print_cerr(*b);
-
 			if (rand() % 2)
 				std::swap(a, b);
-
-// std::cerr << "2cerr a: " << std::endl;
-// monkey::print_cerr(*a);
-// std::cerr << "2cerr b: " << std::endl;
-// monkey::print_cerr(*b);
-
-// monkey::print_title_cerr("before");
-
 			print_title("before");
 			std::cout << "a: " << std::endl;
 			monkey::print(*a);
 			std::cout << "b: " << std::endl;
 			monkey::print(*b);
-
-// std::cerr << "ERROR?!!! test_container" << std::endl;
-			tests[rand() % tests.size()](*b, *a); //!!!!!! segmentation
-// std::cerr << "NO ERROR?!!! test_container" << std::endl;
+			tests[rand() % tests.size()](*b, *a);
 			print_title("after");
-// std::cerr << "2222NO ERROR?!!! test_container" << std::endl;
 			std::cout << "a: " << std::endl;
 			monkey::print(*a);
 			std::cout << "b: " << std::endl;
 			monkey::print(*b);
-// std::cerr << "3333NO ERROR?!!! test_container" << std::endl;
 		}
 	}
 }

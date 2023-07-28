@@ -18,7 +18,7 @@
 #ifdef TEST_CONTAINER
 int main()
 {
-	typedef	std::allocator<char>	Myal;
+	typedef	std::allocator<char>		Myal;
 	typedef TEST_CONTAINER<char, Myal>	Mycont; 
 	
 	char ch;
@@ -29,7 +29,7 @@ int main()
 	Mycont::const_reference		p_cref = (const char&)ch;
 	Mycont::value_type*			p_val = (char *)0;
 	Mycont::size_type*			p_size = (size_t *)0;
-	Mycont::difference_type*		p_diff = (ptrdiff_t *)0;
+	Mycont::difference_type*	p_diff = (ptrdiff_t *)0;
 
 	char carr[] = "abc";
 	Mycont v0;
@@ -55,8 +55,6 @@ int main()
 	assert(v0.size() == 6 && v0.front());
 	assert(v0[0] == 'x' && v0.at(5) == 'x');
 
-	// v0.reserve(12);
-	// assert(12 <= v0.capacity());
 	v0.resize(8);
 	assert(v0.size() == 8 && v0.back() == '\0');
 	v0.resize(10, 'z');

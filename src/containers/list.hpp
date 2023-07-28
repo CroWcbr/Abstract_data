@@ -1,9 +1,9 @@
 #pragma once
 
 #include <memory>
-#include "../utils/exception.hpp"
-#include "../iterators/xutility.hpp"
-#include "../iterators/algorithm.hpp"
+#include "../utility/exception.hpp"
+#include "../utility/xutility.hpp"
+#include "../utility/algorithm.hpp"
 
 namespace ft
 {
@@ -74,9 +74,13 @@ namespace ft
 		typedef				A					allocator_type;
 		typedef typename	A::size_type		size_type;
 		typedef typename	A::difference_type	difference_type;
+		typedef				difference_type		Dift;
 		typedef typename	A::pointer			pointer;
+		typedef				pointer				Tptr;
 		typedef typename	A::const_pointer	const_pointer;
+		typedef				const_pointer		Ctptr;
 		typedef typename	A::reference		reference;
+		typedef				reference			Tref;
 		typedef typename	A::const_reference	const_reference;
 		typedef typename	A::value_type		value_type;
 
@@ -86,7 +90,7 @@ namespace ft
 
 	public:
 		friend class bidirectional_iterator;
-		class bidirectional_iterator : public ft::iterator<bidirectional_iterator_tag, value_type, difference_type, pointer, reference>
+		class bidirectional_iterator : public ft::iterator<bidirectional_iterator_tag, value_type, Dift, Tptr, Tref>
 		{
 		protected:
 			Node_ptr Ptr;
@@ -106,7 +110,7 @@ namespace ft
 			{}
 
 			reference	operator*() const { return (_Value(Ptr) ); }
-			pointer		operator->() const { return (&**this); }
+			Tptr		operator->() const { return (&**this); }
 
 			bidirectional_iterator&	operator++()
 			{
@@ -140,7 +144,7 @@ namespace ft
 		};
 
 		friend class const_bidirectional_iterator;
-		class	const_bidirectional_iterator : public ft::iterator<bidirectional_iterator_tag, value_type, difference_type, const_pointer, const_reference> 
+		class	const_bidirectional_iterator : public ft::iterator<bidirectional_iterator_tag, value_type, Dift, Ctptr, const_reference> 
 		{
 			protected:
 				Node_ptr	Ptr;
@@ -165,7 +169,7 @@ namespace ft
 			{}
 
 			const_reference					operator*() const { return (_Value(Ptr)); }
-			const_pointer					operator->() const {return (&**this); }
+			Ctptr							operator->() const {return (&**this); }
 
 			const_bidirectional_iterator&	operator++()
 			{

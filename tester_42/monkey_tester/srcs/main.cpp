@@ -106,11 +106,11 @@ void test_deque(size_t ntest)
 	typedef NAMESPACE::deque<std::string> C;
 	monkey::test_container<C> (
 			container::get_table<C>() +
-			sequence::get_table<C>() //+
-			// sequence::push_front<C> +
-			// sequence::pop_front<C> +
-			// sequence::at<C> +
-			// sequence::operator_at<C>
+			sequence::get_table<C>() +
+			sequence::push_front<C> +
+			sequence::pop_front<C> +
+			sequence::at<C> +
+			sequence::operator_at<C>
 			        , ntest);
 }
 #endif

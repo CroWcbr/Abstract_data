@@ -53,10 +53,7 @@ int main()
 	assert(v4.size() == 6 && v4.front()== 'x');
 	v0 = v4;
 	assert(v0.size() == 6 && v0.front());
-	// assert(v0[0] == 'x' && v0.at(5) == 'x');
 
-	// v0.reserve(12);
-	// assert(12 <= v0.capacity());
 	v0.resize(8);
 	assert(v0.size() == 8 && v0.back() == '\0');
 	v0.resize(10, 'z');
@@ -119,7 +116,6 @@ int main()
 	assert(v0.front () == 'b' && v1.empty());
 	v0.remove('b');
 	assert(v0.front() == 'c');
-	// v0.remove_if(std::binder2nd<std::not_equal_to<char> >(std::not_equal_to<char>(), 'c'));
 	v0.remove_if([](char c) { return c != 'c'; });
 	assert(v0.front() == 'c' && v0.size() == 1);
 

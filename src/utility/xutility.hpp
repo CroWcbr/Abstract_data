@@ -1,6 +1,7 @@
 #pragma once
 
 #include <bits/stl_iterator_base_types.h>
+#include "algorithm.hpp"
 
 namespace ft
 {
@@ -77,8 +78,6 @@ namespace ft
 		random_acsees_iterator(const random_acsees_iterator<_T, _D, _Pt, _Rt, _Pt2, _Rt2>& X)
 		: current(X.base())
 		{}
-
-		
 
 		random_acsees_iterator&	operator=(const random_acsees_iterator &obj)
 		{
@@ -237,28 +236,28 @@ namespace ft
 	reverse_iterator<RanIt> operator+(D N, const reverse_iterator<RanIt>& Y) { return (Y + N); }
 
 	template<class RanIt> inline
-	typename reverse_iterator<RanIt>::D operator-(const reverse_iterator<RanIt>& X, const reverse_iterator<RanIt>& Y) { return (Y.base() - X.base()); }
+	typename	reverse_iterator<RanIt>::D operator-(const reverse_iterator<RanIt>& X, const reverse_iterator<RanIt>& Y) { return (Y.base() - X.base()); }
 	
 	template<class RanIt> inline
-	bool operator==(const reverse_iterator<RanIt>& X, const reverse_iterator<RanIt>& Y) { return (X.Eq(Y)); }
+	bool	operator==(const reverse_iterator<RanIt>& X, const reverse_iterator<RanIt>& Y) { return (X.Eq(Y)); }
 
 	template<class RanIt> inline
-	bool operator!=(const reverse_iterator<RanIt>& X, const reverse_iterator<RanIt>& Y) { return (!(X == Y)); }
+	bool	operator!=(const reverse_iterator<RanIt>& X, const reverse_iterator<RanIt>& Y) { return (!(X == Y)); }
 
 	template<class RanIt> inline
-	bool operator<(const reverse_iterator<RanIt>& X, const reverse_iterator<RanIt>& Y) { return (X.Lt(Y)); }
+	bool	operator<(const reverse_iterator<RanIt>& X, const reverse_iterator<RanIt>& Y) { return (X.Lt(Y)); }
 
 	template<class RanIt> inline
-	bool operator>(const reverse_iterator<RanIt>& X, const reverse_iterator<RanIt>& Y) { return (Y < X); }
+	bool	operator>(const reverse_iterator<RanIt>& X, const reverse_iterator<RanIt>& Y) { return (Y < X); }
 
 	template<class RanIt> inline
-	bool operator<=(const reverse_iterator<RanIt>& X, const reverse_iterator<RanIt>& Y) { return (!(Y < X)); }
+	bool	operator<=(const reverse_iterator<RanIt>& X, const reverse_iterator<RanIt>& Y) { return (!(Y < X)); }
 
 	template<class RanIt> inline
-	bool operator>=(const reverse_iterator<RanIt>& X, const reverse_iterator<RanIt>& Y) { return (!(X < Y)); }
+	bool	operator>=(const reverse_iterator<RanIt>& X, const reverse_iterator<RanIt>& Y) { return (!(X < Y)); }
 
 	template <class InIt, class D> inline
-	void _distance(InIt F, InIt L, D& N, input_iterator_tag)
+	void	_distance(InIt F, InIt L, D& N, input_iterator_tag)
 	{
 		for (; F != L; ++F)
 		{
@@ -267,7 +266,7 @@ namespace ft
 	}
 
 	template <class InIt, class D> inline
-	void _distance(InIt F, InIt L, D& N, forward_iterator_tag)
+	void	_distance(InIt F, InIt L, D& N, forward_iterator_tag)
 	{
 		for (; F != L; ++F)
 		{
@@ -276,7 +275,7 @@ namespace ft
 	}
 
 	template <class InIt, class D> inline
-	void _distance(InIt F, InIt L, D& N, bidirectional_iterator_tag)
+	void	_distance(InIt F, InIt L, D& N, bidirectional_iterator_tag)
 	{
 		for (; F != L; ++F)
 		{
@@ -285,7 +284,7 @@ namespace ft
 	}
 
 	template <class InIt, class D> inline
-	void _distance(InIt F, InIt L, D& N, random_access_iterator_tag)
+	void	_distance(InIt F, InIt L, D& N, random_access_iterator_tag)
 	{
 		N += L - F;
 		// N = 0;
@@ -298,7 +297,7 @@ namespace ft
 	}
 
 	template <class InIt, class D> inline
-	void distance(InIt F, InIt L, D& N)
+	void	distance(InIt F, InIt L, D& N)
 	{
 		typedef typename iterator_traits<InIt>::iterator_category category;
 		_distance(F, L, N, category());
@@ -308,7 +307,8 @@ namespace ft
 	typename iterator_traits<InIt>::difference_type distance(InIt F, InIt L)
 	{
 		typename iterator_traits<InIt>::difference_type N = 0;
-		_distance(F, L, N, Iter_cat(F));
+		typedef typename iterator_traits<InIt>::iterator_category category;
+		_distance(F, L, N, category());
 		return (N);
 	}
 
@@ -336,7 +336,7 @@ namespace ft
 	}
 
 	template <class RanIt, class D>
-	inline void _advance (RanIt &I, D N, random_access_iterator_tag)
+	inline void	_advance (RanIt &I, D N, random_access_iterator_tag)
 	{
 		// I += N;
 		if (N >= 0)
@@ -350,10 +350,57 @@ namespace ft
 	}
 
 	template <class InIt, class D>
-	inline void advance (InIt& I, D N)
+	inline void	advance (InIt& I, D N)
 	{
 		typedef typename iterator_traits<InIt>::iterator_category category;
 		_advance(I, N, category());
 	}
+
+	template<class T1, class T2>
+	struct pair
+	{
+		typedef	T1	first_type;
+		typedef	T2	second_type;
+
+		T1	first;
+		T2	second;
+
+		pair()
+		: first(T1())
+		, second(T2()) 
+		{}
+
+		pair(const T1 &V1, const T2 &V2)
+		: first(V1)
+		, second(V2)
+		{}
+
+		template<class U1, class U2>
+		pair(const pair<U1, U2> &X)
+		: first(X.first)
+		, second(X.second)
+		{}
+	};
+
+	template<class T1, class T2> 
+	inline pair<T1, T2>	make_pair(const T1 &X, const T2 &Y) { return (pair<T1, T2>(X, Y)); }
+
+	template<class T1, class T2>
+	inline bool			operator==(const pair<T1,T2> &X, const pair<T1, T2> &Y) { return (X.first == Y.first && X.second == Y.second); }
+
+	template<class T1, class T2>
+	inline bool			operator!=(const pair<T1,T2> &X, const pair<T1, T2> &Y) { return (!(X == Y)); }
+
+	template<class T1, class T2>
+	inline bool			operator<(const pair<T1,T2> &X, const pair<T1, T2> &Y) { return (X.first < Y.first || (!(Y.first < X.first) && X.second < Y.second)); }
+
+	template<class T1, class T2>
+	inline bool			operator>(const pair<T1,T2> &X, const pair<T1, T2> &Y) { return (Y < X); }
+
+	template<class T1, class T2>
+	inline bool			operator<=(const pair<T1,T2> &X, const pair<T1, T2> &Y) { return (!(Y < X)); }
+
+	template<class T1, class T2>
+	inline bool			operator>=(const pair<T1,T2> &X, const pair<T1, T2> &Y) { return (!(X < Y)); }
 
 }
