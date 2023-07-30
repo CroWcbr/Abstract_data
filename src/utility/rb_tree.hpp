@@ -125,7 +125,6 @@ namespace ft
 			Node_ptr	Ptr;
 		public:
 			typedef typename	map_iterator::iterator_category		iterator_category;
-			typedef typename	map_iterator::value_type			value_type;
 			typedef typename	map_iterator::difference_type		difference_type;
 			typedef typename	map_iterator::pointer				pointer;
 			typedef typename	map_iterator::reference				reference;
@@ -211,7 +210,6 @@ namespace ft
 
 		public:
 			typedef typename	const_map_iterator::iterator_category	iterator_category;
-			typedef typename	const_map_iterator::value_type			value_type;
 			typedef typename	const_map_iterator::difference_type		difference_type;
 			typedef typename	const_map_iterator::pointer				pointer;
 			typedef typename	const_map_iterator::reference			reference;

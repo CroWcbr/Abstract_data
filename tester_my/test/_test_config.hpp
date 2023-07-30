@@ -9,8 +9,8 @@
 #include <cstdlib>
 #include <ctime>
 
-const int				T_COUNT = 100;
-const int				T_SIZE = 10000;
+#include "../_config.hpp"
+#include "_include_containers.hpp"
 
 static bool				g_leaks = false;
 static std::string		g_result;
@@ -26,7 +26,34 @@ const std::string	YELLOW = "\x1B[1;33m";
 const std::string	WHITE = "\x1B[1;39m";
 const std::string	RESET = "\033[0m";
 
-void printElement(std::string t) {
+void	printElement(std::string t);
+void	printTime();
+
+int	test(bool (*test_all)(), void (*test_time)())
+{
+	if (g_leaks)
+	{
+		test_time();
+	}
+	else
+	{
+		if (test_all())
+		{
+			printElement(g_result);
+			test_time();
+			printTime();
+		}
+		else
+		{
+			printElement(g_result);
+			return 1;
+		}
+	}
+
+	return 0;
+}
+
+void	printElement(std::string t) {
 	if (t == "OK")
 	{
 		t = GREEN + t + RESET;
@@ -38,40 +65,48 @@ void printElement(std::string t) {
 	std::cout << std::left << std::setw(30) << std::setfill(' ') << t;
 }
 
-std::string to_string(int value)
+std::string	time_to_string(int value)
 {
 	char buffer[16];
 	std::sprintf(buffer, "%d", value);
 	return std::string(buffer);
 }
 
-void printTime()
+void	printTime()
 {
 	time_t t1 = ( g_end1 - g_start1 );
 	time_t t2 = ( g_end2 - g_start2 );
 	if (t1 >= t2)
 	{
-		printElement(GREEN + to_string(t2) + "ms" + RESET);
+		printElement(GREEN + time_to_string(t2) + "ms" + RESET);
 	}
 	else
 	{
-		printElement(RED + to_string(t2) + "ms" + RESET);
+		printElement(RED + time_to_string(t2) + "ms" + RESET);
 	}
 	if (t1 > t2)
 	{
-		printElement(RED + to_string(t1) + "ms" + RESET);
+		printElement(RED + time_to_string(t1) + "ms" + RESET);
 	}
 	else
 	{
-		printElement(GREEN + to_string(t1) + "ms" + RESET);
+		printElement(GREEN + time_to_string(t1) + "ms" + RESET);
 	}
 
 }
 
-time_t timer()
+time_t	timer()
 {
 	struct timeval start = {};
 	gettimeofday(&start, NULL);
 	time_t msecs_time = (start.tv_sec * 1000) + (start.tv_usec / 1000);
 	return msecs_time;
+}
+
+void	fill_array_random(int *array, int size, int min, int max)
+{
+	for(int i = 0; i < size; ++i)
+	{
+		array[i] = rand() % (max - min + 1) + min;
+	}
 }

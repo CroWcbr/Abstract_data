@@ -2,29 +2,25 @@
 
 static bool	test_all()
 {
-	std::vector<int> std_test(T_SIZE);
-	ft::vector<int> ft_test(T_SIZE);
-	std::srand(std::time(0));
-
-	for (int i = 0; i < T_SIZE; ++i)
+	for (int i = 0; i < T_COUNT; ++i)
 	{
-		int random = std::rand();
-		std_test[i] = random;
-		ft_test[i] = random;
-	}
+		std::srand(time(0));
+		int	size = rand() % T_SIZE;
+		int	array[size];
+		fill_array(array, size, 0, RAND_MAX);
 
-	{
-		std::vector<int> std_tmp;
-		std_tmp = std_test;
-		ft::vector<int> ft_tmp;
-		ft_tmp = ft_test;
+		std::vector<int>	std_test(array, array + size);
+		ft::vector<int>		ft_test(array, array + size);
 
-		std::cerr << std::endl << std_test.size() << "\t" << ft_test.size() << std::endl;
+		std::vector<int> std_tmp = std_test;
+		ft::vector<int> ft_tmp = ft_test;
+
 		if (!check_equel_vector(ft_tmp, std_tmp))
 		{
 			g_result = "FAILED";
 			return false;
 		}
+
 	}
 	g_result = "OK";
 	return true;
@@ -32,25 +28,24 @@ static bool	test_all()
 
 static void	test_time()
 {
-	std::vector<int> std_test(T_SIZE);
-	ft::vector<int> ft_test(T_SIZE);
-	std::srand(std::time(0));
+	int	array[T_SIZE];
+	fill_array(array, T_SIZE, 0, RAND_MAX);
 
-	for (int i = 0; i < T_SIZE; ++i)
-	{
-		std_test[i] = std::rand();
-		ft_test[i] = std::rand();
-	}
+	std::vector<int>	std_test(array, array + T_SIZE);
+	ft::vector<int>		ft_test(array, array + T_SIZE);
 
-	g_start1 = timer();
-	for (size_t i = 0; i < T_COUNT; ++i)
+	if (!g_leaks)
 	{
-		std::vector<int> std_tmp = std_test;
+		g_start1 = timer();
+		for (int i = 0; i < T_COUNT; ++i)
+		{
+			std::vector<int> std_tmp = std_test;
+		}
+		g_end1 = timer();
 	}
-	g_end1 = timer();
 
 	g_start2 = timer();
-	for (size_t i = 0; i < T_COUNT; ++i)
+	for (int i = 0; i < T_COUNT; ++i)
 	{
 		ft::vector<int> ft_tmp = ft_test;
 	}

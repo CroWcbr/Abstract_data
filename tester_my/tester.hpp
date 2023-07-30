@@ -14,8 +14,11 @@
 #include <stdio.h>
 
 #define _CXX				"/usr/bin/g++"
-#define _CXX_FLAGS			"-Wall -Wextra -Werror"
+#define _CXX_WALL			"-Wall"
+#define _CXX_WEXTRA			"-Wextra"
+#define _CXX_WERROR			"-Werror"
 #define _EXEC_NAME			"test_container"
+#define	_CXX_STANDART		"-std=c++98"
 
 #define _VALGRIND			"/usr/bin/valgrind"
 #define _VALGRIND_FLAGS1	"--leak-check=full"
@@ -32,17 +35,11 @@ const std::string	YELLOW = "\x1B[1;33m";
 const std::string	WHITE = "\x1B[1;39m";
 const std::string	RESET = "\033[0m";
 
-std::string	MOD;
-int			COUNT;
-int			SIZE;
-
 const std::vector<std::pair<std::string, std::vector<std::string> > > _containers = 
 	{
 		{"vector", 
 			{
-				"./test/vector/01_constructor.cpp",
-				"./test/vector/02_operator=.cpp",
-				"./test/vector/02_operator=.cpp"
+				"./test/containers/01_empty_constructor.cpp"
 			},
 		}
 	};

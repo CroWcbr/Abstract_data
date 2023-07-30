@@ -5,7 +5,7 @@
 #include <vector>
 
 template<class T>
-bool check_equel_vector(ft::vector<T> ft, std::vector<T> std)
+bool	check_equel_vector(ft::vector<T> ft, std::vector<T> std)
 {
 	if (ft.size() != std.size())
 	{
@@ -20,25 +20,4 @@ bool check_equel_vector(ft::vector<T> ft, std::vector<T> std)
 		}
 	}
 	return true;
-}
-
-int test(bool (*test_all)(), void (*test_time)())
-{
-	if (test_all())
-	{
-		if (!g_leaks)
-		{
-			printElement(g_result);
-			test_time();
-			if (!g_leaks)
-				printTime();
-		}
-	}
-	else	if (!g_leaks)
-	{
-		printElement(g_result);
-		return 1;	
-	}
-
-	return 0;
 }

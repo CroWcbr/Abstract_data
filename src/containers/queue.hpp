@@ -1,15 +1,13 @@
 #pragma once
 
 #include <memory>
-#include "list.hpp"
 #include "vector.hpp"
+#include "list.hpp"
+#include "deque.hpp"
 #include "../utility/exception.hpp"
 #include "../utility/xutility.hpp"
 #include "../utility/algorithm.hpp"
-
-//delete this!!!!!! for heap
-#include <algorithm>
-#include <queue>
+#include "../utility/heap.hpp"
 
 namespace ft
 {
@@ -94,7 +92,7 @@ template<class T, class C = ft::vector<T>, class Pr = ft::less<typename C::value
 		: c(Cont)
 		, comp(X)
 		{
-			std::make_heap(c.begin(), c.end(), comp);
+			ft::make_heap(c.begin(), c.end(), comp);
 		}
 
 		template<class It>
@@ -102,14 +100,14 @@ template<class T, class C = ft::vector<T>, class Pr = ft::less<typename C::value
 		: c(F, L)
 		, comp()
 		{
-			std::make_heap(c.begin(), c.end(), comp); }
+			ft::make_heap(c.begin(), c.end(), comp); }
 
 		template<class It>
 		priority_queue(It F, It L, const Pr& X)
 		: c(F, L)
 		, comp(X)
 		{
-			std::make_heap(c.begin(), c.end(), comp);
+			ft::make_heap(c.begin(), c.end(), comp);
 		}
 		
 		template<class It>
@@ -118,7 +116,7 @@ template<class T, class C = ft::vector<T>, class Pr = ft::less<typename C::value
 		, comp(X)
 		{
 			c.insert(c.end(), F, L);
-			std::make_heap(c.begin(), c.end(), comp);
+			ft::make_heap(c.begin(), c.end(), comp);
 		}
 		
 		bool				empty() const { return (c.empty()); }
@@ -128,12 +126,12 @@ template<class T, class C = ft::vector<T>, class Pr = ft::less<typename C::value
 		void				push(const value_type& X)
 		{	
 			c.push_back(X);
-			std::push_heap(c.begin(), c.end(), comp);
+			ft::push_heap(c.begin(), c.end(), comp);
 		}
 
 		void				pop()
 		{
-			std::pop_heap(c. begin(), c.end(), comp);
+			ft::pop_heap(c. begin(), c.end(), comp);
 			c.pop_back();
 		}
 

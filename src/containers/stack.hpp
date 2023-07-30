@@ -1,6 +1,8 @@
 #pragma once
 
 #include "vector.hpp"
+#include "list.hpp"
+#include "deque.hpp"
 
 namespace ft
 {

@@ -11,7 +11,9 @@ PROGRAMS	=	vector_std \
 				set_std \
 				set_ft \
 				multiset_std \
-				multiset_ft
+				multiset_ft \
+				unorder_set_std \
+				unorder_set_ft
 
 CC			=	g++
 # CFLAGS		=	-Wall -Wextra -Werror
@@ -59,6 +61,13 @@ multiset_std	:	multiset_test.cpp
 
 multiset_ft	:	multiset_test.cpp
 				$(CC) $(FT) $(CFLAGS) -o $@ $< 
+
+unorder_set_std	:	unorder_set_test.cpp
+				$(CC) $(STD) $(CFLAGS) -o $@ $< 
+
+unorder_set_ft		:	unorder_set_test.cpp
+				$(CC) $(FT) $(CFLAGS) -o $@ $< 
+
 
 clean:
 	rm -f $(PROGRAMS)

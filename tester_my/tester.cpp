@@ -25,10 +25,11 @@ static void testCompile(int *status, std::string func_filename, char **env)
 			const_cast<char*>("-o"),
 			const_cast<char*>(_EXEC_NAME),
 			const_cast<char*>(func_filename.c_str()),
-			const_cast<char*>("-std=c++98"),
-			const_cast<char*>("-Wall"),
-			const_cast<char*>("-Wextra"),
-			const_cast<char*>("-Werror"),
+			const_cast<char*>(_CXX_STANDART),
+			const_cast<char*>(_CXX_WALL),
+			const_cast<char*>(_CXX_WEXTRA),
+			const_cast<char*>(_CXX_WERROR),
+			const_cast<char*>("-D CONTAINER=set"),
 			NULL
 		};
 		lseek(fd_log, 0, SEEK_END);
@@ -36,7 +37,6 @@ static void testCompile(int *status, std::string func_filename, char **env)
 		{
 			dprintf(fd_log, "%s ", test_args[i]);
 		}
-
 		dprintf(fd_log, "\n");
 		dup2(fd_log, 2);
 		close(fd_log);
@@ -188,13 +188,6 @@ static void	test(std::vector<std::string> test, char **env)
 
 int main(int argc, char **argv, char **env)
 {
-	if (argc > 1)
-		MOD = argv[1];
-	if (argc > 2)
-		COUNT = std::stoi(argv[2]);
-	if (argc > 3)
-		SIZE = std::stoi(argv[3]);
-
 	FILE* file;
 	file = fopen(_LOGS_COMPILE, "w");
 	fclose(file);
@@ -203,16 +196,19 @@ int main(int argc, char **argv, char **env)
 
 	for(const auto& c : _containers)
 	{
-		std::cout << "--------------------------------------------------------------------------------------------" << std::endl;
-		std::cout << "|                                          " << c.first << "                                          |" << std::endl;
-		std::cout << "--------------------------------------------------------------------------------------------" << std::endl;
-		printElement("FUNCTION");
-		printElement(WHITE + "RESULT" + RESET);
-		printElement(WHITE + "FT TIME" + RESET);
-		printElement(WHITE + "STD TIME" + RESET);
-		printElement(WHITE + "LEAKS" + RESET);
-		std::cout << std::endl;
-		test(c.second, env);
+		if (argc == 1 || argv[1] == c.first)
+		{
+			std::cout << "--------------------------------------------------------------------------------------------" << std::endl;
+			std::cout << "|                                          " << c.first << "                                          |" << std::endl;
+			std::cout << "--------------------------------------------------------------------------------------------" << std::endl;
+			printElement("FUNCTION");
+			printElement(WHITE + "RESULT" + RESET);
+			printElement(WHITE + "FT TIME" + RESET);
+			printElement(WHITE + "STD TIME" + RESET);
+			printElement(WHITE + "LEAKS" + RESET);
+			std::cout << std::endl;
+			test(c.second, env);
+		}
 	}
 	unlink(_LOGS_LEAKS_TMP);
 	unlink(_EXEC_NAME);
