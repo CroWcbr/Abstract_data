@@ -1,6 +1,8 @@
 #include "tester.hpp"
+#include "_config.hpp"
 
-static void printElement(std::string t) {
+static void printElement(std::string t)
+{
 	if (t == "OK")
 	{
 		t = GREEN + t + RESET;
@@ -12,24 +14,33 @@ static void printElement(std::string t) {
 	std::cout << std::left << std::setw(30) << std::setfill(' ') << t;
 }
 
-static void testCompile(int *status, std::string func_filename, char **env)
+static bool	testCompile(std::string func_filename, char **env, std::string container)
 {
+	int		status = 0;
 	int		fd_log = open("./logs_compile.txt", O_RDWR , 0777 | O_APPEND, S_IRUSR | S_IWUSR);
 	pid_t	pid;
 
 	pid = fork();
 	if (!pid)
 	{
+		std::transform(container.begin(), container.end(), container.begin(), ::toupper);
+		std::string container_type = "-D " + container;
+		std::string count_type = "-D T_COUNT=" + std::to_string(T_COUNT);
+		std::string size_type = "-D T_SIZE=" + std::to_string(T_SIZE);
 		char* const test_args[] = {
 			const_cast<char*>(_CXX),
+			const_cast<char*>(_CXX_STANDART),
+			// const_cast<char*>(_CXX_WALL),
+			// const_cast<char*>(_CXX_WEXTRA),
+			// const_cast<char*>(_CXX_WERROR),
+			const_cast<char*>(_MAIN_PROG),
+			const_cast<char*>("-include"),
+			const_cast<char*>(func_filename.c_str()),
 			const_cast<char*>("-o"),
 			const_cast<char*>(_EXEC_NAME),
-			const_cast<char*>(func_filename.c_str()),
-			const_cast<char*>(_CXX_STANDART),
-			const_cast<char*>(_CXX_WALL),
-			const_cast<char*>(_CXX_WEXTRA),
-			const_cast<char*>(_CXX_WERROR),
-			const_cast<char*>("-D CONTAINER=set"),
+			const_cast<char*>(container_type.c_str()),
+			const_cast<char*>(count_type.c_str()),
+			const_cast<char*>(size_type.c_str()),
 			NULL
 		};
 		lseek(fd_log, 0, SEEK_END);
@@ -44,43 +55,12 @@ static void testCompile(int *status, std::string func_filename, char **env)
 		std::cout << "execve: error: " << strerror(errno) << std::endl;
 		exit(errno);
 	}
-	waitpid(pid, status, WUNTRACED | WCONTINUED);
+	waitpid(pid, &status, WUNTRACED | WCONTINUED);
 	close(fd_log);
-}
 
-static void testExecution(int *status, char **env)
-{
-	pid_t	pid;
-
-	if (*status == 0)
-	{
-		*status = -1;
-		pid = fork();
-		if (!pid)
-		{
-			char* test_args[] = {
-				NULL
-			};
-			alarm(20);
-			execve(_EXEC_NAME, test_args, env);
-			std::cout << "execve: error: " << strerror(errno) << std::endl;
-			exit(errno);
-		}
-		waitpid(pid, status, WUNTRACED | WCONTINUED);
-		if (*status == 0)
-		{
-			;
-		}
-		else if (*status == 11)
-		{
-			printElement(RED + "SEGFAULT" + RESET);
-		}
-		else if (*status == 14)
-		{
-			printElement(YELLOW + "TIMEOUT" + RESET);
-		}
-	}
-	else if (*status == 256)
+	if (status == 0)
+		return true;
+	else if (status == 256)
 	{
 		printElement(RED + "NOT COMPILED" + RESET);
 	}
@@ -88,10 +68,48 @@ static void testExecution(int *status, char **env)
 	{
 		printElement(YELLOW + "UNKNOWN" + RESET);
 	}
+	return false;
 }
 
-static void	testLeak(int *status, std::string func_filename, char **env)
+static bool	testExecution(char **env)
 {
+	pid_t	pid;
+	int		status = 0;
+
+	pid = fork();
+	if (!pid)
+	{
+		char* test_args[] = {
+			NULL
+		};
+		alarm(20);
+		execve(_EXEC_NAME, test_args, env);
+		std::cout << "execve: error: " << strerror(errno) << std::endl;
+		exit(errno);
+	}
+	waitpid(pid, &status, WUNTRACED | WCONTINUED);
+	if (status == 0)
+	{
+		return true;
+	}
+	else if (status == 11)
+	{
+		printElement(RED + "SEGFAULT" + RESET);
+	}
+	else if (status == 14)
+	{
+		printElement(YELLOW + "TIMEOUT" + RESET);
+	}
+	else if (status != 256)
+	{
+		printElement(RED + "UNKNOWN" + RED);
+	}
+	return false;
+}
+
+static void	testLeak(std::string func_filename, char **env)
+{
+	int		status = 0;
 	int		fd_log = open(_LOGS_LEAKS_TMP, O_WRONLY | O_CREAT | O_TRUNC, 0777);
 	pid_t	pid;
 
@@ -119,7 +137,7 @@ static void	testLeak(int *status, std::string func_filename, char **env)
 		std::cout << "execve: error: " << strerror(errno) << std::endl;
 		exit(errno);
 	}
-	waitpid(pid, status, WUNTRACED | WCONTINUED);
+	waitpid(pid, &status, WUNTRACED | WCONTINUED);
 	close(fd_log);
 
 	std::ifstream source_file(_LOGS_LEAKS_TMP);
@@ -165,21 +183,18 @@ static void	testLeak(int *status, std::string func_filename, char **env)
 
 }
 
-static void	test(std::vector<std::string> test, char **env)
+static void	test(std::string container, std::vector<std::string> test, char **env)
 {
 	for(const auto& t : test)
 	{
-		int	status = 0;
 		std::string tmp = t.substr(t.find_last_of('/') + 4);
 		std::string output = tmp.erase(tmp.length() - 4);
 
 		printElement(output);
 		fflush(stdout);
 
-		testCompile(&status, t, env);
-		testExecution(&status, env);
-		if (!status)
-			testLeak(&status, t, env);
+		if (testCompile(t, env, container) && testExecution(env))
+			testLeak(t, env);
 
 		std::cout << std::endl;
 		fflush(stdout);
@@ -194,12 +209,16 @@ int main(int argc, char **argv, char **env)
 	file = fopen(_LOGS_LEAKS, "w");
 	fclose(file);
 
+	std::cout << "Number of Count : \t" << T_COUNT << std::endl;
+	std::cout << "Number of Size : \t" << T_SIZE << std::endl;
 	for(const auto& c : _containers)
 	{
 		if (argc == 1 || argv[1] == c.first)
 		{
 			std::cout << "--------------------------------------------------------------------------------------------" << std::endl;
-			std::cout << "|                                          " << c.first << "                                          |" << std::endl;
+			int padding = (93 - c.first.length() - 2) / 2;
+			std::cout << '|' << std::setw(padding + c.first.length()) << std::right << c.first << std::setw(padding + (c.first.length() % 2 == 0 ? 1 : 0)) << '|' << std::endl;
+			// std::cout << "|                                          " << c.first << "                                          |" << std::endl;
 			std::cout << "--------------------------------------------------------------------------------------------" << std::endl;
 			printElement("FUNCTION");
 			printElement(WHITE + "RESULT" + RESET);
@@ -207,7 +226,7 @@ int main(int argc, char **argv, char **env)
 			printElement(WHITE + "STD TIME" + RESET);
 			printElement(WHITE + "LEAKS" + RESET);
 			std::cout << std::endl;
-			test(c.second, env);
+			test(c.first, c.second, env);
 		}
 	}
 	unlink(_LOGS_LEAKS_TMP);

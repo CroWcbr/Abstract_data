@@ -1,71 +1,81 @@
 #ifndef CONFIG_HPP
 #define CONFIG_HPP
 
-#define		T_COUNT		1000
-#define		T_SIZE		100
+#define		_CXX				"/usr/bin/g++"
+#define		_CXX_WALL			"-Wall"
+#define		_CXX_WEXTRA			"-Wextra"
+#define		_CXX_WERROR			"-Werror"
+#define		_EXEC_NAME			"test_container"
+#define		_CXX_STANDART		"-std=c++98"
 
-#define STRINGIFY(x) #x
-#define TOSTRING(x) STRINGIFY(x)
+#define		_VALGRIND			"/usr/bin/valgrind"
+#define		_VALGRIND_FLAGS1	"--leak-check=full"
+#define		_VALGRIND_FLAGS2	"--track-origins=yes"
+#define		_VALGRIND_EXEC_NAME	"./test_container"
 
-#define CONCATENATE_IMPL(x, y) x##y
-#define CONCATENATE(x, y) CONCATENATE_IMPL(x, y)
+#define		_LOGS_COMPILE		"./logs_compile.txt"
+#define		_LOGS_LEAKS			"./logs_leaks.txt"
+#define		_LOGS_LEAKS_TMP		"./logs_leaks_tmp.txt"
 
-#ifdef VECTOR
-	#include <vector>
-	#include "../src/containers/vector.hpp"
-	#define CONTAINER vector
-	#define STD CONCATENATE(CONTAINER, <TYPE>)
-	#define FT CONCATENATE(CONTAINER, <TYPE>)
-	// #define		STD		1
-	// #define		FT		2
-#endif
+#define		_MAIN_PROG			"./test/main.cpp"
+#define		T_COUNT				10000
+#define		T_SIZE				1000
 
-#ifdef MAP
-	#include <map>
-	#include "../src/containers/map.hpp"
-	#define		CONTAINER	map
-	#define STD CONCATENATE(CONTAINER, <TYPE>)
-	#define FT CONCATENATE(CONTAINER, <TYPE>)
-	// #define		STD		1
-	// #define		FT		2
-#endif
+#include <vector>
+#include <string>
 
-	// # define	CONTAINER_VECTOR	1
-	// # define	CONTAINERS_LIST		2
-	// # define	CONTAINER_DEQUE		3
-	// # define	CONTAINER_SET		4
-	// # define	CONTAINER_MAP		5
-
-	// #define STRINGIFY(x) #x
-	// #define TOSTRING(x) STRINGIFY(x)
-
-	// #ifdef TEST
-	// 	#if TEST == CONTAINER_VECTOR
-	// 		#include "../src/containers/vector.hpp"
-	// 		#include <vector>
-	// 		#define CONTAINER	vector
-	// 		#define TYPE		int
-	// 	#elif TEST == CONTAINERS_LIST
-	// 		#include "../src/containers/list.hpp"
-	// 		#include <list>
-	// 		#define CONTAINER list
-	// 		#define TYPE		int
-	// 	#elif TEST == CONTAINER_DEQUE
-	// 		#include "../src/containers/deque.hpp"
-	// 		#include <deque>
-	// 		#define CONTAINER deque
-	// 		#define TYPE		int
-	// 	#elif TEST == CONTAINER_SET
-	// 		#include "../src/containers/set.hpp"
-	// 		#include <set>
-	// 		#define CONTAINER set
-	// 		#define TYPE		int
-	// 	#elif TEST == CONTAINER_MAP
-	// 		#include "../src/containers/map.hpp"
-	// 		#include <map>
-	// 		#define CONTAINER	map
-	// 		#define TYPE		int,int
-	// 	#endif
-	// #endif
+const std::vector<std::pair<std::string, std::vector<std::string> > > _containers = 
+	{
+		{"vector", 
+			{
+				"./test/containers/01_empty_constructor.hpp"
+			},
+		},
+		{"list", 
+			{
+				"./test/containers/01_empty_constructor.hpp"
+			},
+		},
+		{"deque", 
+			{
+				"./test/containers/01_empty_constructor.hpp"
+			},
+		},
+		{"set", 
+			{
+				"./test/containers/01_empty_constructor.hpp"
+			},
+		},
+		{"multiset", 
+			{
+				"./test/containers/01_empty_constructor.hpp"
+			},
+		},
+		{"map", 
+			{
+				"./test/containers/01_empty_constructor.hpp"
+			},
+		},
+		{"multimap", 
+			{
+				"./test/containers/01_empty_constructor.hpp"
+			},
+		},
+		{"stack", 
+			{
+				"./test/containers/01_empty_constructor.hpp"
+			},
+		},
+		{"queue", 
+			{
+				"./test/containers/01_empty_constructor.hpp"
+			},
+		},
+		{"priority_queue", 
+			{
+				"./test/containers/01_empty_constructor.hpp"
+			},
+		}
+	};
 
 #endif

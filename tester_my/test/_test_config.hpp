@@ -1,5 +1,9 @@
 #pragma once
 
+#include "_define.hpp"
+#include <cstring>
+#include <iostream>
+
 #include <iostream>
 #include <iomanip>
 #include <sys/time.h>
@@ -9,49 +13,11 @@
 #include <cstdlib>
 #include <ctime>
 
-#include "../_config.hpp"
-#include "_include_containers.hpp"
-
-static bool				g_leaks = false;
-static std::string		g_result;
-static std::string		g_leak;
-volatile static time_t	g_start1;
-volatile static time_t	g_start2;
-volatile static time_t	g_end1;
-volatile static time_t	g_end2;
-
 const std::string	GREEN = "\x1B[1;32m";
 const std::string	RED = "\x1B[1;31m";
 const std::string	YELLOW = "\x1B[1;33m";
 const std::string	WHITE = "\x1B[1;39m";
 const std::string	RESET = "\033[0m";
-
-void	printElement(std::string t);
-void	printTime();
-
-int	test(bool (*test_all)(), void (*test_time)())
-{
-	if (g_leaks)
-	{
-		test_time();
-	}
-	else
-	{
-		if (test_all())
-		{
-			printElement(g_result);
-			test_time();
-			printTime();
-		}
-		else
-		{
-			printElement(g_result);
-			return 1;
-		}
-	}
-
-	return 0;
-}
 
 void	printElement(std::string t) {
 	if (t == "OK")
@@ -72,41 +38,25 @@ std::string	time_to_string(int value)
 	return std::string(buffer);
 }
 
-void	printTime()
+void	printTime(time_t& start_ft, time_t& start_std, time_t& end_ft, time_t& end_std)
 {
-	time_t t1 = ( g_end1 - g_start1 );
-	time_t t2 = ( g_end2 - g_start2 );
-	if (t1 >= t2)
+	time_t t_ft = (end_ft - start_ft);
+	time_t t_std = (end_std - start_std);
+	if (t_std >= t_ft)
 	{
-		printElement(GREEN + time_to_string(t2) + "ms" + RESET);
+		printElement(GREEN + time_to_string(t_ft) + "ms" + RESET);
 	}
 	else
 	{
-		printElement(RED + time_to_string(t2) + "ms" + RESET);
+		printElement(RED + time_to_string(t_ft) + "ms" + RESET);
 	}
-	if (t1 > t2)
+	if (t_std > t_ft)
 	{
-		printElement(RED + time_to_string(t1) + "ms" + RESET);
+		printElement(RED + time_to_string(t_std) + "ms" + RESET);
 	}
 	else
 	{
-		printElement(GREEN + time_to_string(t1) + "ms" + RESET);
+		printElement(GREEN + time_to_string(t_std) + "ms" + RESET);
 	}
 
-}
-
-time_t	timer()
-{
-	struct timeval start = {};
-	gettimeofday(&start, NULL);
-	time_t msecs_time = (start.tv_sec * 1000) + (start.tv_usec / 1000);
-	return msecs_time;
-}
-
-void	fill_array_random(int *array, int size, int min, int max)
-{
-	for(int i = 0; i < size; ++i)
-	{
-		array[i] = rand() % (max - min + 1) + min;
-	}
 }
