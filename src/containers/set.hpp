@@ -77,7 +77,7 @@ namespace ft
 		{
 			for (; F != L; ++F)
 			{
-				this->insert (*F);
+				this->insert(*F);
 			}
 		}
 

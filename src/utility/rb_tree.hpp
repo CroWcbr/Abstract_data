@@ -193,7 +193,8 @@ namespace ft
 					;
 				else if (!_Isnil(_Right(Ptr)))
 					Ptr = _min(_Right(Ptr));
-				else {
+				else
+				{
 					Node_ptr P;
 					while (!_Isnil(P = _Parent(Ptr)) && Ptr == _Right(P))
 						Ptr = P;
@@ -265,7 +266,8 @@ namespace ft
 					Ptr = _Right(Ptr);
 				else if (!_Isnil(_Left(Ptr)))
 					Ptr = _max(_Left(Ptr));
-				else {
+				else 
+				{
 					Node_ptr P;
 					while (!_Isnil(P = _Parent(Ptr)) && Ptr == _Left(P))
 						Ptr = P;
@@ -280,7 +282,8 @@ namespace ft
 					;
 				else if (!_Isnil(_Right(Ptr)))
 					Ptr = _min(_Right(Ptr));
-				else {
+				else
+				{
 					Node_ptr P;
 					while (!_Isnil(P = _Parent(Ptr)) && Ptr == _Right(P))
 						Ptr = P;
@@ -292,8 +295,8 @@ namespace ft
 	public:
 		typedef	map_iterator								iterator;
 		typedef	const_map_iterator							const_iterator;
-		typedef	ft::reverse_iterator<const_iterator>		const_reverse_iterator;
 		typedef	ft::reverse_iterator<iterator>				reverse_iterator;
+		typedef	ft::reverse_iterator<const_iterator>		const_reverse_iterator;
 		typedef ft::pair<iterator, bool>					Pairib;
 		typedef ft::pair<iterator, iterator>				Pairii;
 		typedef ft::pair<const_iterator, const_iterator>	Paircc;
@@ -344,7 +347,11 @@ namespace ft
 		reverse_iterator		rend() { return (reverse_iterator(begin())); }
 		const_reverse_iterator	rend() const { return (const_reverse_iterator(begin())); }
 		size_type				size() const { return(m_size); }
-		size_type				max_size() const { return (this->Alloc_node.max_size()); }
+		size_type				max_size() const 
+		{ 
+			// return (this->m_alloc.max_size());
+			return (this->Alloc_node.max_size());
+			}
 		bool					empty() const { return(size() == 0); }
 		allocator_type			get_allocator() const { return(this->Alloc_node); }
 		key_compare				key_comp() const { return (this->m_comp); }

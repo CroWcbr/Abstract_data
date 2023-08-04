@@ -13,6 +13,7 @@
 #include <cstdlib>
 #include <ctime>
 
+const int			delta_time = 10;
 const std::string	GREEN = "\x1B[1;32m";
 const std::string	RED = "\x1B[1;31m";
 const std::string	YELLOW = "\x1B[1;33m";
@@ -42,7 +43,7 @@ void	printTime(time_t& start_ft, time_t& start_std, time_t& end_ft, time_t& end_
 {
 	time_t t_ft = (end_ft - start_ft);
 	time_t t_std = (end_std - start_std);
-	if (t_std >= t_ft)
+	if (t_std + delta_time >= t_ft)
 	{
 		printElement(GREEN + time_to_string(t_ft) + "ms" + RESET);
 	}
@@ -50,7 +51,7 @@ void	printTime(time_t& start_ft, time_t& start_std, time_t& end_ft, time_t& end_
 	{
 		printElement(RED + time_to_string(t_ft) + "ms" + RESET);
 	}
-	if (t_std > t_ft)
+	if (t_std - delta_time > t_ft)
 	{
 		printElement(RED + time_to_string(t_std) + "ms" + RESET);
 	}

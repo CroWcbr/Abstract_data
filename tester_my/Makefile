@@ -1,8 +1,8 @@
 NAME = mytest
-CC = g++
+CC = g++ -std=c++11
 CFLAGS = -Wall -Wextra -Werror
 
-$(NAME): tester.cpp tester.hpp _config.hpp
+$(NAME): tester.cpp _config.hpp
 	$(CC) $(CFLAGS) -o $@ $^
 
 all: $(NAME)

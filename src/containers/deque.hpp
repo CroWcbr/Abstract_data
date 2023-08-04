@@ -172,12 +172,15 @@ namespace ft
 			{
 				return (*(*this + N));
 			}
-			
+
+			difference_type			getIdx() const { return Idx; }
+			const deque				*getDeque() const { return Deque; };
+
 			bool					operator==(const deque_iterator& X) const { return (Deque == X.Deque && Idx == X.Idx); }
 			bool					operator!=(const deque_iterator& X) const { return (!(*this == X)); }
 			bool					operator<(const deque_iterator& X) const { return (Idx < X.Idx); }
 			bool					operator<=(const deque_iterator& X) const { return (!(X < *this)); }
-			bool					operator> (const deque_iterator& X) const { return (X < *this); }
+			bool					operator>(const deque_iterator& X) const { return (X < *this); }
 			bool					operator>=(const deque_iterator& X) { return (!(*this < X)); }
 		};
 
@@ -203,7 +206,12 @@ namespace ft
 
 			const_deque_iterator(difference_type I, const deque *P)
 			: Idx(I)
-			, Deque (P)
+			, Deque(P)
+			{}
+
+			const_deque_iterator(const deque_iterator& X)
+			: Idx(X.getIdx())
+			, Deque(X.getDeque())
 			{}
 
 			const_reference				operator*() const
@@ -291,14 +299,14 @@ namespace ft
 			bool						operator!=(const const_deque_iterator& X) const { return (!(*this == X)); }
 			bool						operator<(const const_deque_iterator& X) const { return (Idx < X.Idx); }
 			bool						operator<=(const const_deque_iterator& X) const { return (!(X < *this)); }
-			bool						operator> (const const_deque_iterator& X) const { return (X < *this); }
+			bool						operator>(const const_deque_iterator& X) const { return (X < *this); }
 			bool						operator>=(const const_deque_iterator& X) { return (!(*this < X)); }
 		};
 
 		typedef	deque_iterator							iterator;
 		typedef	const_deque_iterator					const_iterator;
-		typedef	ft::reverse_iterator<const_iterator>	const_reverse_iterator;
 		typedef	ft::reverse_iterator<iterator>			reverse_iterator;
+		typedef	ft::reverse_iterator<const_iterator>	const_reverse_iterator;
 
 		deque()
 		: Base()
@@ -647,7 +655,7 @@ namespace ft
 				{
 					for(I = 0; I < M; ++I)
 					{
-						push_back (begin()[Off + Rem - M + I]);
+						push_back(begin()[Off + Rem - M + I]);
 					}
 					S = begin() + Off;
 					T Tx = X;
@@ -795,7 +803,7 @@ namespace ft
 				{
 					for(I = M; 0 < I; --I)
 					{
-						push_front(begin()[M - I]);
+						push_front(begin()[M - 1]);
 					}
 					iterator S = begin() + M;
 					ft::copy(S + M, S + Off, S);
@@ -843,7 +851,7 @@ namespace ft
 		
 		void	_freemap()
 		{
-			for(size_type M = m_mapsize; 0 < M;)
+			for(size_type M = m_mapsize; 0 < M; )
 			{
 				this->m_alloc.deallocate(*(m_map + --M), DEQUESIZ);
 				this->Alloc_map.destroy(m_map + M);
@@ -859,7 +867,7 @@ namespace ft
 			{
 				_xlen();
 			}
-			size_type I = m_mapsize /2;
+			size_type I = m_mapsize / 2;
 			if (I < DEQUEMAPSIZ)
 			{
 				I = DEQUEMAPSIZ;
@@ -906,6 +914,8 @@ namespace ft
 					this->Alloc_map.construct(Mn, pointer());
 				}
 			}
+
+			this->Alloc_map.deallocate(m_map, m_mapsize);
 			m_map = M;
 			m_mapsize += N;
 		}

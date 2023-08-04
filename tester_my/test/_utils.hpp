@@ -4,6 +4,10 @@
 #include <cstdlib>
 #include <sys/time.h>
 
+#include <iostream>
+#include <fstream>
+#include <sstream>
+
 time_t	timer()
 {
 	struct timeval start = {};
@@ -18,6 +22,56 @@ void	fill_array_random(int *array, int size, int min, int max)
 	{
 		array[i] = rand() % (max - min + 1) + min;
 	}
+}
+
+#if defined(MAP) || defined(MULTIMAP)
+void	fill_array_random_pair(ft::pair<int,int> *ft_array, std::pair<int,int> *std_array, int size, int min, int max)
+{
+	for(int i = 0; i < size; ++i)
+	{
+		int key = rand() % (max - min + 1) + min;
+		int value = rand() % (max - min + 1) + min;
+		ft_array[i] = ft::pair<int, int>(key, value);
+		std_array[i] = std::pair<int, int>(key, value);
+	}
+}
+#endif
+
+template<class CONT_FT, class CONT_STD>
+bool	fill_array_conteiner_from_file(CONT_FT *ft_array, CONT_STD *std_array, int size)
+{
+	std::ifstream inputFile(_DATA_FILE);
+	if (!inputFile)
+	{
+		std::cerr << "ERROR: " << (_DATA_FILE) << std::endl;
+		return false;
+	}
+
+	std::string line;
+	for (int i = 0; i < size; ++i)
+	{
+		std::getline(inputFile, line);
+		std::stringstream  ss(line);
+		int number;
+		while (ss >> number)
+		{
+#if defined(VECTOR) || defined(LIST) || defined(DEQUE)
+			ft_array[i].push_back(number);
+			std_array[i].push_back(number);
+#elif defined(SET) || defined(MULTISET)
+			ft_array[i].insert(number);
+			std_array[i].insert(number);
+#elif defined(MAP) || defined(MULTIMAP)
+			int value;
+			ss >> value;
+			ft_array[i].insert(ft::pair<int, int>(number, value));
+			std_array[i].insert(std::pair<int, int>(number, value));
+#endif
+		}
+	}
+
+	inputFile.close();
+	return true;
 }
 
 template<class FT, class STD>

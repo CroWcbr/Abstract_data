@@ -15,7 +15,7 @@ PROGRAMS	=	vector_std \
 				unorder_set_std \
 				unorder_set_ft
 
-CC			=	g++
+CC			=	g++ -std=c++98
 # CFLAGS		=	-Wall -Wextra -Werror
 
 STD			=	-D TYPE=1

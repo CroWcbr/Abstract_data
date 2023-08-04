@@ -1,5 +1,23 @@
-#include "tester.hpp"
 #include "_config.hpp"
+#include <vector>
+#include <string>
+#include <iostream>
+#include <sys/wait.h>
+#include <fcntl.h>
+#include <cstring>
+#include <iomanip>
+#include <algorithm>
+#include <cctype>
+#include <fstream>
+#include <stdio.h>
+#include <algorithm>
+#include <random>
+
+const std::string	GREEN = "\x1B[1;32m";
+const std::string	RED = "\x1B[1;31m";
+const std::string	YELLOW = "\x1B[1;33m";
+const std::string	WHITE = "\x1B[1;39m";
+const std::string	RESET = "\033[0m";
 
 static void printElement(std::string t)
 {
@@ -183,8 +201,42 @@ static void	testLeak(std::string func_filename, char **env)
 
 }
 
+void create_int_data_file(std::string container)
+{
+	std::random_device	rd;
+	std::mt19937 generator(rd());
+	std::uniform_int_distribution<int> numElementsDist(0, T_SIZE);
+	std::uniform_int_distribution<int> elementDist(0, T_COUNT);
+
+	std::ofstream outputFile(_DATA_FILE);
+	if (!outputFile)
+	{
+		std::cerr << "ERROR: " << _DATA_FILE << std::endl;
+		exit(1);
+	}
+
+	for (int i = 0; i < T_COUNT; ++i)
+	{
+		int numElements = numElementsDist(generator);
+		if (container == "map" || container == "multimap")
+			numElements *= 2;
+		for (int j = 0; j < numElements; ++j)
+		{
+			int randomElement = elementDist(generator);
+			outputFile << randomElement << " ";
+		}
+		outputFile << "\n";
+	}
+
+	outputFile.close();
+}
+
 static void	test(std::string container, std::vector<std::string> test, char **env)
 {
+	if (test.size() > 0)
+	{
+		create_int_data_file(container);
+	}
 	for(const auto& t : test)
 	{
 		std::string tmp = t.substr(t.find_last_of('/') + 4);
@@ -218,7 +270,6 @@ int main(int argc, char **argv, char **env)
 			std::cout << "--------------------------------------------------------------------------------------------" << std::endl;
 			int padding = (93 - c.first.length() - 2) / 2;
 			std::cout << '|' << std::setw(padding + c.first.length()) << std::right << c.first << std::setw(padding + (c.first.length() % 2 == 0 ? 1 : 0)) << '|' << std::endl;
-			// std::cout << "|                                          " << c.first << "                                          |" << std::endl;
 			std::cout << "--------------------------------------------------------------------------------------------" << std::endl;
 			printElement("FUNCTION");
 			printElement(WHITE + "RESULT" + RESET);
@@ -231,5 +282,6 @@ int main(int argc, char **argv, char **env)
 	}
 	unlink(_LOGS_LEAKS_TMP);
 	unlink(_EXEC_NAME);
+	// unlink(_DATA_FILE);
 	return 0;
 }

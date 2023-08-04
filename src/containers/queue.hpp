@@ -16,9 +16,11 @@ namespace ft
 	class queue
 	{
 	public:
-		typedef				C				container_type;
-		typedef typename	C::value_type	value_type;
-		typedef typename	C::size_type	size_type;
+		typedef				C					container_type;
+		typedef typename	C::value_type		value_type;
+		typedef typename	C::size_type		size_type;
+ 		typedef typename	C::reference		reference;
+		typedef typename	C::const_reference	const_reference;
 
 	protected:
 		C	c;	// not as usual 'm_c' - error im tester 42
@@ -34,10 +36,10 @@ namespace ft
 		
 		bool				empty() const { return (c.empty()); }
 		size_type			size() const { return (c.size()); }
-		value_type&			front() { return (c.front()); }
-		const value_type&	front() const { return (c.front()); }
-		value_type&			back() { return (c.back()); }
-		const value_type&	back() const { return (c.back()); }
+		reference			front() { return (c.front()); }
+		const_reference		front() const { return (c.front()); }
+		reference			back() { return (c.back()); }
+		const_reference		back() const { return (c.back()); }
 		void				push(const value_type& X) { c.push_back(X); }
 		void				pop() { c.pop_front(); }
 
@@ -68,10 +70,11 @@ template<class T, class C = ft::vector<T>, class Pr = ft::less<typename C::value
 	class priority_queue
 	{
 	public:
-		typedef				C				container_type;
-		typedef typename	C::value_type	value_type;
-		typedef typename	C::size_type	size_type;
-		typedef				Pr				value_compare;
+		typedef				C					container_type;
+		typedef typename	C::value_type		value_type;
+		typedef typename	C::size_type		size_type;
+		typedef				Pr					value_compare;
+		typedef typename	C::const_reference	const_reference;
 
 	protected:
 		C	c;			// not as usual 'm_c' - error im tester 42
@@ -121,7 +124,7 @@ template<class T, class C = ft::vector<T>, class Pr = ft::less<typename C::value
 		
 		bool				empty() const { return (c.empty()); }
 		size_type			size() const { return (c.size()); }
-		const value_type&	top() const { return (c.front()); }
+		const_reference		top() const { return (c.front()); }
 
 		void				push(const value_type& X)
 		{	

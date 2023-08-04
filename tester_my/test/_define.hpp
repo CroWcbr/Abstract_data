@@ -4,6 +4,8 @@
 // T_COUNT type from tester
 // T_SIZE type from tester
 
+#define _DATA_FILE "./data.txt"
+
 #if defined(VECTOR)
 # include <vector>
 # include "../include/vector.hpp"
