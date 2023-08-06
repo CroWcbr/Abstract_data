@@ -8,6 +8,7 @@ CONTAINERS =list \
 	multimap \
 	multiset \
 	stack \
+	queue \
 	priority_queue
 
 OBJ_DIR=.objs

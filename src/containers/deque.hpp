@@ -461,7 +461,7 @@ namespace ft
 		}
 
 		reference				operator[](size_type P) { return (*(begin() + P)); }	
-		const_reference			operator[](size_type P) const { return (*(begin() + P));  }
+		const_reference			operator[](size_type P) const { return (*(begin() + P)); }
 		reference				front() { return (*begin()); }
 		const_reference			front() const { return (*begin()); }
 		reference				back() { return (*(end() - 1)); }

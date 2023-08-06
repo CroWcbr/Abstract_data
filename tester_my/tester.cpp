@@ -32,7 +32,7 @@ static void printElement(std::string t)
 	std::cout << std::left << std::setw(30) << std::setfill(' ') << t;
 }
 
-static bool	testCompile(std::string func_filename, char **env, std::string container)
+static bool	testCompile(std::string func_filename, char **env, std::string container, bool leak)
 {
 	int		status = 0;
 	int		fd_log = open("./logs_compile.txt", O_RDWR , 0777 | O_APPEND, S_IRUSR | S_IWUSR);
@@ -43,8 +43,8 @@ static bool	testCompile(std::string func_filename, char **env, std::string conta
 	{
 		std::transform(container.begin(), container.end(), container.begin(), ::toupper);
 		std::string container_type = "-D " + container;
-		std::string count_type = "-D T_COUNT=" + std::to_string(T_COUNT);
-		std::string size_type = "-D T_SIZE=" + std::to_string(T_SIZE);
+		std::string count_type = "-D T_COUNT=" + (leak ? std::to_string(T_COUNT_LEAKS) : std::to_string(T_COUNT));
+		std::string size_type = "-D T_SIZE=" + (leak ? std::to_string(T_SIZE_LEAKS) : std::to_string(T_SIZE));
 		char* const test_args[] = {
 			const_cast<char*>(_CXX),
 			const_cast<char*>(_CXX_STANDART),
@@ -198,7 +198,6 @@ static void	testLeak(std::string func_filename, char **env)
 		destination_file.close();
 		source_file.close();
 	}
-
 }
 
 void create_int_data_file(std::string container)
@@ -245,8 +244,11 @@ static void	test(std::string container, std::vector<std::string> test, char **en
 		printElement(output);
 		fflush(stdout);
 
-		if (testCompile(t, env, container) && testExecution(env))
-			testLeak(t, env);
+		if (testCompile(t, env, container, false) && testExecution(env))
+		{
+			if (testCompile(t, env, container, true))
+				testLeak(t, env);
+		}
 
 		std::cout << std::endl;
 		fflush(stdout);

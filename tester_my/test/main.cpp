@@ -1,4 +1,5 @@
 #include "_test_config.hpp"
+#include <iostream>
 
 int main(int argc, char **argv)
 {
@@ -32,6 +33,9 @@ int main(int argc, char **argv)
 	#elif defined(PRIORITY_QUEUE)
 		typedef ft::priority_queue<int>		FT;
 		typedef std::priority_queue<int>	STD;
+	#elif defined(UNORDERED_SET)
+		typedef ft::unordered_set<int>		FT;
+		typedef std::set<int>				STD;
 	#endif
 
 	bool	leaks = false;

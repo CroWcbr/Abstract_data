@@ -58,7 +58,7 @@ bool	fill_array_conteiner_from_file(CONT_FT *ft_array, CONT_STD *std_array, int 
 #if defined(VECTOR) || defined(LIST) || defined(DEQUE)
 			ft_array[i].push_back(number);
 			std_array[i].push_back(number);
-#elif defined(SET) || defined(MULTISET)
+#elif defined(SET) || defined(MULTISET) || defined(UNORDERED_SET)
 			ft_array[i].insert(number);
 			std_array[i].insert(number);
 #elif defined(MAP) || defined(MULTIMAP)
@@ -81,7 +81,7 @@ bool	check_equel_container(FT ft, STD std)
 	{
 		return false;
 	}
-#if defined(VECTOR) || defined(LIST) || defined(SET) || defined(MULTISET) || defined(MAP) || defined(MULTIMAP)
+#if defined(VECTOR) || defined(LIST) || defined(SET) || defined(MULTISET) || defined(MAP) || defined(MULTIMAP) || defined(SET)
 	typename FT::iterator	ft_it_s = ft.begin();
 	typename FT::iterator	ft_it_e = ft.end();
 	typename STD::iterator	std_it_s = std.begin();
@@ -114,6 +114,23 @@ bool	check_equel_container(FT ft, STD std)
 		}
 		tmp_ft.pop();
 		tmp_std.pop();
+	}
+#elif defined(UNORDERED_SET)
+	ft::set<int>	tmp(ft.begin(), ft.end());
+	typename ft::set<int>::iterator	ft_it_s = tmp.begin();
+	typename ft::set<int>::iterator	ft_it_e = tmp.end();
+	typename STD::iterator	std_it_s = std.begin();
+	typename STD::iterator	std_it_e = std.end();
+	while (ft_it_s != ft_it_e)
+	{
+		if (*ft_it_s != *std_it_s)
+		{		
+			{
+				return false;
+			}
+		}
+		++ft_it_s;
+		++std_it_s;
 	}
 
 #endif

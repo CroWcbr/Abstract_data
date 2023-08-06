@@ -27,4 +27,8 @@
 #elif defined(QUEUE) || defined(PRIORITY_QUEUE)
 # include <queue>
 # include "../include/queue.hpp"
+#elif defined(UNORDERED_SET) || defined(UNORDERED_MULTISET)
+# include <set>
+# include "../include/unordered_set.hpp"
+# include "../include/set.hpp"
 #endif

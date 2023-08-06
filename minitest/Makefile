@@ -6,14 +6,12 @@ PROGRAMS	=	vector_std \
 				list_ft \
 				deque_std \
 				deque_ft \
-				stack_std \
-				stack_ft \
 				set_std \
 				set_ft \
 				multiset_std \
 				multiset_ft \
-				unorder_set_std \
-				unorder_set_ft
+				stack_std \
+				stack_ft
 
 CC			=	g++ -std=c++98
 # CFLAGS		=	-Wall -Wextra -Werror
@@ -60,12 +58,6 @@ multiset_std	:	multiset_test.cpp
 					$(CC) $(STD) $(CFLAGS) -o $@ $< 
 
 multiset_ft	:	multiset_test.cpp
-				$(CC) $(FT) $(CFLAGS) -o $@ $< 
-
-unorder_set_std	:	unorder_set_test.cpp
-				$(CC) $(STD) $(CFLAGS) -o $@ $< 
-
-unorder_set_ft		:	unorder_set_test.cpp
 				$(CC) $(FT) $(CFLAGS) -o $@ $< 
 
 

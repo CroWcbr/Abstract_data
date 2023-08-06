@@ -42,7 +42,7 @@ int main()
 
 	Mycont	v0;
 	Myal al = v0.get_allocator();
-	Mypred  pred;
+	Mypred pred;
 	Mycont	v0a(pred);
 	Mycont v0b(pred, al);
 	assert (v0.empty () && v0.size() == 0);
