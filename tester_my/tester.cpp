@@ -47,7 +47,9 @@ static bool	testCompile(std::string func_filename, char **env, std::string conta
 		std::string size_type = "-D T_SIZE=" + (leak ? std::to_string(T_SIZE_LEAKS) : std::to_string(T_SIZE));
 		char* const test_args[] = {
 			const_cast<char*>(_CXX),
-			const_cast<char*>(_CXX_STANDART),
+			const_cast<char*>(container == "UNORDERED_SET" || container == "UNORDERED_MULTISET" || \
+							container == "UNORDERED_MAP" || container == "UNORDERED_MULTIMAP" ?	\
+							_CXX_STANDART_11 : _CXX_STANDART_98),
 			// const_cast<char*>(_CXX_WALL),
 			// const_cast<char*>(_CXX_WEXTRA),
 			// const_cast<char*>(_CXX_WERROR),

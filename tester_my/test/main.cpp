@@ -34,8 +34,17 @@ int main(int argc, char **argv)
 		typedef ft::priority_queue<int>		FT;
 		typedef std::priority_queue<int>	STD;
 	#elif defined(UNORDERED_SET)
-		typedef ft::unordered_set<int>		FT;
-		typedef std::set<int>				STD;
+		typedef ft::unordered_set<int>			FT;
+		typedef std::unordered_set<int>			STD;
+	#elif defined(UNORDERED_MULTISET)
+		typedef ft::unordered_multiset<int>		FT;
+		typedef std::unordered_multiset<int>	STD;
+	#elif defined(UNORDERED_MAP)
+		typedef ft::unordered_map<int>			FT;
+		typedef std::unordered_map<int>			STD;
+	#elif defined(UNORDERED_MULTIMAP)
+		typedef ft::unordered_multimap<int>		FT;
+		typedef std::unordered_multimap<int>	STD;
 	#endif
 
 	bool	leaks = false;

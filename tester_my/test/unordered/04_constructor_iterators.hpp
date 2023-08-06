@@ -10,7 +10,7 @@ bool test_all()
 	{
 		int	size = rand() % T_SIZE;
 
-#if defined(MAP) || defined(MULTIMAP)
+#if defined(UNORDERED_MAP) || defined(UNORDERED_MULTIMAP)
 		ft::pair<int,int>	ft_array_iter[size];
 		std::pair<int,int>	std_array_iter[size];
 		fill_array_random_pair(ft_array_iter, std_array_iter, size, 0, RAND_MAX);
@@ -37,7 +37,7 @@ void	test_time(bool leaks, time_t& start_ft, time_t& start_std, time_t& end_ft, 
 	int	array_size[T_COUNT];
 	fill_array_random(array_size, T_COUNT, 0, T_SIZE);
 
-#if defined(MAP) || defined(MULTIMAP)
+#if defined(UNORDERED_MAP) || defined(UNORDERED_MULTIMAP)
 	ft::pair<int,int>	ft_array_iter[T_SIZE];
 	std::pair<int,int>	std_array_iter[T_SIZE];
 	fill_array_random_pair(ft_array_iter, std_array_iter, T_SIZE, 0, RAND_MAX);
@@ -51,7 +51,7 @@ void	test_time(bool leaks, time_t& start_ft, time_t& start_std, time_t& end_ft, 
 		start_std = timer();
 		for (int i = 0; i < T_COUNT; ++i)
 		{
-#if defined(MAP) || defined(MULTIMAP)
+#if defined(UNORDERED_MAP) || defined(UNORDERED_MULTIMAP)
 			STD	tmp(std_array_iter, std_array_iter + array_size[i]);
 #else
 			STD tmp(array_iter, array_iter + array_size[i]);
@@ -64,7 +64,7 @@ void	test_time(bool leaks, time_t& start_ft, time_t& start_std, time_t& end_ft, 
 		start_ft = timer();
 	for (int i = 0; i < T_COUNT; ++i)
 	{
-#if defined(MAP) || defined(MULTIMAP)
+#if defined(UNORDERED_MAP) || defined(UNORDERED_MULTIMAP)
 		FT	tmp(ft_array_iter, ft_array_iter + array_size[i]);
 #else
 		FT tmp(array_iter, array_iter + array_size[i]);

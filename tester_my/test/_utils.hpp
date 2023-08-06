@@ -58,10 +58,10 @@ bool	fill_array_conteiner_from_file(CONT_FT *ft_array, CONT_STD *std_array, int 
 #if defined(VECTOR) || defined(LIST) || defined(DEQUE)
 			ft_array[i].push_back(number);
 			std_array[i].push_back(number);
-#elif defined(SET) || defined(MULTISET) || defined(UNORDERED_SET)
+#elif defined(SET) || defined(MULTISET) || defined(UNORDERED_SET) || defined(UNORDERED_MULTISET)
 			ft_array[i].insert(number);
 			std_array[i].insert(number);
-#elif defined(MAP) || defined(MULTIMAP)
+#elif defined(MAP) || defined(MULTIMAP)|| defined(UNORDERED_MAP) || defined(UNORDERED_MULTIMAP)
 			int value;
 			ss >> value;
 			ft_array[i].insert(ft::pair<int, int>(number, value));
@@ -116,11 +116,12 @@ bool	check_equel_container(FT ft, STD std)
 		tmp_std.pop();
 	}
 #elif defined(UNORDERED_SET)
-	ft::set<int>	tmp(ft.begin(), ft.end());
-	typename ft::set<int>::iterator	ft_it_s = tmp.begin();
-	typename ft::set<int>::iterator	ft_it_e = tmp.end();
-	typename STD::iterator	std_it_s = std.begin();
-	typename STD::iterator	std_it_e = std.end();
+	ft::set<int>	ft_set(ft.begin(), ft.end());
+	std::set<int>	std_set(std.begin(), std.end());
+	typename ft::set<int>::iterator	ft_it_s = ft_set.begin();
+	typename ft::set<int>::iterator	ft_it_e = ft_set.end();
+	typename std::set<int>::iterator	std_it_s = std_set.begin();
+	typename std::set<int>::iterator	std_it_e = std_set.end();
 	while (ft_it_s != ft_it_e)
 	{
 		if (*ft_it_s != *std_it_s)
@@ -132,6 +133,61 @@ bool	check_equel_container(FT ft, STD std)
 		++ft_it_s;
 		++std_it_s;
 	}
+#elif defined(UNORDERED_MULTISET)
+	ft::multiset<int>	ft_set(ft.begin(), ft.end());
+	std::multiset<int>	std_set(std.begin(), std.end());
+	typename ft::multiset<int>::iterator	ft_it_s = ft_set.begin();
+	typename ft::multiset<int>::iterator	ft_it_e = ft_set.end();
+	typename std::multiset<int>::iterator	std_it_s = std_set.begin();
+	typename std::multiset<int>::iterator	std_it_e = std_set.end();
+	while (ft_it_s != ft_it_e)
+	{
+		if (*ft_it_s != *std_it_s)
+		{		
+			{
+				return false;
+			}
+		}
+		++ft_it_s;
+		++std_it_s;
+	}
+#elif defined(UNORDERED_MAP)
+	ft::map<int>	ft_map(ft.begin(), ft.end());
+	std::map<int>	std_map(std.begin(), std.end());
+	typename ft::map<int>::iterator		ft_it_s = ft_map.begin();
+	typename ft::map<int>::iterator		ft_it_e = ft_map.end();
+	typename std::map<int>::iterator	std_it_s = std_map.begin();
+	typename std::map<int>::iterator	std_it_e = std_map.end();
+	while (ft_it_s != ft_it_e)
+	{
+		if (*ft_it_s != *std_it_s)
+		{		
+			{
+				return false;
+			}
+		}
+		++ft_it_s;
+		++std_it_s;
+	}
+#elif defined(UNORDERED_MULTISET)
+	ft::multimap<int, int>	ft_set(ft.begin(), ft.end());
+	std::multimap<int, int>	std_set(std.begin(), std.end());
+	typename ft::multimap<int, int>::iterator	ft_it_s = ft_set.begin();
+	typename ft::multimap<int, int>::iterator	ft_it_e = ft_set.end();
+	typename std::multimap<int, int>::iterator	std_it_s = std_set.begin();
+	typename std::multimap<int, int>::iterator	std_it_e = std_set.end();
+	while (ft_it_s != ft_it_e)
+	{
+		if (*ft_it_s != *std_it_s)
+		{		
+			{
+				return false;
+			}
+		}
+		++ft_it_s;
+		++std_it_s;
+	}
+
 
 #endif
 	return true;

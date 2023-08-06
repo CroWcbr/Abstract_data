@@ -19,21 +19,17 @@ bool test_all()
 	FT2		FT_new[T_COUNT];
 	STD2	STD_new[T_COUNT];
 	if (!fill_array_conteiner_from_file<FT2, STD2>(FT_new, STD_new, T_COUNT))
+		return false;
 #elif defined(MAP)
 	typedef ft::map<int, int, std::greater<int> > FT2;
 	typedef std::map<int, int, std::greater<int> > STD2;
 	FT2		FT_new[T_COUNT];
 	STD2	STD_new[T_COUNT];
 	if (!fill_array_conteiner_from_file<FT2, STD2>(FT_new, STD_new, T_COUNT))
+		return false;
 #elif defined(MULTIMAP)
 	typedef ft::multimap<int, int, std::greater<int> > FT2;
 	typedef std::multimap<int, int, std::greater<int> > STD2;
-	FT2		FT_new[T_COUNT];
-	STD2	STD_new[T_COUNT];
-	if (!fill_array_conteiner_from_file<FT2, STD2>(FT_new, STD_new, T_COUNT))
-#elif defined(UNORDERED_SET)
-	typedef ft::unordered_set<int, std::greater<int> >	FT2;
-	typedef std::unordered_set<int, std::greater<int> >	STD2;
 	FT2		FT_new[T_COUNT];
 	STD2	STD_new[T_COUNT];
 	if (!fill_array_conteiner_from_file<FT2, STD2>(FT_new, STD_new, T_COUNT))
@@ -42,7 +38,13 @@ bool test_all()
 
 	for (int i = 0; i < T_COUNT; ++i)
 	{
-		if (!check_equel_container(FT_new[i], STD_new[i]))
+		if (FT_new[i].empty())
+			continue;
+
+		typename FT2::value_compare ft_comp = FT_new[i].value_comp();
+		typename STD2::value_compare std_comp = STD_new[i].value_comp();
+
+		if (ft_comp(*FT_new[i].begin(), *FT_new[i].begin()) != std_comp(*STD_new[i].begin(), *STD_new[i].begin()))
 		{
 			return false;
 		}
@@ -81,13 +83,6 @@ void	test_time(bool leaks, time_t& start_ft, time_t& start_std, time_t& end_ft, 
 	STD2	STD_new[T_COUNT];
 	if (!fill_array_conteiner_from_file<FT2, STD2>(FT_new, STD_new, T_COUNT))
 		return;
-#elif defined(UNORDERED_SET)
-	typedef ft::unordered_set<int, std::greater<int> >	FT2;
-	typedef std::unordered_set<int, std::greater<int> >	STD2;
-	FT2		FT_new[T_COUNT];
-	STD2	STD_new[T_COUNT];
-	if (!fill_array_conteiner_from_file<FT2, STD2>(FT_new, STD_new, T_COUNT))
-		return;
 #endif
 
 	if (!leaks)
@@ -95,7 +90,10 @@ void	test_time(bool leaks, time_t& start_ft, time_t& start_std, time_t& end_ft, 
 		start_std = timer();
 		for (int i = 0; i < T_COUNT; ++i)
 		{
-			bool result = STD_new[i].key_comp()(1, 2);
+		if (STD_new[i].empty())
+			continue;
+
+		typename STD2::value_compare std_comp = STD_new[i].value_comp();
 		}
 		end_std = timer();
 	}
@@ -104,7 +102,10 @@ void	test_time(bool leaks, time_t& start_ft, time_t& start_std, time_t& end_ft, 
 		start_ft = timer();
 	for (int i = 0; i < T_COUNT; ++i)
 	{
-		bool result = FT_new[i].key_comp()(1, 2);
+		if (FT_new[i].empty())
+			continue;
+
+		typename FT2::value_compare ft_comp = FT_new[i].value_comp();
 	}
 	if (!leaks)
 		end_ft = timer();

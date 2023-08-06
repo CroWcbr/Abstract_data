@@ -18,7 +18,7 @@ namespace ft
 		typedef typename	C::const_reference	const_reference;
 
 	protected:
-		C	c;	// not as usual 'm_c' - error im tester 42
+		C	c;
 	
 	public:
 		explicit stack(const C& Cont)

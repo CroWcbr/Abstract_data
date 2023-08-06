@@ -23,7 +23,7 @@ namespace ft
 		typedef typename	C::const_reference	const_reference;
 
 	protected:
-		C	c;	// not as usual 'm_c' - error im tester 42
+		C	c;
 
 	public:
 		queue()
@@ -77,8 +77,8 @@ template<class T, class C = ft::vector<T>, class Pr = ft::less<typename C::value
 		typedef typename	C::const_reference	const_reference;
 
 	protected:
-		C	c;			// not as usual 'm_c' - error im tester 42
-		Pr	comp;		// not as usual 'm_comp' - error im tester 42
+		C	c;
+		Pr	comp;
 
 	public:
 		priority_queue()

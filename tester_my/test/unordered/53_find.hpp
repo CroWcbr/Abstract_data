@@ -3,6 +3,12 @@
 #include "../_define.hpp"
 #include "../_utils.hpp"
 
+template<class FT_IT, class STD_IT>
+static bool	operator!=(const FT_IT ft_it_s, const STD_IT std_it_s)
+{
+	return (ft_it_s.first != std_it_s.first || ft_it_s.second != std_it_s.second);
+}
+
 template<class FT, class STD>
 bool test_all()
 {
@@ -28,10 +34,18 @@ bool test_all()
 #endif
 		}
 
-		ft_test[i].erase(elem);
-		std_test[i].erase(elem);
+		typename FT::iterator ft_it = ft_test[i].find(elem);
+		typename STD::iterator std_it = std_test[i].find(elem);
 
-		if (!check_equel_container(ft_test[i], std_test[i]))
+		if (*ft_it != *std_it)
+		{
+			return false;
+		}
+
+		typename FT::const_iterator ft_it_const = ft_test[i].find(elem);
+		typename STD::const_iterator std_it_const = std_test[i].find(elem);
+
+		if (*ft_it_const != *std_it_const)
 		{
 			return false;
 		}
@@ -54,7 +68,7 @@ void	test_time(bool leaks, time_t& start_ft, time_t& start_std, time_t& end_ft, 
 			array_elem[i] = rand();
 		else
 		{
-			int pos = rand() % ft_test[i].size();;
+			int pos = rand() % T_SIZE;
 			typename STD::iterator it = std_test[i].begin();
 			std::advance(it, pos);
 #if defined(MAP) || defined(MULTIMAP)
@@ -70,7 +84,7 @@ void	test_time(bool leaks, time_t& start_ft, time_t& start_std, time_t& end_ft, 
 		start_std = timer();
 		for (int i = 0; i < T_COUNT; ++i)
 		{
-			std_test[i].erase(array_elem[i]);
+			std_test[i].find(array_elem[i]);
 		}
 		end_std = timer();
 	}
@@ -79,7 +93,7 @@ void	test_time(bool leaks, time_t& start_ft, time_t& start_std, time_t& end_ft, 
 		start_ft = timer();
 	for (int i = 0; i < T_COUNT; ++i)
 	{
-		ft_test[i].erase(array_elem[i]);
+		ft_test[i].find(array_elem[i]);
 	}
 	if (!leaks)
 		end_ft = timer();

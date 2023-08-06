@@ -28,7 +28,13 @@
 # include <queue>
 # include "../include/queue.hpp"
 #elif defined(UNORDERED_SET) || defined(UNORDERED_MULTISET)
+# include <unordered_set>
 # include <set>
 # include "../include/unordered_set.hpp"
 # include "../include/set.hpp"
+#elif defined(UNORDERED_MAP) || defined(UNORDERED_MULTIMAP)
+# include <unordered_map>
+# include <map>
+# include "../include/unordered_map.hpp"
+# include "../include/map.hpp"
 #endif
