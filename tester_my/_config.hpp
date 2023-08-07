@@ -393,7 +393,7 @@ const std::vector<std::pair<std::string, std::vector<std::string> > > _container
 
 				// "./test/unordered/36_operator.hpp",
 
-				// "./test/unordered/51_key_compare.hpp",
+				"./test/unordered/51_key_compare.hpp",
 				// "./test/unordered/02_value_compare.hpp",
 				// "./test/unordered/03_find.hpp",
 				// "./test/unordered/04_count.hpp",

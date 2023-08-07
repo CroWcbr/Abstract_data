@@ -6,14 +6,17 @@
 template<class FT, class STD>
 bool test_all()
 {
-#if defined(UNORDERED_SET)
+// #if defined(UNORDERED_SET)
 	typedef ft::unordered_set<int, std::greater<int> >	FT2;
+	typedef ft::unordered_set<int, std::greater<int>> MyUnorderedSet2;
 	typedef std::unordered_set<int, std::greater<int> >	STD2;
+
+	MyUnorderedSet2 mySet2;
 	// FT2		FT_new[T_COUNT];
 	// STD2	STD_new[T_COUNT];
 	// if (!fill_array_conteiner_from_file<FT2, STD2>(FT_new, STD_new, T_COUNT))
 	// 	return false;
-#endif
+// #endif
 
 // 	for (int i = 0; i < T_COUNT; ++i)
 // 	{
@@ -28,15 +31,15 @@ bool test_all()
 template<class FT, class STD>
 void	test_time(bool leaks, time_t& start_ft, time_t& start_std, time_t& end_ft, time_t& end_std)
 {
-#if defined(UNORDERED_SET)
-	typedef ft::unordered_set<int, std::greater<int> >	FT2;
-	FT2	tmp;
-	// typedef std::unordered_set<int, std::greater<int> >	STD2;
-	// FT2		FT_new[T_COUNT];
-	// STD2	STD_new[T_COUNT];
-	// if (!fill_array_conteiner_from_file<FT2, STD2>(FT_new, STD_new, T_COUNT))
-	// 	return;
-#endif
+// #if defined(UNORDERED_SET)
+// 	typedef ft::unordered_set<int, std::greater<int> >	FT2;
+// 	FT2	tmp;
+// 	// typedef std::unordered_set<int, std::greater<int> >	STD2;
+// 	// FT2		FT_new[T_COUNT];
+// 	// STD2	STD_new[T_COUNT];
+// 	// if (!fill_array_conteiner_from_file<FT2, STD2>(FT_new, STD_new, T_COUNT))
+// 	// 	return;
+// #endif
 
 	// if (!leaks)
 	// {
@@ -48,12 +51,12 @@ void	test_time(bool leaks, time_t& start_ft, time_t& start_std, time_t& end_ft, 
 	// 	end_std = timer();
 	// }
 
-	if (!leaks)
-		start_ft = timer();
-	for (int i = 0; i < T_COUNT; ++i)
-	{
-		bool result = tmp.key_comp()(1, 2);
-	}
-	if (!leaks)
-		end_ft = timer();
+	// if (!leaks)
+	// 	start_ft = timer();
+	// for (int i = 0; i < T_COUNT; ++i)
+	// {
+	// 	bool result = tmp.key_comp()(1, 2);
+	// }
+	// if (!leaks)
+	// 	end_ft = timer();
 }

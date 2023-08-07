@@ -5,7 +5,7 @@
 
 namespace ft
 {
-	template<class K, class Pr, class Ax, bool Mfl>
+	template<class K, class Pr_tmp, class Ax, bool Mfl, class Pr = ft::hash_compare<K, Pr_tmp> >
 	class Hset_traits
 	{
 	protected:
@@ -35,7 +35,7 @@ namespace ft
 		{}
 	};
 
-	template<class K, class Pr = ft::hash_compare<K, ft::less<K> >, class A = std::allocator<K> >
+	template<class K, class Pr_tmp = ft::less<K>, class A = std::allocator<K>, class Pr = ft::hash_compare<K, Pr_tmp> >
 	class unordered_set : public ft::Hash_table<Hset_traits<K, Pr, A, false> >
 	{
 	public:
