@@ -39,6 +39,8 @@ namespace ft
 		{
 			return (comp(Kv1, Kv2));
 		}
+
+
 	};
 
 	template<class T>
@@ -133,7 +135,6 @@ namespace ft
 		bool					empty() const { return (m_list.empty()); }
 		allocator_type			get_allocator() const { return (m_list.get_allocator()); }
 		key_compare				key_comp() const { return (this->comp); }
-		value_compare			value_comp() const { return (value_compare(key_comp())); }
 
 		Pairib	insert(const value_type& V)
 		{

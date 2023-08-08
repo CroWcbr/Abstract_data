@@ -5,7 +5,9 @@
 
 namespace ft
 {
-	template<class K, class Pr_tmp, class Ax, bool Mfl, class Pr = ft::hash_compare<K, Pr_tmp> >
+
+	// template<class K, class Pr_tmp, class Ax, bool Mfl, class Pr = ft::hash_compare<K, Pr_tmp> >
+	template<class K, class Pr,	class Ax, bool Mfl >
 	class Hset_traits
 	{
 	protected:
@@ -19,9 +21,9 @@ namespace ft
 
 		typedef typename Ax::template rebind<value_type>::other	allocator_type;
 
-		static const K& Kfn(const value_type& _Val)
+		static const K& Kfn(const value_type& V)
 		{
-			return (_Val);
+			return (V);
 		}
 
 		enum {Multi = Mfl};
@@ -35,7 +37,8 @@ namespace ft
 		{}
 	};
 
-	template<class K, class Pr_tmp = ft::less<K>, class A = std::allocator<K>, class Pr = ft::hash_compare<K, Pr_tmp> >
+	// template<class K, class Pr_tmp = ft::less<K>, class A = std::allocator<K>, class Pr = ft::hash_compare<K, Pr_tmp> >
+	template<class K, class Pr = hash_compare<K, less<K> >,	class A = std::allocator<K> >
 	class unordered_set : public ft::Hash_table<Hset_traits<K, Pr, A, false> >
 	{
 	public:
@@ -99,7 +102,13 @@ namespace ft
 		}
 	};
 
-template<class K, class Pr = hash_compare<K, less<K> >,	class A = std::allocator<K> >
+	template<class K, class Pr, class A>
+	void swap(unordered_set<K, Pr, A> &X, unordered_set<K, Pr, A> &Y)
+	{
+		X.swap(Y);
+	}
+
+	template<class K, class Pr = hash_compare<K, less<K> >,	class A = std::allocator<K> >
 	class unordered_multiset : public ft::Hash_table<Hset_traits<K, Pr, A, true> >
 	{
 	public:
@@ -174,4 +183,9 @@ template<class K, class Pr = hash_compare<K, less<K> >,	class A = std::allocator
 		}
 	};
 
+	template<class K, class Pr, class A>
+	void swap(unordered_multiset<K, Pr, A> &X, unordered_multiset<K, Pr, A> &Y)
+	{
+		X.swap(Y);
+	}
 }

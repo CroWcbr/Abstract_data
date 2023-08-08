@@ -31,7 +31,12 @@ bool test_all()
 		std_it = std_test[i].begin();
 		ft::advance(ft_it, iter_pos);
 		std::advance(std_it, iter_pos);
-		 std_it = std_test[i].find(*ft_it);
+		
+#if defined(UNORDERED_MAP) || defined(UNORDERED_MULTIMAP)
+		std_it = std_test[i].find(ft_it->first);
+#else
+		std_it = std_test[i].find(*ft_it);
+#endif
 
 		ft_it_end = ft_it;
 		std_it_end = std_it;

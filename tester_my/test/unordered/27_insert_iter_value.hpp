@@ -25,7 +25,7 @@ bool test_all()
 		ft::advance(ft_it, iter_pos);
 		std::advance(std_it, iter_pos);
 
-#if defined(MAP) || defined(MULTIMAP)
+#if defined(UNORDERED_MAP) || defined(UNORDERED_MULTIMAP)
 		int key = rand();
 		int value = rand();
 		ft::pair<int,int>	ft_value(key, value);
@@ -63,7 +63,7 @@ void	test_time(bool leaks, time_t& start_ft, time_t& start_std, time_t& end_ft, 
 			array_iter_pos[i] = rand() % ft_test[i].size();
 	}
 
-#if defined(MAP) || defined(MULTIMAP)
+#if defined(UNORDERED_MAP) || defined(UNORDERED_MULTIMAP)
 	ft::pair<int,int>	ft_array_iter[T_COUNT];
 	std::pair<int,int>	std_array_iter[T_COUNT];
 	fill_array_random_pair(ft_array_iter, std_array_iter, T_COUNT, 0, RAND_MAX);
@@ -80,7 +80,7 @@ void	test_time(bool leaks, time_t& start_ft, time_t& start_std, time_t& end_ft, 
 		{
 			it = std_test[i].begin();
 			std::advance(it, array_iter_pos[i]);
-#if defined(MAP) || defined(MULTIMAP)
+#if defined(UNORDERED_MAP) || defined(UNORDERED_MULTIMAP)
 			(std_test[i]).insert(it, std_array_iter[i]);
 #else
 			(std_test[i]).insert(it, array_value[i]);
@@ -96,7 +96,7 @@ void	test_time(bool leaks, time_t& start_ft, time_t& start_std, time_t& end_ft, 
 	{
 		it = ft_test[i].begin();
 		ft::advance(it, array_iter_pos[i]);
-#if defined(MAP) || defined(MULTIMAP)
+#if defined(UNORDERED_MAP) || defined(UNORDERED_MULTIMAP)
 			(ft_test[i]).insert(it, ft_array_iter[i]);
 #else
 			(ft_test[i]).insert(it, array_value[i]);

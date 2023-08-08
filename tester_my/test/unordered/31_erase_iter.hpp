@@ -22,7 +22,11 @@ bool test_all()
 		ft_it = ft_test[i].begin();
 		ft::advance(ft_it, iter_pos);
 
+#if defined(UNORDERED_MAP) || defined(UNORDERED_MULTIMAP)
+		std_it = std_test[i].find(ft_it->first);
+#else
 		std_it = std_test[i].find(*ft_it);
+#endif
 
 		try
 		{

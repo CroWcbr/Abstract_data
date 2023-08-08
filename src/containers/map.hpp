@@ -123,6 +123,12 @@ namespace ft
 		}
 	};
 
+	template<class K, class T, class Compare, class Alloc>
+	void swap(map<K, T, Compare, Alloc> &X, map<K, T, Compare, Alloc> &Y)
+	{
+		X.swap(Y);
+	}
+
 	template<class K, class T, class Pr = less<K>, class A = std::allocator<ft::pair<const K, T> > >
 	class multimap : public Tree<Tmap_traits<K, T, Pr, A, true> >
 	{
@@ -208,4 +214,9 @@ namespace ft
 		}
 	};
 
+	template<class K, class T, class Compare, class Alloc>
+	void swap(multimap<K, T, Compare, Alloc> &X, multimap<K, T, Compare, Alloc> &Y)
+	{
+		X.swap(Y);
+	}
 }

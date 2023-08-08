@@ -24,7 +24,7 @@ void	fill_array_random(int *array, int size, int min, int max)
 	}
 }
 
-#if defined(MAP) || defined(MULTIMAP)
+#if defined(MAP) || defined(MULTIMAP) || defined(UNORDERED_MAP) || defined(UNORDERED_MULTIMAP)
 void	fill_array_random_pair(ft::pair<int,int> *ft_array, std::pair<int,int> *std_array, int size, int min, int max)
 {
 	for(int i = 0; i < size; ++i)
@@ -81,7 +81,7 @@ bool	check_equel_container(FT ft, STD std)
 	{
 		return false;
 	}
-#if defined(VECTOR) || defined(LIST) || defined(SET) || defined(MULTISET) || defined(MAP) || defined(MULTIMAP) || defined(SET)
+#if defined(VECTOR) || defined(LIST) || defined(SET) || defined(MULTISET) || defined(MAP) || defined(MULTIMAP)
 	typename FT::iterator	ft_it_s = ft.begin();
 	typename FT::iterator	ft_it_e = ft.end();
 	typename STD::iterator	std_it_s = std.begin();
@@ -152,15 +152,15 @@ bool	check_equel_container(FT ft, STD std)
 		++std_it_s;
 	}
 #elif defined(UNORDERED_MAP)
-	ft::map<int>	ft_map(ft.begin(), ft.end());
-	std::map<int>	std_map(std.begin(), std.end());
-	typename ft::map<int>::iterator		ft_it_s = ft_map.begin();
-	typename ft::map<int>::iterator		ft_it_e = ft_map.end();
-	typename std::map<int>::iterator	std_it_s = std_map.begin();
-	typename std::map<int>::iterator	std_it_e = std_map.end();
+	ft::map<int, int>	ft_map(ft.begin(), ft.end());
+	std::map<int, int>	std_map(std.begin(), std.end());
+	typename ft::map<int, int>::iterator		ft_it_s = ft_map.begin();
+	typename ft::map<int, int>::iterator		ft_it_e = ft_map.end();
+	typename std::map<int, int>::iterator		std_it_s = std_map.begin();
+	typename std::map<int, int>::iterator		std_it_e = std_map.end();
 	while (ft_it_s != ft_it_e)
 	{
-		if (*ft_it_s != *std_it_s)
+		if ((*ft_it_s).first != (*std_it_s).first || (*ft_it_s).second != (*std_it_s).second)
 		{		
 			{
 				return false;
@@ -169,7 +169,7 @@ bool	check_equel_container(FT ft, STD std)
 		++ft_it_s;
 		++std_it_s;
 	}
-#elif defined(UNORDERED_MULTISET)
+#elif defined(UNORDERED_MULTIMAP)
 	ft::multimap<int, int>	ft_set(ft.begin(), ft.end());
 	std::multimap<int, int>	std_set(std.begin(), std.end());
 	typename ft::multimap<int, int>::iterator	ft_it_s = ft_set.begin();
@@ -178,7 +178,7 @@ bool	check_equel_container(FT ft, STD std)
 	typename std::multimap<int, int>::iterator	std_it_e = std_set.end();
 	while (ft_it_s != ft_it_e)
 	{
-		if (*ft_it_s != *std_it_s)
+		if ((*ft_it_s).first != (*std_it_s).first || (*ft_it_s).second != (*std_it_s).second)
 		{		
 			{
 				return false;

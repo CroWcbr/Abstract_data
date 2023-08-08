@@ -102,6 +102,12 @@ namespace ft
 		}
 	};
 
+	template<class T, class Compare, class Alloc>
+	void swap(set<T, Compare, Alloc> &X, set<T, Compare, Alloc> &Y)
+	{
+		X.swap(Y);
+	}
+
 	template<class K, class Pr = less<K>, class A = std::allocator<K> >
 	class multiset : public Tree<Tset_traits<K, Pr, A, true> >
 	{
@@ -184,5 +190,11 @@ namespace ft
 			}
 		}
 	};
+
+	template<class T, class Compare, class Alloc>
+	void swap(multiset<T, Compare, Alloc> &X, multiset<T, Compare, Alloc> &Y)
+	{
+		X.swap(Y);
+	}
 
 }

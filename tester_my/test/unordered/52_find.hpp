@@ -19,10 +19,23 @@ bool test_all()
 
 	for (int i = 0; i < T_COUNT; ++i)
 	{
-		int elem = rand() % T_SIZE;
+		int elem;
+		if (ft_test[i].empty())
+			elem = rand();
+		else
+		{
+			int pos = rand() % ft_test[i].size();
+			typename STD::iterator it = std_test[i].begin();
+			std::advance(it, pos);
+#if defined(UNORDERED_MAP) || defined(UNORDERED_MULTIMAP)
+			elem = it->first;
+#else
+			elem = *it;
+#endif
+		}
 
-		typename FT::iterator ft_it = ft_test[i].lower_bound(elem);
-		typename STD::iterator std_it = std_test[i].lower_bound(elem);
+		typename FT::iterator ft_it = ft_test[i].find(elem);
+		typename STD::iterator std_it = std_test[i].find(elem);
 
 		if (ft_it == ft_test[i].end() && std_it == std_test[i].end())
 			continue;
@@ -32,8 +45,8 @@ bool test_all()
 			return false;
 		}
 
-		typename FT::const_iterator ft_it_const = ft_test[i].lower_bound(elem);
-		typename STD::const_iterator std_it_const = std_test[i].lower_bound(elem);
+		typename FT::const_iterator ft_it_const = ft_test[i].find(elem);
+		typename STD::const_iterator std_it_const = std_test[i].find(elem);
 
 		if (*ft_it_const != *std_it_const)
 		{
@@ -52,14 +65,29 @@ void	test_time(bool leaks, time_t& start_ft, time_t& start_std, time_t& end_ft, 
 		return;
 
 	int array_elem[T_COUNT];
-	fill_array_random(array_elem, T_COUNT, 0, T_SIZE);
+	for (int i = 0; i < T_COUNT; ++i)
+	{
+		if (ft_test[i].empty())
+			array_elem[i] = rand();
+		else
+		{
+			int pos = rand() % ft_test[i].size();
+			typename STD::iterator it = std_test[i].begin();
+			std::advance(it, pos);
+#if defined(UNORDERED_MAP) || defined(UNORDERED_MULTIMAP)
+			array_elem[i]  = it->first;
+#else
+			array_elem[i]  = *it;
+#endif
+		}
+	}
 
 	if (!leaks)
 	{
 		start_std = timer();
 		for (int i = 0; i < T_COUNT; ++i)
 		{
-			std_test[i].lower_bound(array_elem[i]);
+			std_test[i].find(array_elem[i]);
 		}
 		end_std = timer();
 	}
@@ -68,7 +96,7 @@ void	test_time(bool leaks, time_t& start_ft, time_t& start_std, time_t& end_ft, 
 		start_ft = timer();
 	for (int i = 0; i < T_COUNT; ++i)
 	{
-		ft_test[i].lower_bound(array_elem[i]);
+		ft_test[i].find(array_elem[i]);
 	}
 	if (!leaks)
 		end_ft = timer();

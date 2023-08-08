@@ -7,7 +7,7 @@
 /tester_my/*.out
 /tester_my/*.txt
 /tester_my/test_container
-/tester_my/a.out
+/tester_my/mytest
 
 /minitest/*_std
 /minitest/*_ft

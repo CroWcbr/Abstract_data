@@ -66,7 +66,7 @@ void	test_time(bool leaks, time_t& start_ft, time_t& start_std, time_t& end_ft, 
 			array_elem[i] = -1;
 		else
 		{
-			int pos = rand() % T_SIZE;
+			int pos = rand() % ft_test[i].size();
 			typename STD::iterator it = std_test[i].begin();
 			std::advance(it, pos);
 #if defined(MAP) || defined(MULTIMAP)

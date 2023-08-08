@@ -19,33 +19,31 @@ bool test_all()
 
 	for (int i = 0; i < T_COUNT; ++i)
 	{
+		if(ft_test[i].empty())
+			continue;
+
 		int elem;
-		if (ft_test[i].empty())
-			elem = rand();
-		else
-		{
-			int pos = rand() % ft_test[i].size();
-			typename STD::iterator it = std_test[i].begin();
-			std::advance(it, pos);
-#if defined(MAP) || defined(MULTIMAP)
-			elem = it->first;
+		int pos = rand() % ft_test[i].size();
+		typename STD::iterator it = std_test[i].begin();
+		std::advance(it, pos);
+#if defined(UNORDERED_MAP) || defined(UNORDERED_MULTIMAP)
+		elem = it->first;
 #else
-			elem = *it;
+		elem = *it;
 #endif
-		}
 
-		typename FT::iterator ft_it = ft_test[i].find(elem);
-		typename STD::iterator std_it = std_test[i].find(elem);
+		ft::pair<typename FT::iterator, typename FT::iterator> ft_it = ft_test[i].equal_range(elem);
+		std::pair<typename STD::iterator, typename STD::iterator> std_it = std_test[i].equal_range(elem);
 
-		if (*ft_it != *std_it)
+		if ((*(ft_it.first) != *(std_it.first)) && (*(ft_it.second) != *(std_it.second)))
 		{
 			return false;
 		}
 
-		typename FT::const_iterator ft_it_const = ft_test[i].find(elem);
-		typename STD::const_iterator std_it_const = std_test[i].find(elem);
+		ft::pair<typename FT::const_iterator, typename FT::const_iterator> ft_it_const = ft_test[i].equal_range(elem);
+		std::pair<typename STD::const_iterator, typename STD::const_iterator> std_it_const = std_test[i].equal_range(elem);
 
-		if (*ft_it_const != *std_it_const)
+		if ((*(ft_it_const.first) != *(std_it_const.first)) && (*(ft_it_const.second) != *(std_it_const.second)))
 		{
 			return false;
 		}
@@ -65,13 +63,13 @@ void	test_time(bool leaks, time_t& start_ft, time_t& start_std, time_t& end_ft, 
 	for (int i = 0; i < T_COUNT; ++i)
 	{
 		if (ft_test[i].empty())
-			array_elem[i] = rand();
+			array_elem[i] = -1;
 		else
 		{
-			int pos = rand() % T_SIZE;
+			int pos = rand() % ft_test[i].size();
 			typename STD::iterator it = std_test[i].begin();
 			std::advance(it, pos);
-#if defined(MAP) || defined(MULTIMAP)
+#if defined(UNORDERED_MAP) || defined(UNORDERED_MULTIMAP)
 			array_elem[i]  = it->first;
 #else
 			array_elem[i]  = *it;
@@ -84,7 +82,9 @@ void	test_time(bool leaks, time_t& start_ft, time_t& start_std, time_t& end_ft, 
 		start_std = timer();
 		for (int i = 0; i < T_COUNT; ++i)
 		{
-			std_test[i].find(array_elem[i]);
+			if (array_elem[i] == -1)
+				continue;
+			std_test[i].equal_range(array_elem[i]);
 		}
 		end_std = timer();
 	}
@@ -93,7 +93,7 @@ void	test_time(bool leaks, time_t& start_ft, time_t& start_std, time_t& end_ft, 
 		start_ft = timer();
 	for (int i = 0; i < T_COUNT; ++i)
 	{
-		ft_test[i].find(array_elem[i]);
+		ft_test[i].equal_range(array_elem[i]);
 	}
 	if (!leaks)
 		end_ft = timer();
