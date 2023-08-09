@@ -9,38 +9,14 @@
 
 namespace ft
 {
-	template<class K, class Pr = ft::less<K> >
+	template<class K>
 	class hash_compare
 	{
-	private:
-		Pr	comp;
-		typedef	unsigned int	my_size_t;
-
 	public:
-		enum
+		unsigned int operator()(const K& Kv) const
 		{
-			bucket_size = 4,
-			min_buckets = 8
-		};
-		hash_compare()
-		: comp()
-		{}
-
-		hash_compare(Pr Pred)
-		: comp(Pred)
-		{}
-
-		my_size_t operator()(const K& Kv) const
-		{
-			return ((my_size_t)Kv);
+			return ((unsigned int)Kv);
 		}
-
-		bool operator()(const K& Kv1, const K& Kv2) const
-		{
-			return (comp(Kv1, Kv2));
-		}
-
-
 	};
 
 	template<class T>
@@ -48,13 +24,14 @@ namespace ft
 	{
 	public:
 		typedef typename	T::key_type			key_type;
+		typedef typename	T::hasher			hasher;
 		typedef typename	T::key_compare		key_compare;
 		typedef typename	T::value_compare	value_compare;
 
 		enum
 		{
-			bucket_size = key_compare::bucket_size,
-			min_buckets = key_compare::min_buckets,
+			bucket_size = 4,
+			min_buckets = 8
 		};
 
 		typedef	ft::list<typename T::value_type, typename T::allocator_type> Base_List;
@@ -78,22 +55,23 @@ namespace ft
 		typedef	pair<const_iterator, const_iterator>	Paircc;
 
 	protected:
+	public:
 		Base_List	m_list;
 		Base_Vec	m_vec;
 		size_type	m_mask;
 		size_type	m_maxidx;
 
 	public:
-		explicit Hash_table(const key_compare& Parg, const allocator_type& A)
-		: T(Parg)
+		explicit Hash_table(const hasher& H, const key_compare& Parg, const allocator_type& A)
+		: T(H, Parg)
 		, m_list(A)
 		, m_vec(min_buckets + 1, end(), A)
 		, m_mask(1)
 		, m_maxidx(1)
 		{}
 
-		Hash_table(const value_type *F, const value_type *L, const key_compare& Parg, const allocator_type& A)
-		: T(Parg)
+		Hash_table(const value_type *F, const value_type *L, const hasher& H, const key_compare& Parg, const allocator_type& A)
+		: T(H, Parg)
 		, m_list(A)
 		, m_vec(min_buckets + 1, end(), A)
 		, m_mask(1)
@@ -103,7 +81,7 @@ namespace ft
 		}
 
 		Hash_table(const Hash_table& X)
-		: T(X.comp)
+		: T(X.m_hash,X.comp)
 		, m_list(X.get_allocator())
 		, m_vec(X.get_allocator())
 		{
@@ -155,7 +133,7 @@ namespace ft
 				size_type Bucket = m_maxidx - (m_mask >> 1) - 1;
 				for (Plist = m_vec[Bucket]; Plist != m_vec[Bucket + 1]; )
 				{
-					if ((this->comp(this->Kfn(*Plist)) & m_mask) == Bucket)
+					if ((this->m_hash(this->Kfn(*Plist)) & m_mask) == Bucket)
 					{
 						++Plist;
 					}
@@ -188,9 +166,12 @@ namespace ft
 				++m_maxidx;
 			}
 
+
 			size_type Bucket = _hashval(this->Kfn(V));
+	// std::cout << m_vec.size() << "\t" << Bucket<< std::endl;
 			for (Plist = m_vec[Bucket + 1]; Plist != m_vec[Bucket]; )
 			{
+	// std::cout << "Plist\t" << *Plist << std::endl;
 				if (this->comp(this->Kfn(V), this->Kfn(*--Plist)))
 					;
 				else if (this->comp(this->Kfn(*Plist), this->Kfn(V)))
@@ -199,10 +180,15 @@ namespace ft
 					break;
 				}
 				else if (T::Multi)
-					break;
+				{	
+							break;
+				}
 				else
+				{
 					return (Pairib(Plist, false));
+				}
 			}
+	// std::cout << "INSERT!!!!" << std::endl;
 			Where = m_list.insert(Plist, V);
 			for (; Plist == m_vec[Bucket]; --Bucket)
 			{
@@ -392,6 +378,7 @@ namespace ft
 				ft::swap(m_vec, X.m_vec);
 				ft::swap(m_mask, X.m_mask);
 				ft::swap(m_maxidx, X.m_maxidx);
+				ft::swap(this->m_hash, X.m_hash);
 				ft::swap(this->comp, X.comp);
 			}
 			else
@@ -435,9 +422,10 @@ namespace ft
 
 		size_type _hashval(const key_type& Kv) const
 		{
-			size_type N = this->comp(Kv) & m_mask;
+			size_type N = this->m_hash(Kv) & m_mask;
 			if (m_maxidx <= N)
 				N -= (m_mask >> 1) + 1;
+			// size_type N = this->m_hash(Kv) % m_maxidx;
 			return (N);
 		}
 	};

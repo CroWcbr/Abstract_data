@@ -166,6 +166,24 @@ namespace ft
 		}
 	};
 
+	template<class T>
+	struct greater : binary_function<T, T, bool>
+	{
+		bool operator()(const T& X, const T& Y) const
+		{
+			return (X > Y);
+		}
+	};
+
+	template<class T>
+	struct equal_to : binary_function<T, T, bool> 
+	{
+		bool operator()(const T& X, const T& Y) const
+		{
+			return (X == Y);
+		}
+	};
+
 	struct false_type {};
 	struct true_type {};
 

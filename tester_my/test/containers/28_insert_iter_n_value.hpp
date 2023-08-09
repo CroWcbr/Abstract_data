@@ -3,7 +3,7 @@
 #include "../_define.hpp"
 #include "../_utils.hpp"
 
-int max_num_del = 10;
+int max_num_del = T_SIZE;
 
 template<class FT, class STD>
 bool test_all()

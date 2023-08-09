@@ -122,7 +122,7 @@ static bool	testExecution(char **env)
 	}
 	else if (status != 256)
 	{
-		printElement(RED + "UNKNOWN" + RED);
+		printElement(RED + "UNKNOWN" + RESET);
 	}
 	return false;
 }

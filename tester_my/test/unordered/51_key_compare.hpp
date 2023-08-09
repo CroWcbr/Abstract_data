@@ -7,16 +7,16 @@ template<class FT, class STD>
 bool test_all()
 {
 #if defined(UNORDERED_SET)
-	typedef ft::unordered_set<int, ft::hash_compare<int, std::greater<int> > >	FT2;
+	typedef ft::unordered_set<int, ft::hash_compare<int>, std::greater<int> >	FT2;
 	typedef std::unordered_set<int, std::hash<int>, std::greater<int> >	STD2;
 #elif defined(UNORDERED_MULTISET)
-	typedef ft::unordered_multiset<int, ft::hash_compare<int, std::greater<int> > >	FT2;
+	typedef ft::unordered_multiset<int, ft::hash_compare<int>, std::greater<int> >	FT2;
 	typedef std::unordered_multiset<int, std::hash<int>, std::greater<int> >	STD2;
 #elif defined(UNORDERED_MAP)
-	typedef ft::unordered_map<int, int, ft::hash_compare<int, std::greater<int> > >	FT2;
+	typedef ft::unordered_map<int, int, ft::hash_compare<int>, std::greater<int> >	FT2;
 	typedef std::unordered_map<int, int, std::hash<int>, std::greater<int> >	STD2;
 #elif defined(UNORDERED_MULTIMAP)
-	typedef ft::unordered_multimap<int, int, ft::hash_compare<int, std::greater<int> > >	FT2;
+	typedef ft::unordered_multimap<int, int, ft::hash_compare<int>, std::greater<int> >	FT2;
 	typedef std::unordered_multimap<int, int, std::hash<int>, std::greater<int> >	STD2;
 #endif
 
@@ -38,16 +38,16 @@ template<class FT, class STD>
 void	test_time(bool leaks, time_t& start_ft, time_t& start_std, time_t& end_ft, time_t& end_std)
 {
 #if defined(UNORDERED_SET)
-	typedef ft::unordered_set<int, ft::hash_compare<int, std::greater<int> > >	FT2;
+	typedef ft::unordered_set<int, ft::hash_compare<int>, std::greater<int> >	FT2;
 	typedef std::unordered_set<int, std::hash<int>, std::greater<int> >	STD2;
 #elif defined(UNORDERED_MULTISET)
-	typedef ft::unordered_multiset<int, ft::hash_compare<int, std::greater<int> > >	FT2;
+	typedef ft::unordered_multiset<int, ft::hash_compare<int>, std::greater<int> >	FT2;
 	typedef std::unordered_multiset<int, std::hash<int>, std::greater<int> >	STD2;
 #elif defined(UNORDERED_MAP)
-	typedef ft::unordered_map<int, int, ft::hash_compare<int, std::greater<int> > >	FT2;
+	typedef ft::unordered_map<int, int, ft::hash_compare<int>, std::greater<int> >	FT2;
 	typedef std::unordered_map<int, int, std::hash<int>, std::greater<int> >	STD2;
 #elif defined(UNORDERED_MULTIMAP)
-	typedef ft::unordered_multimap<int, int, ft::hash_compare<int, std::greater<int> > >	FT2;
+	typedef ft::unordered_multimap<int, int, ft::hash_compare<int>, std::greater<int> >	FT2;
 	typedef std::unordered_multimap<int, int, std::hash<int>, std::greater<int> >	STD2;
 #endif
 

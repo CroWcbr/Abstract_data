@@ -10,8 +10,12 @@ PROGRAMS	=	vector_std \
 				set_ft \
 				multiset_std \
 				multiset_ft \
+				map_std \
+				map_ft \
+				multimap_std \
+				multimap_ft \
 				stack_std \
-				stack_ft
+				stack_ft 
 
 CC			=	g++ -std=c++98
 # CFLAGS		=	-Wall -Wextra -Werror
@@ -42,12 +46,6 @@ deque_std	:	deque_test.cpp
 deque_ft	:		deque_test.cpp
 				$(CC) $(FT) $(CFLAGS) -o $@ $< 
 
-stack_std	:	stack_test.cpp
-				$(CC) $(STD) $(CFLAGS) -o $@ $< 
-
-stack_ft	:	stack_test.cpp
-				$(CC) $(FT) $(CFLAGS) -o $@ $< 
-
 set_std		:	set_test.cpp
 				$(CC) $(STD) $(CFLAGS) -o $@ $< 
 
@@ -58,8 +56,25 @@ multiset_std	:	multiset_test.cpp
 					$(CC) $(STD) $(CFLAGS) -o $@ $< 
 
 multiset_ft	:	multiset_test.cpp
-				$(CC) $(FT) $(CFLAGS) -o $@ $< 
+				$(CC) $(FT) $(CFLAGS) -o $@ $<
 
+map_std		:	map_test.cpp
+				$(CC) $(STD) $(CFLAGS) -o $@ $<
+
+map_ft		:	map_test.cpp
+				$(CC) $(FT) $(CFLAGS) -o $@ $<
+
+multimap_std:	multimap_test.cpp
+				$(CC) $(STD) $(CFLAGS) -o $@ $<
+
+multimap_ft	:	multimap_test.cpp
+				$(CC) $(FT) $(CFLAGS) -o $@ $<
+
+stack_std	:	stack_test.cpp
+				$(CC) $(STD) $(CFLAGS) -o $@ $< 
+
+stack_ft	:	stack_test.cpp
+				$(CC) $(FT) $(CFLAGS) -o $@ $< 
 
 clean:
 	rm -f $(PROGRAMS)

@@ -3,11 +3,14 @@
 #include "../_define.hpp"
 #include "../_utils.hpp"
 
-int max_num_del = 10;
+int max_num_add = 10;
 
 template<class FT, class STD>
 bool test_all()
 {
+	if (max_num_add > T_SIZE)
+		max_num_add = T_SIZE - 1;
+
 	FT	ft_test[T_COUNT];
 	STD	std_test[T_COUNT];
 	if (!fill_array_conteiner_from_file<FT, STD>(ft_test, std_test, T_COUNT))
@@ -24,7 +27,7 @@ bool test_all()
 
 	for (int i = 0; i < T_COUNT; ++i)
 	{
-		int n_add = rand() % max_num_del;
+		int n_add = rand() % max_num_add;
 		int iter_pos = rand() % (T_SIZE - n_add);
 
 #if defined(MAP) || defined(MULTIMAP)
@@ -46,15 +49,18 @@ bool test_all()
 template<class FT, class STD>
 void	test_time(bool leaks, time_t& start_ft, time_t& start_std, time_t& end_ft, time_t& end_std)
 {
+	if (max_num_add > T_SIZE)
+		max_num_add = T_SIZE - 1;
+
 	FT	ft_test[T_COUNT];
 	STD	std_test[T_COUNT];
 	if (!fill_array_conteiner_from_file<FT, STD>(ft_test, std_test, T_COUNT))
 		return;
 
 	int array_n_add[T_COUNT];
-	fill_array_random(array_n_add, T_COUNT, 0, max_num_del);
+	fill_array_random(array_n_add, T_COUNT, 0, max_num_add);
 	int array_iter_pos[T_COUNT];
-	fill_array_random(array_iter_pos, T_COUNT, 0, T_SIZE - max_num_del);
+	fill_array_random(array_iter_pos, T_COUNT, 0, T_SIZE - max_num_add);
 
 #if defined(MAP) || defined(MULTIMAP)
 	ft::pair<int,int>	ft_array_iter[T_SIZE];
