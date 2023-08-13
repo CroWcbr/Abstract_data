@@ -9,6 +9,10 @@
 /tester_my/test_container
 /tester_my/mytest
 
+/tester_bonus_display/unordered_set
+/tester_bonus_display/unordered_map
+/tester_bonus_display/fibonacci_heap
+
 /minitest/*_std
 /minitest/*_ft
 
