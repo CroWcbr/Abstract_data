@@ -425,7 +425,6 @@ namespace ft
 			size_type N = this->m_hash(Kv) & m_mask;
 			if (m_maxidx <= N)
 				N -= (m_mask >> 1) + 1;
-			// size_type N = this->m_hash(Kv) % m_maxidx;
 			return (N);
 		}
 	};

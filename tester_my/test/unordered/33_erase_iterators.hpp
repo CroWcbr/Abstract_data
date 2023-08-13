@@ -21,7 +21,12 @@ bool test_all()
 			continue;
 
 		int	iter_pos = rand() % ft_test[i].size();
-		int n_erase = rand() % ft_test[i].size();
+		int	iter_pos_end = rand() % ft_test[i].size();
+
+		if (iter_pos > iter_pos_end)
+			std::swap(iter_pos, iter_pos_end);
+
+		size_t n_erase = rand() % ft_test[i].size();
 		if (n_erase > ft_test[i].size() - iter_pos)
 			n_erase = ft_test[i].size() - iter_pos;
 
@@ -29,22 +34,13 @@ bool test_all()
 		std_it = std_test[i].begin();
 		ft::advance(ft_it, iter_pos);
 		std::advance(std_it, iter_pos);
-		
-#if defined(UNORDERED_MAP) || defined(UNORDERED_MULTIMAP)
-		std_it = std_test[i].find(ft_it->first);
-#else
-		std_it = std_test[i].find(*ft_it);
-#endif
 
 		ft_it_end = ft_it;
 		std_it_end = std_it;
-
 		ft::advance(ft_it_end, n_erase);
 		std::advance(std_it_end, n_erase);
-
 		ft_test[i].erase(ft_it, ft_it_end);
 		std_test[i].erase(std_it, std_it_end);
-
 		if (!check_equel_container(ft_test[i], std_test[i]))
 		{
 			return false;
@@ -67,7 +63,7 @@ void	test_time(bool leaks, time_t& start_ft, time_t& start_std, time_t& end_ft, 
 	typename STD::iterator std_it_end_array[T_COUNT];
 
 	int	iter_pos;
-	int n_erase;
+	size_t n_erase;
 	for (int i = 0; i < T_COUNT; ++i)
 	{	
 		if (ft_test[i].empty())

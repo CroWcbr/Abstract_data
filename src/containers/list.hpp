@@ -313,11 +313,7 @@ namespace ft
 		}
 
 		size_type				size() const { return (m_size); }
-		size_type				max_size() const
-		{
-			// return (this->m_alloc.max_size());
-			return (this->Alloc_node.max_size());
-		}
+		size_type				max_size() const { return (this->Alloc_node.max_size()); }
 		bool					empty() const { return (size() == 0); }
 		allocator_type			get_allocator() const { return (this->m_alloc); }
 		reference				front() { return (*begin()); }

@@ -12,7 +12,7 @@
 namespace ft
 {
 
-	template<class T, class C = ft::list<T> >	// may be list/deque
+	template<class T, class C = ft::deque<T> >	// may be list/deque
 	class queue
 	{
 	public:

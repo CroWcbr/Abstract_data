@@ -324,7 +324,8 @@ namespace ft
 		~Tree(){
 			erase(begin(), end());
 			_freenode(m_head);
-			m_head = 0, m_size = 0;
+			m_head = 0;
+			m_size = 0;
 		}
 
 		Tree&	operator=(const Tree& X)

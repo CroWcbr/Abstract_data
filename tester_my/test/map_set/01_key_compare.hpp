@@ -95,7 +95,7 @@ void	test_time(bool leaks, time_t& start_ft, time_t& start_std, time_t& end_ft, 
 		start_std = timer();
 		for (int i = 0; i < T_COUNT; ++i)
 		{
-			bool result = STD_new[i].key_comp()(1, 2);
+			STD_new[i].key_comp()(1, 2);
 		}
 		end_std = timer();
 	}
@@ -104,7 +104,7 @@ void	test_time(bool leaks, time_t& start_ft, time_t& start_std, time_t& end_ft, 
 		start_ft = timer();
 	for (int i = 0; i < T_COUNT; ++i)
 	{
-		bool result = FT_new[i].key_comp()(1, 2);
+		FT_new[i].key_comp()(1, 2);
 	}
 	if (!leaks)
 		end_ft = timer();

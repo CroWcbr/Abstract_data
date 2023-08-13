@@ -12,7 +12,16 @@ USAGE: g++ test_name -D TYPE=1/2
 ```
 - my test
 ```
-description
+- config.hpp - choose test you want
+- use template and defined for all test
+- use fork for compile and test and leaks
+- support logs from compile and valgrind
+- different parameters for leaks and main test
+- random generated data at the begin of test container
+- simple creat and add new test template - add new test to config file
+- some test can be FAILED - it is OK
+	- max_size - I use diffetent data template
+	- erase unordered_container - because I use my own hash_table
 ```
 - escole42
 ```
@@ -41,4 +50,4 @@ monkey_tester
 - unorder_set
 - unordered_multimap
 - unordered_multiset
-- my_container
+- fibonacci_heap

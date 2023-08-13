@@ -50,9 +50,9 @@ static bool	testCompile(std::string func_filename, char **env, std::string conta
 			const_cast<char*>(container == "UNORDERED_SET" || container == "UNORDERED_MULTISET" || \
 							container == "UNORDERED_MAP" || container == "UNORDERED_MULTIMAP" ?	\
 							_CXX_STANDART_11 : _CXX_STANDART_98),
-			// const_cast<char*>(_CXX_WALL),
-			// const_cast<char*>(_CXX_WEXTRA),
-			// const_cast<char*>(_CXX_WERROR),
+			const_cast<char*>(_CXX_WALL),
+			const_cast<char*>(_CXX_WEXTRA),
+			const_cast<char*>(_CXX_WERROR),
 			const_cast<char*>(_MAIN_PROG),
 			const_cast<char*>("-include"),
 			const_cast<char*>(func_filename.c_str()),
@@ -219,7 +219,7 @@ void create_int_data_file(std::string container)
 	for (int i = 0; i < T_COUNT; ++i)
 	{
 		int numElements = numElementsDist(generator);
-		if (container == "map" || container == "multimap")
+		if (container == "map" || container == "multimap" || container == "unordered_map" || container == "unordered_multimap")
 			numElements *= 2;
 		for (int j = 0; j < numElements; ++j)
 		{

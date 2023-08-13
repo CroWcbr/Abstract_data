@@ -78,6 +78,7 @@ void	test_time(bool leaks, time_t& start_ft, time_t& start_std, time_t& end_ft, 
 			(std_test[i])[array_element[i]] = array_element[i];
 #ifndef MAP
 			typename STD::const_reference std_const_ref = (std_test[i])[array_element[i]];
+			(void)std_const_ref;
 #endif
 		}
 		end_std = timer();
@@ -91,7 +92,8 @@ void	test_time(bool leaks, time_t& start_ft, time_t& start_std, time_t& end_ft, 
 			continue;
 		(ft_test[i])[array_element[i]] = array_element[i];
 #ifndef MAP
-		typename FT::const_reference std_const_ref = (std_test[i])[array_element[i]];
+		typename FT::const_reference ft_const_ref = (ft_test[i])[array_element[i]];
+		(void)ft_const_ref;
 #endif
 	}
 	if (!leaks)

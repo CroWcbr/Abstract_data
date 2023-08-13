@@ -83,6 +83,7 @@ void	test_time(bool leaks, time_t& start_ft, time_t& start_std, time_t& end_ft, 
 				continue;
 			std_test[i].at(array_element[i]) = array_element[i];
 			typename STD::const_reference std_const_ref = std_test[i].at(array_element[i]);
+			(void)std_const_ref;
 		}
 		end_std = timer();
 	}
@@ -94,7 +95,8 @@ void	test_time(bool leaks, time_t& start_ft, time_t& start_std, time_t& end_ft, 
 		if (array_element[i] == -1)
 			continue;
 		ft_test[i].at(array_element[i]) = array_element[i];
-		typename FT::const_reference std_const_ref = ft_test[i].at(array_element[i]);
+		typename FT::const_reference ft_const_ref = ft_test[i].at(array_element[i]);
+		(void)ft_const_ref;
 	}
 	if (!leaks)
 		end_ft = timer();

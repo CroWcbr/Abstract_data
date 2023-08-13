@@ -5,8 +5,6 @@
 
 namespace ft
 {
-// I have bigger max_size, because I use Tset_traits, so I can create bigger set.
-
 	template<class K, class Pr, class Ax, bool Mfl>
 	class Tset_traits
 	{

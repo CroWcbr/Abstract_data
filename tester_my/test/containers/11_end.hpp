@@ -53,8 +53,7 @@ void	test_time(bool leaks, time_t& start_ft, time_t& start_std, time_t& end_ft, 
 			if (std_test[i].empty())
 				continue;
 
-			typename STD::iterator tmp_it = std_test[i].end();
-			typename STD::const_iterator tmp_it_const = std_test[i].end();
+			std_test[i].end();
 		}
 		end_std = timer();
 	}
@@ -66,8 +65,7 @@ void	test_time(bool leaks, time_t& start_ft, time_t& start_std, time_t& end_ft, 
 		if (ft_test[i].empty())
 			continue;
 
-		typename FT::iterator tmp_it = ft_test[i].end();
-		typename FT::const_iterator tmp_it_const = ft_test[i].end();
+		ft_test[i].end();
 	}
 	if (!leaks)
 		end_ft = timer();
