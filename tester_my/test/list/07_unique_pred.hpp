@@ -14,7 +14,7 @@ struct CompareMod
 		return (x % mod) == (y % mod);
 	}
 };
-#include <iostream>
+
 template<class FT, class STD>
 bool test_all()
 {

@@ -565,19 +565,11 @@ BEHAVIOR:
 			if(node == 0)
 				return node;
 
-			_size_t		_max_degree = 0;
-			tmp = node;
-			do{
-				if (_Degree(tmp) > _max_degree)
-					_max_degree = _Degree(tmp);
-				tmp = _Right(tmp);
-			}while(tmp != node);
-
-			return _consolidate(node, _max_degree);
+			return _consolidate(node);
 		}
 
 // reconstruct fibonacci heap after deleting element
-		Node_ptr	_consolidate(Node_ptr node, _size_t _max_degree)
+		Node_ptr	_consolidate(Node_ptr node)
 		{
 			Node_ptr	trees[64] = {NULL};
 			while(true)

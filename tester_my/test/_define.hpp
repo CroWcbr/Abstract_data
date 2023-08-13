@@ -4,8 +4,6 @@
 // T_COUNT type from tester
 // T_SIZE type from tester
 
-#include <iostream>
-
 #define _DATA_FILE "./data.txt"
 
 #if defined(VECTOR)

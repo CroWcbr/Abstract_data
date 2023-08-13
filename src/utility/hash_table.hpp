@@ -168,10 +168,8 @@ namespace ft
 
 
 			size_type Bucket = _hashval(this->Kfn(V));
-	// std::cout << m_vec.size() << "\t" << Bucket<< std::endl;
 			for (Plist = m_vec[Bucket + 1]; Plist != m_vec[Bucket]; )
 			{
-	// std::cout << "Plist\t" << *Plist << std::endl;
 				if (this->comp(this->Kfn(V), this->Kfn(*--Plist)))
 					;
 				else if (this->comp(this->Kfn(*Plist), this->Kfn(V)))
@@ -188,7 +186,6 @@ namespace ft
 					return (Pairib(Plist, false));
 				}
 			}
-	// std::cout << "INSERT!!!!" << std::endl;
 			Where = m_list.insert(Plist, V);
 			for (; Plist == m_vec[Bucket]; --Bucket)
 			{
@@ -388,6 +385,60 @@ namespace ft
 				X = Tmp;
 			}
 		}
+
+		void	display()
+		{
+			if (empty())
+			{
+				std::cout << "The Hash table is Empty" << std::endl;
+				return;
+			}
+			std::cout << "Hash table size " << size() << " m_maxidx " << m_maxidx << std::endl;
+
+			iterator it_s = begin();
+			iterator it_e = end();
+			iterator tmp;
+			std::string pre;
+			for (size_t i = 0; i < m_maxidx; ++i)
+			{
+				it_s = m_vec[i];
+				if (i == m_maxidx - 1)
+				{
+					std::cout << "└─ ";
+					pre = "   ";
+					it_e = end();
+				}
+				else
+				{
+					std::cout << "├─ ";
+					pre = "│  ";
+					it_e = m_vec[i + 1];
+				}
+
+				if (it_s != end())
+				{
+					std::cout << &(*it_s) << "\t" << *it_s << std::endl;
+					++it_s;
+				}
+				else
+				{
+					std::cout << &(*it_s) << "\t" << "end" << std::endl;
+				}
+
+				while (it_s != it_e && it_s != end())
+				{
+					tmp = it_s;
+					++tmp;
+					if (tmp == it_e || tmp == end())
+						std::cout << pre << "└─";
+					else
+						std::cout << pre << "├─";
+					std::cout << &(*it_s) << "\t" << *it_s << std::endl;
+					it_s++;
+				}
+			}
+		}
+
 
 	protected:
 		void _copy(const Hash_table& Right)

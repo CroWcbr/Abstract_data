@@ -23,6 +23,10 @@ USAGE: g++ test_name -D TYPE=1/2
 	- max_size - I use diffetent data template
 	- erase unordered_container - because I use my own hash_table
 ```
+- my test bonus (container display)
+```
+make "container"
+```
 - escole42
 ```
 static_tester

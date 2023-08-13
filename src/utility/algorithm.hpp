@@ -1,6 +1,7 @@
 #pragma once
 
 #include "xutility.hpp"
+#include <iostream>
 
 namespace ft
 {
@@ -50,6 +51,13 @@ namespace ft
 
 	template<class T1, class T2>
 	inline bool			operator>=(const pair<T1,T2> &X, const pair<T1, T2> &Y) { return (!(X < Y)); }
+
+	template<typename T1, typename T2>
+	std::ostream& operator<<(std::ostream& os, const ft::pair<T1, T2>& p)
+	{
+		os << "(" << p.first << ", " << p.second << ")";
+		return os;
+	}
 
 	template <class InIt, class OutIt>
 	inline OutIt	copy(InIt F, InIt L, OutIt X)
