@@ -15,9 +15,17 @@ PROGRAMS	=	vector_std \
 				multimap_std \
 				multimap_ft \
 				stack_std \
-				stack_ft 
+				stack_ft \
+				queue_std \
+				queue_ft \
+				priority_queue_std \
+				priority_queue_ft \
+				unordered_set_std \
+				unordered_set_ft
+
 
 CC			=	g++ -std=c++98
+CC11		=	g++ -std=c++11
 # CFLAGS		=	-Wall -Wextra -Werror
 
 STD			=	-D TYPE=1
@@ -75,6 +83,24 @@ stack_std	:	stack_test.cpp
 
 stack_ft	:	stack_test.cpp
 				$(CC) $(FT) $(CFLAGS) -o $@ $< 
+
+queue_std	:	queue_test.cpp
+				$(CC) $(STD) $(CFLAGS) -o $@ $< 
+
+queue_ft	:	queue_test.cpp
+				$(CC) $(FT) $(CFLAGS) -o $@ $< 
+
+priority_queue_std	:	priority_queue_test.cpp
+						$(CC) $(STD) $(CFLAGS) -o $@ $< 
+
+priority_queue_ft	:	priority_queue_test.cpp
+						$(CC) $(FT) $(CFLAGS) -o $@ $< 
+
+unordered_set_std	:	unordered_set_test.cpp
+						$(CC11) $(STD) $(CFLAGS) -o $@ $< 
+
+unordered_set_ft	:	unordered_set_test.cpp
+						$(CC) $(FT) $(CFLAGS) -o $@ $< 
 
 clean:
 	rm -f $(PROGRAMS)

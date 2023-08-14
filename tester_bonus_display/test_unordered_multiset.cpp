@@ -8,7 +8,7 @@ int main()
 	int size = 20;
 	int max_value = 50;
 	srand(time(NULL));
-	typedef typename ft::unordered_set<int> FT;
+	typedef typename ft::unordered_multiset<int> FT;
 	FT test;
 	for(int i = 0; i < size; ++i)
 	{

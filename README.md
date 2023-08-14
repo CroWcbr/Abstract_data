@@ -4,11 +4,8 @@ C++ containers, hard mode
 ## tester
 - minitest
 ```
-make
-or
-USAGE: g++ test_name -D TYPE=1/2
-1 - std
-2 - ft
+- container std98
+- containet std11 I cannot comare, because I have my realization
 ```
 - my test
 ```
@@ -56,3 +53,17 @@ monkey_tester
 - unordered_multimap
 - unordered_multiset
 - fibonacci_heap
+
+## Time difficulties
+
+|                |  insert/erase begin  |  insert/erase end  |  insert/erase middle  |   find   |
+| :------------: | :------------------: | :----------------: | :-------------------: |:-------: |
+| vector         |          O(N)        |         O(1)       |          O(N)         |   O(N)   |
+| deque          |          O(1)        |         O(1)       |          O(N)         |   O(N)   |
+| list           |          O(1)        |         O(1)       |          O(1)         |   O(N)   |
+| set/map        |       O(log(N)       |       O(log(N)     |        O(log(N)       | O(log(N) |
+| stack          |          O(1)        |         No         |           No          |    No    |
+| queue          |      erase - O(1)    |    insert -O(1)    |           No          |    No    |
+| priority_queue |       O(log n)       |         No         |           No          |    No    |
+| unordered      |          O(1)        |         O(1)       |         O(1)          |   O(1)   |
+| fibonacci_heap | i-O(1) / e-O(log n)  |         No         |           No          | min O(1) |
