@@ -86,6 +86,7 @@ void	test_time(bool leaks, time_t& start_ft, time_t& start_std, time_t& end_ft, 
 		start_ft = timer();
 	for (int i = 0; i < T_COUNT; ++i)
 	{
+		
 		ft_test[array_iter[i]] == ft_test[array_iter2[i]];
 		ft_test[array_iter[i]] != ft_test[array_iter2[i]];
 #if defined(UNORDERED_SET) || defined(UNORDERED_MULTISET) || defined(UNORDERED_MAP) || defined(UNORDERED_MULTIMAP)

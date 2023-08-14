@@ -3,8 +3,6 @@
 #include "../_define.hpp"
 #include "../_utils.hpp"
 
-int max_num_del = 10;
-
 template<class FT, class STD>
 bool test_all()
 {
@@ -24,15 +22,17 @@ bool test_all()
 
 	for (int i = 0; i < T_COUNT; ++i)
 	{
-		int n_add = rand() % max_num_del;
-		int iter_pos = rand() % (T_SIZE - n_add);
+		int n_add = rand() % T_SIZE;
+		int n_add_end = rand() % T_SIZE;
+		if (n_add > n_add_end)
+			std::swap(n_add, n_add_end);
 
 #if defined(UNORDERED_MAP) || defined(UNORDERED_MULTIMAP)
-	ft_test[i].insert(ft_array_iter + iter_pos, ft_array_iter + iter_pos + n_add);
-	std_test[i].insert(std_array_iter + iter_pos, std_array_iter + iter_pos + n_add);
+	ft_test[i].insert(ft_array_iter + n_add, ft_array_iter + n_add_end);
+	std_test[i].insert(std_array_iter + n_add, std_array_iter + n_add_end);
 #else
-	ft_test[i].insert(array_iter + iter_pos, array_iter + iter_pos + n_add);
-	std_test[i].insert(array_iter + iter_pos, array_iter + iter_pos + n_add);
+	ft_test[i].insert(array_iter + n_add, array_iter + n_add_end);
+	std_test[i].insert(array_iter + n_add, array_iter + n_add_end);
 #endif
 
 		if (!check_equel_container(ft_test[i], std_test[i]))
@@ -52,9 +52,14 @@ void	test_time(bool leaks, time_t& start_ft, time_t& start_std, time_t& end_ft, 
 		return;
 
 	int array_n_add[T_COUNT];
-	fill_array_random(array_n_add, T_COUNT, 0, max_num_del);
-	int array_iter_pos[T_COUNT];
-	fill_array_random(array_iter_pos, T_COUNT, 0, T_SIZE - max_num_del);
+	fill_array_random(array_n_add, T_COUNT, 0, T_SIZE);
+	int array_n_add_end[T_COUNT];
+	fill_array_random(array_n_add_end, T_COUNT, 0, T_SIZE);
+	for (int i = 0; i < T_COUNT; ++i)
+	{
+		if (array_n_add[i] > array_n_add_end[i])
+			std::swap(array_n_add[i], array_n_add_end[i]);
+	}
 
 #if defined(UNORDERED_MAP) || defined(UNORDERED_MULTIMAP)
 	ft::pair<int,int>	ft_array_iter[T_SIZE];
@@ -71,9 +76,9 @@ void	test_time(bool leaks, time_t& start_ft, time_t& start_std, time_t& end_ft, 
 		for (int i = 0; i < T_COUNT; ++i)
 		{
 #if defined(UNORDERED_MAP) || defined(UNORDERED_MULTIMAP)
-			std_test[i].insert(std_array_iter + array_iter_pos[i],  std_array_iter + array_iter_pos[i] + array_n_add[i]);
+			std_test[i].insert(std_array_iter + array_n_add[i],  std_array_iter + array_n_add_end[i]);
 #else
-			std_test[i].insert(array_iter + array_iter_pos[i], array_iter + array_iter_pos[i] + array_n_add[i]);
+			std_test[i].insert(array_iter + array_n_add[i], array_iter + array_n_add_end[i]);
 #endif
 		}
 		end_std = timer();
@@ -84,9 +89,9 @@ void	test_time(bool leaks, time_t& start_ft, time_t& start_std, time_t& end_ft, 
 	for (int i = 0; i < T_COUNT; ++i)
 	{
 #if defined(UNORDERED_MAP) || defined(UNORDERED_MULTIMAP)
-		ft_test[i].insert(ft_array_iter + array_iter_pos[i], ft_array_iter + array_iter_pos[i] + array_n_add[i]);
+		ft_test[i].insert(ft_array_iter + array_n_add[i], ft_array_iter + array_n_add_end[i]);
 #else
-		ft_test[i].insert(array_iter + array_iter_pos[i], array_iter + array_iter_pos[i] + array_n_add[i]);
+		ft_test[i].insert(array_iter + array_n_add[i], array_iter + array_n_add_end[i]);
 #endif
 	}
 	if (!leaks)

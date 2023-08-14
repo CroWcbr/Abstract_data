@@ -3,8 +3,6 @@
 #include "../_define.hpp"
 #include "../_utils.hpp"
 
-int max_num_del = 10;
-
 template<class FT, class STD>
 bool test_all()
 {
@@ -23,7 +21,7 @@ bool test_all()
 			continue;
 
 		int	iter_pos = rand() % ft_test[i].size();
-		size_t n_erase = rand() % max_num_del;
+		size_t n_erase = rand() % ft_test[i].size();
 		if (n_erase > ft_test[i].size() - iter_pos)
 			n_erase = ft_test[i].size() - iter_pos;
 
@@ -72,7 +70,7 @@ void	test_time(bool leaks, time_t& start_ft, time_t& start_std, time_t& end_ft, 
 		if (ft_test[i].empty())
 			continue;
 		iter_pos = rand() % ft_test[i].size();
-		n_erase = rand() % max_num_del;
+		n_erase = rand() % ft_test[i].size();
 		if (n_erase > ft_test[i].size() - iter_pos)
 			n_erase = ft_test[i].size() - iter_pos;
 		ft_it_array[i] = ft_test[i].begin();

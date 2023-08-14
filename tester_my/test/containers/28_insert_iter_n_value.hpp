@@ -3,8 +3,6 @@
 #include "../_define.hpp"
 #include "../_utils.hpp"
 
-int max_num_del = T_SIZE;
-
 template<class FT, class STD>
 bool test_all()
 {
@@ -21,7 +19,7 @@ bool test_all()
 		else
 			iter_pos = rand() % ft_test[i].size();
 
-		int n_add = rand() % max_num_del;
+		int n_add = rand() % T_SIZE;
 		int value = rand();
 
 		typename FT::iterator ft_it = ft_test[i].begin();
@@ -51,7 +49,7 @@ void	test_time(bool leaks, time_t& start_ft, time_t& start_std, time_t& end_ft, 
 	int array_value[T_COUNT];
 	fill_array_random(array_value, T_COUNT, 0, RAND_MAX);
 	int array_n_add[T_COUNT];
-	fill_array_random(array_n_add, T_COUNT, 0, max_num_del);
+	fill_array_random(array_n_add, T_COUNT, 0, T_SIZE);
 
 	int array_iter_pos[T_COUNT];
 	for (int i = 0; i < T_COUNT; ++i)

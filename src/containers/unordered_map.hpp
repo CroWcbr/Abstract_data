@@ -87,6 +87,10 @@ namespace ft
 		: Base(hasher(), key_compare(), allocator_type())
 		{}
 
+		explicit unordered_map(const hasher& H)
+		: Base(H, key_compare(), allocator_type())
+		{}
+
 		explicit unordered_map(const hasher& H, const key_compare& Pred)
 		: Base(H, Pred, allocator_type())
 		{}
@@ -104,6 +108,14 @@ namespace ft
 		}
 
 		template<class It>
+		unordered_map(It F, It L, const hasher& H)
+		: Base(H, key_compare(), allocator_type())
+		{
+			for (; F != L; ++F)
+				this->insert(*F);
+		}
+
+		template<class It>
 		unordered_map(It F, It L, const hasher& H, const key_compare& Pred)
 		: Base(H, Pred, allocator_type())
 		{
@@ -111,7 +123,7 @@ namespace ft
 				this->insert(*F);
 		}
 
-	template<class It>
+		template<class It>
 		unordered_map(It F, It L, const hasher& H, const key_compare& Pred, const allocator_type& Al)
 		: Base(H, Pred, Al)
 		{
@@ -161,6 +173,10 @@ namespace ft
 		: Base(hasher(), key_compare(), allocator_type())
 		{}
 
+		explicit unordered_multimap(const hasher& H)
+		: Base(H, key_compare(), allocator_type())
+		{}
+
 		explicit unordered_multimap(const hasher& H, const key_compare& Pred)
 		: Base(H, Pred, allocator_type())
 		{}
@@ -172,6 +188,14 @@ namespace ft
 		template<class It>
 		unordered_multimap(It F, It L)
 		: Base(hasher(), key_compare(), allocator_type())
+		{
+			for (; F != L; ++F)
+				this->insert(*F);
+		}
+
+		template<class It>
+		unordered_multimap(It F, It L, const hasher& H)
+		: Base(H, key_compare(), allocator_type())
 		{
 			for (; F != L; ++F)
 				this->insert(*F);

@@ -66,6 +66,10 @@ namespace ft
 		: Base(hasher(), key_compare(), allocator_type())
 		{}
 
+		explicit unordered_set(const hasher& H)
+		: Base(H, key_compare(), allocator_type())
+		{}
+
 		explicit unordered_set(const hasher& H, const key_compare& Pred)
 		: Base(H, Pred, allocator_type())
 		{}
@@ -77,6 +81,16 @@ namespace ft
 		template<class It>
 		unordered_set(It F, It L)
 		: Base(hasher(), key_compare(), allocator_type())
+		{
+			for (; F != L; ++F)
+			{
+				this->insert(*F);
+			}
+		}
+
+		template<class It>
+		unordered_set(It F, It L, const hasher& H)
+		: Base(H, key_compare(), allocator_type())
 		{
 			for (; F != L; ++F)
 			{
@@ -135,6 +149,10 @@ namespace ft
 
 		unordered_multiset()
 		: Base(hasher(), key_compare(), allocator_type())
+		{}
+
+		explicit unordered_multiset(const hasher& H)
+		: Base(H, key_compare(), allocator_type())
 		{}
 
 		explicit unordered_multiset(const hasher& H, const key_compare& Pred)

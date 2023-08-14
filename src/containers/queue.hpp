@@ -43,8 +43,8 @@ namespace ft
 		void				push(const value_type& X) { c.push_back(X); }
 		void				pop() { c.pop_front(); }
 
-		bool				_eq(const queue X) const { return (c == X.c); }
-		bool				_lt(const queue X) const { return (c < X.c); }
+		bool				_eq(const queue& X) const { return (c == X.c); }
+		bool				_lt(const queue& X) const { return (c < X.c); }
 	};
 
 template<class T, class C>

@@ -21,7 +21,8 @@ USAGE: g++ test_name -D TYPE=1/2
 - simple creat and add new test template - add new test to config file
 - some test can be FAILED - it is OK
 	- max_size - I use diffetent data template
-	- erase unordered_container - because I use my own hash_table
+	- erase for unordered_container - because I use my own hash_table
+	- find/equal_range for unordered_multimap - because key is the same, but value can be different
 ```
 - my test bonus (container display)
 ```

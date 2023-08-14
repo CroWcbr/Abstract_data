@@ -14,6 +14,10 @@ bool test_all()
 
 	for (int i = 0; i < T_COUNT; ++i)
 	{
+		int new_size = rand() % T_SIZE;
+		int value = rand();
+		ft_test[i].resize(new_size, value);
+		std_test[i].resize(new_size, value);
 		if (ft_test[i].capacity() != std_test[i].capacity())
 		{
 			return false;

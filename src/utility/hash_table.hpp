@@ -30,8 +30,8 @@ namespace ft
 
 		enum
 		{
-			bucket_size = 4,
-			min_buckets = 8
+			_bucket_size = 4,
+			_min_buckets = 8
 		};
 
 		typedef	ft::list<typename T::value_type, typename T::allocator_type> Base_List;
@@ -65,7 +65,7 @@ namespace ft
 		explicit Hash_table(const hasher& H, const key_compare& Parg, const allocator_type& A)
 		: T(H, Parg)
 		, m_list(A)
-		, m_vec(min_buckets + 1, end(), A)
+		, m_vec(_min_buckets + 1, end(), A)
 		, m_mask(1)
 		, m_maxidx(1)
 		{}
@@ -73,7 +73,7 @@ namespace ft
 		Hash_table(const value_type *F, const value_type *L, const hasher& H, const key_compare& Parg, const allocator_type& A)
 		: T(H, Parg)
 		, m_list(A)
-		, m_vec(min_buckets + 1, end(), A)
+		, m_vec(_min_buckets + 1, end(), A)
 		, m_mask(1)
 		, m_maxidx(1)
 		{
@@ -112,13 +112,14 @@ namespace ft
 		size_type				max_size() const { return (m_list.max_size()); }
 		bool					empty() const { return (m_list.empty()); }
 		allocator_type			get_allocator() const { return (m_list.get_allocator()); }
+		hasher					hash_function() const { return (this->m_hash); }
 		key_compare				key_comp() const { return (this->comp); }
 
 		Pairib	insert(const value_type& V)
 		{
 			iterator Plist;
 			iterator Where;
-			if (m_maxidx <= size() / bucket_size)
+			if (m_maxidx <= size() / _bucket_size)
 			{
 				if (m_vec.size() - 1 <= m_maxidx)
 				{
@@ -253,19 +254,19 @@ namespace ft
 		void clear()
 		{
 			m_list.clear();
-			m_vec.assign(min_buckets + 1, end());
+			m_vec.assign(_min_buckets + 1, end());
 			m_mask = 1;
 			m_maxidx = 1;
 		}
 
 		iterator find(const key_type& Kv)
 		{
-			return (lower_bound(Kv));
+			return (_lower_bound(Kv));
 		}
 
 		const_iterator find(const key_type& Kv) const
 		{
-			return (lower_bound(Kv));
+			return (_lower_bound(Kv));
 		}
 
 		size_type count(const key_type& Kv) const
@@ -274,54 +275,6 @@ namespace ft
 			size_type N = 0;
 			ft::distance(_Ans.first, _Ans.second, N);
 			return (N);
-		}
-
-		iterator lower_bound(const key_type& Kv)
-		{
-			size_type Bucket = _hashval(Kv);
-			iterator Where;
-			for (Where = m_vec[Bucket]; Where != m_vec[Bucket + 1]; ++Where)
-			{
-				if (!this->comp(this->Kfn(*Where), Kv))
-					return (this->comp(Kv, this->Kfn(*Where)) ? end() : Where);
-			}
-			return (end());
-		}
-
-		const_iterator lower_bound(const key_type& Kv) const
-		{
-			size_type Bucket = _hashval(Kv);
-			const_iterator Where;
-			for (Where = m_vec[Bucket]; Where != m_vec[Bucket + 1]; ++Where)
-			{
-				if (!this->comp(this->Kfn(*Where), Kv))
-					return (this->comp(Kv, this->Kfn(*Where)) ? end() : Where);
-			}
-			return (end());
-		}
-
-		iterator upper_bound(const key_type& Kv)
-		{
-			size_type Bucket = _hashval(Kv);
-			iterator Where;
-			for (Where = m_vec[Bucket + 1]; Where != m_vec[Bucket]; )
-			{
-				if (!this->comp(Kv, this->Kfn(*--Where)))
-					return (this->comp(this->Kfn(*Where), Kv) ? end() : ++Where);
-			}
-			return (end());
-		}
-
-		const_iterator upper_bound(const key_type& Kv) const
-		{
-			size_type Bucket = _hashval(Kv);
-			const_iterator Where;
-			for (Where = m_vec[Bucket + 1]; Where != m_vec[Bucket];)
-			{
-				if (!this->comp(Kv, this->Kfn(*--Where)))
-					return (this->comp(this->Kfn(*Where), Kv) ? end() : ++Where);
-			}
-			return (end());
 		}
 
 		Pairii equal_range(const key_type& Kv)
@@ -386,6 +339,12 @@ namespace ft
 			}
 		}
 
+		// unordered
+		size_type	bucket_count() const { return m_vec.size() - 1; }
+		size_type	max_bucket_count() const { return m_vec.max_size(); }
+		size_type	bucket_size(size_type n) const { return (m_vec[n + 1] - m_vec[n]); }
+		size_type	bucket(const key_type& Kv) const { return _hashval(Kv); }
+
 		void	display()
 		{
 			if (empty())
@@ -394,7 +353,99 @@ namespace ft
 				return;
 			}
 			std::cout << "Hash table size " << size() << " m_maxidx " << m_maxidx << std::endl;
+			_display();
+		}
 
+
+	protected:
+		void _copy(const Hash_table& Right)
+		{
+			m_vec.resize(Right.m_vec.size(), end());
+			m_mask = Right.m_mask;
+			m_maxidx = Right.m_maxidx;
+			m_list.clear();
+
+			try
+			{
+				m_list.insert(end(), Right.m_list.begin(), Right.m_list.end());
+				this->comp = Right.comp;
+			}
+			catch(...)
+			{
+				m_list.clear();
+				ft::fill(m_vec.begin(), m_vec.end(), end());
+				throw;
+			}
+
+			iterator Whereto = begin();
+			const_iterator Wherefrom = Right.begin();
+			for (size_type Bucket = 0; Bucket < m_vec.size(); )
+			{
+				if (Wherefrom == Right.m_vec[Bucket])
+					m_vec[Bucket] = Whereto, ++Bucket;
+				else
+					++Whereto, ++Wherefrom;
+			}
+		}
+
+		size_type _hashval(const key_type& Kv) const
+		{
+			size_type N = this->m_hash(Kv) & m_mask;
+			if (m_maxidx <= N)
+				N -= (m_mask >> 1) + 1;
+			return (N);
+		}
+
+		iterator _lower_bound(const key_type& Kv)
+		{
+			size_type Bucket = _hashval(Kv);
+			iterator Where;
+			for (Where = m_vec[Bucket]; Where != m_vec[Bucket + 1]; ++Where)
+			{
+				if (!this->comp(this->Kfn(*Where), Kv))
+					return (this->comp(Kv, this->Kfn(*Where)) ? end() : Where);
+			}
+			return (end());
+		}
+
+		const_iterator _lower_bound(const key_type& Kv) const
+		{
+			size_type Bucket = _hashval(Kv);
+			const_iterator Where;
+			for (Where = m_vec[Bucket]; Where != m_vec[Bucket + 1]; ++Where)
+			{
+				if (!this->comp(this->Kfn(*Where), Kv))
+					return (this->comp(Kv, this->Kfn(*Where)) ? end() : Where);
+			}
+			return (end());
+		}
+
+		// iterator _upper_bound(const key_type& Kv)
+		// {
+		// 	size_type Bucket = _hashval(Kv);
+		// 	iterator Where;
+		// 	for (Where = m_vec[Bucket + 1]; Where != m_vec[Bucket]; )
+		// 	{
+		// 		if (!this->comp(Kv, this->Kfn(*--Where)))
+		// 			return (this->comp(this->Kfn(*Where), Kv) ? end() : ++Where);
+		// 	}
+		// 	return (end());
+		// }
+
+		// const_iterator _upper_bound(const key_type& Kv) const
+		// {
+		// 	size_type Bucket = _hashval(Kv);
+		// 	const_iterator Where;
+		// 	for (Where = m_vec[Bucket + 1]; Where != m_vec[Bucket];)
+		// 	{
+		// 		if (!this->comp(Kv, this->Kfn(*--Where)))
+		// 			return (this->comp(this->Kfn(*Where), Kv) ? end() : ++Where);
+		// 	}
+		// 	return (end());
+		// }
+
+		void		_display()
+		{
 			iterator it_s = begin();
 			iterator it_e = end();
 			iterator tmp;
@@ -437,46 +488,6 @@ namespace ft
 					it_s++;
 				}
 			}
-		}
-
-
-	protected:
-		void _copy(const Hash_table& Right)
-		{
-			m_vec.resize(Right.m_vec.size(), end());
-			m_mask = Right.m_mask;
-			m_maxidx = Right.m_maxidx;
-			m_list.clear();
-
-			try
-			{
-				m_list.insert(end(), Right.m_list.begin(), Right.m_list.end());
-				this->comp = Right.comp;
-			}
-			catch(...)
-			{
-				m_list.clear();
-				ft::fill(m_vec.begin(), m_vec.end(), end());
-				throw;
-			}
-
-			iterator Whereto = begin();
-			const_iterator Wherefrom = Right.begin();
-			for (size_type Bucket = 0; Bucket < m_vec.size(); )
-			{
-				if (Wherefrom == Right.m_vec[Bucket])
-					m_vec[Bucket] = Whereto, ++Bucket;
-				else
-					++Whereto, ++Wherefrom;
-			}
-		}
-
-		size_type _hashval(const key_type& Kv) const
-		{
-			size_type N = this->m_hash(Kv) & m_mask;
-			if (m_maxidx <= N)
-				N -= (m_mask >> 1) + 1;
-			return (N);
 		}
 	};
 

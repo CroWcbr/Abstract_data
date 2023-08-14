@@ -286,6 +286,6 @@ int main(int argc, char **argv, char **env)
 	}
 	unlink(_LOGS_LEAKS_TMP);
 	unlink(_EXEC_NAME);
-	// unlink(_DATA_FILE);
+	unlink(_DATA_FILE);
 	return 0;
 }

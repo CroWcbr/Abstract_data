@@ -21,8 +21,8 @@
 #define		_MAIN_PROG			"./test/main.cpp"
 #define		_DATA_FILE			"./data.txt"
 
-#define		T_COUNT				10000
-#define		T_SIZE				100
+#define		T_COUNT				1000
+#define		T_SIZE				1000
 
 #define		T_COUNT_LEAKS		10
 #define		T_SIZE_LEAKS		1000
@@ -185,7 +185,7 @@ const std::vector<std::pair<std::string, std::vector<std::string> > > _container
 				"./test/containers/13_rend.hpp",
 
 				"./test/containers/14_size.hpp",
-				"./test/containers/15_max_size.hpp",
+				"./test/containers/15_max_size.hpp",			// different is OK
 				"./test/containers/17_empty.hpp",
 
 				"./test/containers/26_insert_value.hpp",
@@ -223,7 +223,7 @@ const std::vector<std::pair<std::string, std::vector<std::string> > > _container
 				"./test/containers/13_rend.hpp",
 
 				"./test/containers/14_size.hpp",
-				"./test/containers/15_max_size.hpp",
+				"./test/containers/15_max_size.hpp",			// different is OK
 				"./test/containers/17_empty.hpp",
 
 				"./test/containers/26_insert_value.hpp",
@@ -379,20 +379,25 @@ const std::vector<std::pair<std::string, std::vector<std::string> > > _container
 				"./test/unordered/09_get_allocator.hpp",
 
 				"./test/unordered/14_size.hpp",
-				"./test/unordered/15_max_size.hpp",
+				"./test/unordered/15_max_size.hpp",				// different is OK
 				"./test/unordered/17_empty.hpp",
+
+				// iterators - cannot be compared with std
+				// my iterator (using list) is different
+				// std unordered_container have another logic of iterators
 
 				"./test/unordered/26_insert_value.hpp",
 				"./test/unordered/27_insert_iter_value.hpp",
 				"./test/unordered/30_insert_iterators.hpp",
 				"./test/unordered/31_erase_iter.hpp",
 				"./test/unordered/32_erase_value.hpp",
-				"./test/unordered/33_erase_iterators.hpp",		// different structure
+				"./test/unordered/33_erase_iterators.hpp",		// different is OK
 				"./test/unordered/34_swap.hpp",
 				"./test/unordered/35_clear.hpp",
 
 				"./test/unordered/36_operator.hpp",
 
+				"./test/unordered/50_hash_function.hpp",
 				"./test/unordered/51_key_compare.hpp",
 				"./test/unordered/52_find.hpp",
 				"./test/unordered/53_count.hpp",
@@ -408,7 +413,7 @@ const std::vector<std::pair<std::string, std::vector<std::string> > > _container
 				"./test/unordered/09_get_allocator.hpp",
 
 				"./test/unordered/14_size.hpp",
-				"./test/unordered/15_max_size.hpp",
+				"./test/unordered/15_max_size.hpp",				// different is OK
 				"./test/unordered/17_empty.hpp",
 
 				"./test/unordered/26_insert_value.hpp",
@@ -416,7 +421,7 @@ const std::vector<std::pair<std::string, std::vector<std::string> > > _container
 				"./test/unordered/30_insert_iterators.hpp",
 				"./test/unordered/31_erase_iter.hpp",
 				"./test/unordered/32_erase_value.hpp",
-				"./test/unordered/33_erase_iterators.hpp",		// different structure
+				"./test/unordered/33_erase_iterators.hpp",		// different is OK
 				"./test/unordered/34_swap.hpp",
 				"./test/unordered/35_clear.hpp",
 
@@ -437,7 +442,7 @@ const std::vector<std::pair<std::string, std::vector<std::string> > > _container
 				"./test/unordered/09_get_allocator.hpp",
 
 				"./test/unordered/14_size.hpp",
-				"./test/unordered/15_max_size.hpp",
+				"./test/unordered/15_max_size.hpp",				// different is OK
 				"./test/unordered/17_empty.hpp",
 
 				"./test/unordered/26_insert_value.hpp",
@@ -445,7 +450,7 @@ const std::vector<std::pair<std::string, std::vector<std::string> > > _container
 				"./test/unordered/30_insert_iterators.hpp",
 				"./test/unordered/31_erase_iter.hpp",
 				"./test/unordered/32_erase_value.hpp",
-				"./test/unordered/33_erase_iterators.hpp",		// different structure
+				"./test/unordered/33_erase_iterators.hpp",		// different is OK
 				"./test/unordered/34_swap.hpp",
 				"./test/unordered/35_clear.hpp",
 
@@ -472,18 +477,18 @@ const std::vector<std::pair<std::string, std::vector<std::string> > > _container
 				"./test/unordered/26_insert_value.hpp",
 				"./test/unordered/27_insert_iter_value.hpp",
 				"./test/unordered/30_insert_iterators.hpp",
-				"./test/unordered/31_erase_iter.hpp",
+				"./test/unordered/31_erase_iter.hpp",			// different is OK
 				"./test/unordered/32_erase_value.hpp",
-				"./test/unordered/33_erase_iterators.hpp",		// different structure
+				"./test/unordered/33_erase_iterators.hpp",		// different is OK
 				"./test/unordered/34_swap.hpp",
 				"./test/unordered/35_clear.hpp",
 
 				"./test/unordered/36_operator.hpp",
 
 				"./test/unordered/51_key_compare.hpp",
-				"./test/unordered/52_find.hpp",
+				"./test/unordered/52_find.hpp",					// different is OK
 				"./test/unordered/53_count.hpp",
-				"./test/unordered/54_equal_range.hpp",
+				"./test/unordered/54_equal_range.hpp",			// different is OK
 			},
 		},
 	};
