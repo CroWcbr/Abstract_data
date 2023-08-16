@@ -8,7 +8,7 @@ int main()
 	int size = 20;
 	int max_value = 100;
 	srand(time(NULL));
-	typedef typename ft::unordered_map<int, int> FT;
+	typedef typename ft::unordered_multimap<int, int> FT;
 	FT test;
 	for(int i = 0; i < size; ++i)
 	{

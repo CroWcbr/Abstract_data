@@ -17,11 +17,16 @@ C++ containers, hard mode
 - random generated data at the begin of test container
 - simple creat and add new test template - add new test to config file
 - some test can be FAILED - it is OK
-	- max_size - I use diffetent data template
-	- erase for unordered_container - because I use my own hash_table
-	- find/equal_range for unordered_multimap - because key is the same, but value can be different
+	- capacity - it can be different managment memory
+	- max_size - it can be different structure
+	- erase for unordered_container - it can be different hash_table
+	- find/equal_range for unordered_multimap - key is the same, but value can be different
 ```
 - my test bonus (container display)
+	- fibonacci heap
+	- unordered_set
+	- unordered_multimap
+	- unordered_map
 ```
 make "container"
 ```

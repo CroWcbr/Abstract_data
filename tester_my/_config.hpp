@@ -21,7 +21,7 @@
 #define		_MAIN_PROG			"./test/main.cpp"
 #define		_DATA_FILE			"./data.txt"
 
-#define		T_COUNT				1000
+#define		T_COUNT				10000
 #define		T_SIZE				1000
 
 #define		T_COUNT_LEAKS		10

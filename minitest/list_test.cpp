@@ -6,9 +6,11 @@
 	#if TYPE == 1
 		#include <list>
 		#define	TEST_CONTAINER	std::list
+		#define	NAMESPACE		std
 	#elif TYPE == 2
 		#include "../src/containers/list.hpp"
 		#define	TEST_CONTAINER	ft::list
+		#define	NAMESPACE		ft
 	#endif
 #endif
 
@@ -16,6 +18,11 @@
 #define TOSTRING(x) STRINGIFY(x)
 
 #ifdef TEST_CONTAINER
+bool shouldRemove(char c)
+{
+	return c != 'c';
+}
+
 int main()
 {
 	typedef	std::allocator<char>	Myal;
@@ -29,7 +36,7 @@ int main()
 	Mycont::const_reference		p_cref = (const char&)ch;
 	Mycont::value_type*			p_val = (char *)0;
 	Mycont::size_type*			p_size = (size_t *)0;
-	Mycont::difference_type*	p_diff = (ptrdiff_t *)0;
+	Mycont::difference_type*	p_diff = (NAMESPACE::ptrdiff_t *)0;
 
 	char carr[] = "abc";
 	Mycont v0;
@@ -116,7 +123,7 @@ int main()
 	assert(v0.front () == 'b' && v1.empty());
 	v0.remove('b');
 	assert(v0.front() == 'c');
-	v0.remove_if([](char c) { return c != 'c'; });
+	v0.remove_if(shouldRemove);
 	assert(v0.front() == 'c' && v0.size() == 1);
 
 	v0.merge(v1, std::greater<char>());

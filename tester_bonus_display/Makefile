@@ -32,4 +32,6 @@ fibonacci_heap	:	test_fibonacci_heap.cpp
 clean:
 	rm -f $(PROGRAMS)
 
+re: clean all
+
 .PHONY: clean all

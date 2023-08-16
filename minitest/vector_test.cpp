@@ -5,9 +5,11 @@
 	#if TYPE == 1
 		#include <vector>
 		#define	TEST_CONTAINER	std::vector
+		#define	NAMESPACE		std
 	#elif TYPE == 2
 		#include "../src/containers/vector.hpp"
 		#define	TEST_CONTAINER	ft::vector
+		#define	NAMESPACE		ft
 	#endif
 #endif
 
@@ -28,7 +30,7 @@ int main()
 	Mycont::const_reference		p_cref = (const char&)ch;
 	Mycont::value_type*			p_val = (char *)0;
 	Mycont::size_type*			p_size = (size_t *)0;
-	Mycont::difference_type*	p_diff = (ptrdiff_t *)0;
+	Mycont::difference_type*	p_diff = (NAMESPACE::ptrdiff_t *)0;
 
 	char	carr[] = "abc";
 	Mycont v0;

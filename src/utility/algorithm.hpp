@@ -52,6 +52,7 @@ namespace ft
 	template<class T1, class T2>
 	inline bool			operator>=(const pair<T1,T2> &X, const pair<T1, T2> &Y) { return (!(X < Y)); }
 
+// comment operator<< for tester_42 (this function overloaded in tester)
 	template<typename T1, typename T2>
 	std::ostream& operator<<(std::ostream& os, const ft::pair<T1, T2>& p)
 	{

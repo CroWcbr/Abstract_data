@@ -6,9 +6,11 @@
 	#if TYPE == 1
 		#include <deque>
 		#define	TEST_CONTAINER	std::deque
+		#define	NAMESPACE		std
 	#elif TYPE == 2
 		#include "../src/containers/deque.hpp"
 		#define	TEST_CONTAINER	ft::deque
+		#define	NAMESPACE		ft
 	#endif
 #endif
 
@@ -29,7 +31,7 @@ int main()
 	Mycont::const_reference		p_cref = (const char&)ch;
 	Mycont::value_type*			p_val = (char *)0;
 	Mycont::size_type*			p_size = (size_t *)0;
-	Mycont::difference_type*	p_diff = (ptrdiff_t *)0;
+	Mycont::difference_type*	p_diff = (std::ptrdiff_t *)0;
 
 	char carr[] = "abc";
 	Mycont v0;
